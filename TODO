@@ -22,3 +22,16 @@
 	-transfert des messages vers tous les clients connectés
 	-operateurs et utilisateurs
 	-commandes des operateurs
+
+
+Commandes:
+/nick <nickname>					--	change <nickname>
+/msg <nickname> <message>			--	private <message> without window
+/query <nickname> <message>			--	private <message> with window
+/whois <nickname>					--	show info about <nickname>
+/ignore <nickname>					--	ignore <nickname>
+/away <message>						--	afk <message>
+/away								--	remove afk message
+/part <#channelname>				--	leave <#channelname>
+/quit <[message]>					--	disconnect from irc
+/invite <friendnickname> <#chan>	--	invite <nickname> to <#chan>

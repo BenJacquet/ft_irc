@@ -6,11 +6,24 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/02/22 11:41:36 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:20:51 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
+
+int		irc_loop()
+{
+	std::string cmd;
+	while (1)
+	{
+		cmd.clear();
+		std::getline(std::cin, cmd);
+		if (cmd.compare("/quit") == 0 || std::cin.eof()) // ajouter arguments du /quit [message]
+			break;
+	}
+	return (0);
+}
 
 int		main(int ac, char **av)
 {
@@ -25,4 +38,6 @@ int		main(int ac, char **av)
 	static_cast<void>(ac);
 	static_cast<void>(av);
 	std::cout << ASCII_HEADER << std::endl;
+	// parse_arguments();
+	return (irc_loop(/*args*/));
 }
