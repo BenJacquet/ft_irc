@@ -1,0 +1,24 @@
+-Gerer des clients multiples et ne jamais attendre/bloquer
+
+-Ne pas utiliser le fork
+
+-Toutes les operations doivent etre non bloquantes
+
+-Seulement 1 poll() ou equivalent toutes les operations I/O
+
+-Interdit d'utiliser read/recv sans utiliser poll()
+
+-Definir un client de reference pour la correction
+
+-Le client doit pouvoir se connecter au serveur sans rencontrer d'erreur
+
+-Connexions via TCP/IP (v4 ou v6)
+
+-Fonctionnalités a implémenter :
+	-authentication
+	-definition de : nickname, username
+	-join d'un channel
+	-envoi et reception de messages depuis le client de reference
+	-transfert des messages vers tous les clients connectés
+	-operateurs et utilisateurs
+	-commandes des operateurs
