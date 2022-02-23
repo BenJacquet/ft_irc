@@ -12,6 +12,8 @@
 
 -Le client doit pouvoir se connecter au serveur sans rencontrer d'erreur
 
+-Aucun crash meme si plus de memoire
+
 -Connexions via TCP/IP (v4 ou v6)
 
 -Fonctionnalités a implémenter :
