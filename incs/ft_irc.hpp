@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/02/24 17:38:17 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/02/25 13:52:39 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cstdio>
 #include <cstring>
+#include <algorithm>
 #include <map>
 #include <vector>
 #include <list>
@@ -25,6 +27,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <fcntl.h>
+#include <poll.h>
 
 #include "string.h"
 
@@ -44,14 +47,20 @@
 #define MAGENTA		"\033[35m"			/* Magenta */
 #define CYAN		"\033[36m"			/* Cyan */
 #define WHITE		"\033[37m"			/* White */
-#define BOLDBLACK	"\033[1m\033[30m"	/* Bold Black */
-#define BOLDRED		"\033[1m\033[31m"	/* Bold Red */
-#define BOLDGREEN	"\033[1m\033[32m"	/* Bold Green */
-#define BOLDYELLOW	"\033[1m\033[33m"	/* Bold Yellow */
-#define BOLDBLUE	"\033[1m\033[34m"	/* Bold Blue */
-#define BOLDMAGENTA	"\033[1m\033[35m"	/* Bold Magenta */
-#define BOLDCYAN	"\033[1m\033[36m"	/* Bold Cyan */
-#define BOLDWHITE	"\033[1m\033[37m"	/* Bold White */
+#define B_BLACK		"\033[1m\033[30m"	/* Bold Black */
+#define B_RED		"\033[1m\033[31m"	/* Bold Red */
+#define B_GREEN		"\033[1m\033[32m"	/* Bold Green */
+#define B_YELLOW	"\033[1m\033[33m"	/* Bold Yellow */
+#define B_BLUE		"\033[1m\033[34m"	/* Bold Blue */
+#define B_MAGENTA	"\033[1m\033[35m"	/* Bold Magenta */
+#define B_CYAN		"\033[1m\033[36m"	/* Bold Cyan */
+#define B_WHITE		"\033[1m\033[37m"	/* Bold White */
+#define L_RED		"\033[91m"			/* Light Red */
+#define L_GREEN		"\033[92m"			/* Light Green */
+#define L_YELLOW	"\033[93m"			/* Light Yellow */
+#define L_BLUE		"\033[94m"			/* Light Blue */
+#define L_MAGENTA	"\033[95m"			/* Light Magenta */
+#define L_CYAN		"\033[96m"			/* Light Cyan */
 
 // TYPEDEFS
 
@@ -62,10 +71,10 @@ typedef std::pair<int, struct sockaddr_in> client_pair;
 
 typedef struct			s_data
 {
-	uint16_t			port;
-	int					sock_fd;
-	client_map			client_socks;
-	sockaddr_in			server_sock;
+	uint16_t			port;			// port d'ecoute
+	int					sock_fd;		// fd du socket d'entree
+	client_map			client_socks;	// map contenant les fd et sockets des clients
+	struct addrinfo		*bind_addr;		// socket du serveur
 }						t_data;
 
 // TEMPLATES
@@ -73,4 +82,12 @@ typedef struct			s_data
 // HEADER
 
 #define ASCII_HEADER "\
-          _____            _____                            _____                   _____                   _____          \n         /\\    \\          /\\    \\                          /\\    \\                 /\\    \\                 /\\    \\         \n        /::\\    \\        /::\\    \\                        /::\\    \\               /::\\    \\               /::\\    \\        \n       /::::\\    \\       \\:::\\    \\                       \\:::\\    \\             /::::\\    \\             /::::\\    \\       \n      /::::::\\    \\       \\:::\\    \\                       \\:::\\    \\           /::::::\\    \\           /::::::\\    \\      \n     /:::/\\:::\\    \\       \\:::\\    \\                       \\:::\\    \\         /:::/\\:::\\    \\         /:::/\\:::\\    \\     \n    /:::/__\\:::\\    \\       \\:::\\    \\                       \\:::\\    \\       /:::/__\\:::\\    \\       /:::/  \\:::\\    \\    \n   /::::\\   \\:::\\    \\      /::::\\    \\                      /::::\\    \\     /::::\\   \\:::\\    \\     /:::/    \\:::\\    \\   \n  /::::::\\   \\:::\\    \\    /::::::\\    \\            ____    /::::::\\    \\   /::::::\\   \\:::\\    \\   /:::/    / \\:::\\    \\  \n /:::/\\:::\\   \\:::\\    \\  /:::/\\:::\\    \\          /\\   \\  /:::/\\:::\\    \\ /:::/\\:::\\   \\:::\\____\\ /:::/    /   \\:::\\    \\ \n/:::/  \\:::\\   \\:::\\____\\/:::/  \\:::\\____\\        /::\\   \\/:::/  \\:::\\____/:::/  \\:::\\   \\:::|    /:::/____/     \\:::\\____\\\n\\::/    \\:::\\   \\::/    /:::/    \\::/    /        \\:::\\  /:::/    \\::/    \\::/   |::::\\  /:::|____\\:::\\    \\      \\::/    /\n \\/____/ \\:::\\   \\/____/:::/    / \\/____/          \\:::\\/:::/    / \\/____/ \\/____|:::::\\/:::/    / \\:::\\    \\      \\/____/ \n          \\:::\\    \\  /:::/    /                    \\::::::/    /                |:::::::::/    /   \\:::\\    \\             \n           \\:::\\____\\/:::/    /                      \\::::/____/                 |::|\\::::/    /     \\:::\\    \\            \n            \\::/    /\\::/    /                        \\:::\\    \\                 |::| \\::/____/       \\:::\\    \\           \n             \\/____/  \\/____/                          \\:::\\    \\                |::|  ~|              \\:::\\    \\          \n                                                        \\:::\\    \\               |::|   |               \\:::\\    \\         \n                                                         \\:::\\____\\              \\::|   |                \\:::\\____\\        \n                                                          \\::/    /               \\:|   |                 \\::/    /        \n                                                           \\/____/                 \\|___|                  \\/____/         \n\nIRC SERVER FOR 42 CURSUS CODED BY : JABENJAM THOBERTH\n"
+'########:'########:::::::::'####:'########:::'######:::::'##:::::::::'#######::\n\
+ ##.....::... ##..::::::::::. ##:: ##.... ##:'##... ##:::: ##:::'##::'##.... ##:\n\
+ ##:::::::::: ##::::::::::::: ##:: ##:::: ##: ##:::..::::: ##::: ##::..::::: ##:\n\
+ ######:::::: ##::::::::::::: ##:: ########:: ##:::::::::: ##::: ##:::'#######::\n\
+ ##...::::::: ##::::::::::::: ##:: ##.. ##::: ##:::::::::: #########:'##::::::::\n\
+ ##:::::::::: ##::::::::::::: ##:: ##::. ##:: ##::: ##::::...... ##:: ##::::::::\n\
+ ##:::::::::: ##::'#######::'####: ##:::. ##:. ######::::::::::: ##:: #########:\n\
+..:::::::::::..::::.......::....::..:::::..:::......::::::::::::..:::.........::\n\
+\n\nIRC SERVER FOR 42 CURSUS CODED BY : JABENJAM THOBERTH\n"
