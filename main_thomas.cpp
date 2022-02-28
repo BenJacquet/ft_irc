@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 13:53:55 by thoberth          #+#    #+#             */
-/*   Updated: 2022/02/24 17:35:53 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/02/28 14:33:20 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,15 @@
 
 /*
 ** int socket(int domain, int type, int protocol)
+** domain = PF_INET , type = SOCK_STREAM or SOCK_DGRAM, protocol = 0 (defined automatically with the type)
 ** return a fd for the new socket or -1 if failed
-**
 */
+
+/*
+** int bind(int sockfd, const struct sockadrr * addr, socklen_t addrlen)
+** 
+*/
+
 
 /*
 ** int connect(int sockfd, const struct sockaddr * addr, socklen_t addrlen)
@@ -26,7 +32,6 @@
 ** The addrlen argument specifies the size of addrq
 **
 */
-
 
 /*
 ** When socket are connected :
