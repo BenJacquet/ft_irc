@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/02/28 17:51:26 by jabenjam         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    main.cpp_backup                                    :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#              #
+#    Updated: 2022/02/28 14:30:38 by jabenjam         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 #include "../incs/ft_irc.hpp"
 
@@ -29,14 +29,14 @@ void put_usage()
 	COUT(CYAN, "the connection password. It will be needed by any IRC client that tries to connect to your server.");
 }
 
-void put_connection(int client_fd)
+void put_connection(char const *client_ip)
 {
-	COUT(GREEN, "Successfully connected with " << client_fd);
+	COUT(GREEN, "Successfully connected with " << client_ip);
 }
 
-void put_disconnection(int client_fd)
+void put_disconnection(char const *client_ip)
 {
-	COUT(YELLOW, "Lost connection with " << client_fd);
+	COUT(YELLOW, "Lost connection with " << client_ip);
 }
 
 bool valid_port(std::string av, t_data &data)
@@ -54,42 +54,23 @@ bool valid_port(std::string av, t_data &data)
 	return (false);
 }
 
-pollfds::iterator	find_fd(t_data &data, int fd)
-{
-	pollfds::iterator it = data.poll_fds.begin();
-	pollfds::iterator end = data.poll_fds.end();
+// int receive_packets(t_data &data, client_map::iterator client)
+// {
+// 	char buff[BUFFERSIZE]; // peut etre passer sur un vecteur contenant les paquets entiers
+// 	int received = 0;
 
-	for (; it != end; it++)
-	{
-		if (it->fd == fd)
-			return (it);
-	}
-	return (end);
-}
-
-void	remove_fd(t_data &data, int fd)
-{
-	pollfds::iterator end = data.poll_fds.end();
-	pollfds::iterator found = find_fd(data, fd);
-
-	if (found == end)
-		return;
-	data.poll_fds.erase(found);
-}
-
-void	add_fd(t_data &data, int fd)
-{
-	pollfds::iterator	end = data.poll_fds.end();
-	pollfds::iterator	found = find_fd(data, fd);
-	struct pollfd		poll;
-
-	poll.fd = fd;
-	poll.events = (POLLIN | POLLOUT | POLLHUP | POLLNVAL);
-	poll.revents = 0;
-	if (found != end)
-		return;
-	data.poll_fds.push_back(poll);
-}
+// 	std::memset(buff, 0, BUFFERSIZE);
+// 	static_cast<void>(data);
+// 	received = recv(client->first, buff, BUFFERSIZE, 0);
+// 	// if (received < 1)
+// 	// 	put_disconnection(inet_ntoa(client->second.sin_addr));
+// 	// else
+// 	{
+// 		COUT(WHITE, "received " << received << " bytes:");
+// 		COUT(WHITE, buff);
+// 	}
+// 	return (0);
+// }
 
 int receive_packets(t_data &data, int client)
 {
@@ -100,10 +81,7 @@ int receive_packets(t_data &data, int client)
 	static_cast<void>(data);
 	received = recv(client, buff, BUFFERSIZE, 0);
 	if (received < 1)
-	{
-		put_disconnection(client);
-		remove_fd(data, client);
-	}
+		put_disconnection(inet_ntoa(client->second.sin_addr));
 	else
 	{
 		COUT(WHITE, "received " << received << " bytes:");
@@ -127,68 +105,26 @@ int command_loop(t_data &data)
 	return (0);
 }
 
-int	new_connection(t_data &data)
-{
-	int client_fd;
-	struct sockaddr_in client_sock;
-	socklen_t size = sizeof(struct sockaddr_storage);
-
-	if ((client_fd = accept(data.sock_fd,
-					 reinterpret_cast<struct sockaddr *>(&client_sock), &size) == -1))
-		return (-1);
-	put_connection(client_fd);
-	add_fd(data, client_fd);
-	return (client_fd);
-}
-
-int	poll_setup(t_data &data)
-{
-	int	poll_r = poll(data.poll_fds, data.poll_fds.size(), data.timeout);
-	pollfds::iterator	it = data.poll_fds.begin();
-	pollfds::iterator	end = data.poll_fds.end();
-
-	if (poll_r < 0)
-	{
-		CERR(YELLOW, "poll()");
-		return (1);
-	}
-	else if (poll_r == 0)
-	{
-		CERR(YELLOW, "poll() timeout.")
-		return (1);
-	}
-	for (; it != end; it++)
-	{
-		if (it->revents == 0)
-			continue;
-		else if (it->revents != POLLIN)
-			CERR(YELLOW, "revent= " << it->revents);
-		if (it->fd == data.sock_fd)
-		{
-			while (1)
-			{
-				if (new_connection(data) == -1)
-					break;
-			}
-		}
-		else
-		{
-			COUT(WHITE, );
-		}
-	}
-	return (0);
-}
-
 int irc_loop(t_data &data)
 {
+	int tmp_fd;
+	struct sockaddr_in tmp_client_sock;
+	socklen_t size = sizeof(struct sockaddr_storage);
+	client_map::iterator it = data.client_socks.begin();
+
 	while (1)
 	{
 		// if (command_loop(data) == 1)
 		// 	return (0);
-		if (poll_setup() == 1)
-			return (1);
-		receive_packets(data, client_fd);
+		if ((tmp_fd = accept(data.sock_fd,
+							 reinterpret_cast<struct sockaddr *>(&tmp_client_sock), &size) == -1))
+			continue;
+		data.client_socks.insert(client_pair(tmp_fd, tmp_client_sock));
+		put_connection(inet_ntoa(it->second.sin_addr));
+		
+		receive_packets(data, it);
 	}
+	freeaddrinfo(data.bind_addr);
 	return (0);
 }
 
@@ -203,7 +139,7 @@ int addrinfo_setup(t_data &data, char **av)
 
 	if (getaddrinfo(0, av[1], &hints, &data.bind_addr) != 0)
 	{
-		put_error("getaddrinfo()");
+		put_error("getaddrinfo");
 		return (1);
 	}
 	// info_ptr->ai_family = AF_INET si IPv4 || AF_INET6 si IPv6
@@ -213,26 +149,24 @@ int addrinfo_setup(t_data &data, char **av)
 
 int server_setup(t_data &data)
 {
-	data.timeout = (3 * 60 * 1000);
-	add_fd(data, data.sock_fd);
 	// TESTS SOCKET
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
 							   data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
 	{
-		put_error("socket()");
+		put_error("socket");
 		return (1);
 	}
 
 	if (bind(data.sock_fd, data.bind_addr->ai_addr, data.bind_addr->ai_addrlen) == -1)
 	{
-		put_error("bind()");
+		put_error("bind");
 		// perror(strerror(errno)); // remplacer par une fonction autorisee
 		return (1);
 	}
 
 	if (listen(data.sock_fd, BACKLOG) == -1)
 	{
-		put_error("listen()");
+		put_error("listen");
 		// perror(strerror(errno)); // remplacer par une fonction autorisee
 		return (1);
 	}
@@ -263,6 +197,5 @@ int main(int ac, char **av)
 		return (1);
 	COUT(L_CYAN, ASCII_HEADER);
 	irc_loop(data);
-	freeaddrinfo(data.bind_addr);
 	return (0);
 }

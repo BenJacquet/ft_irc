@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/02/25 13:52:39 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:54:02 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,19 @@
 
 typedef std::map<int, struct sockaddr_in> client_map;
 typedef std::pair<int, struct sockaddr_in> client_pair;
+typedef std::vector<struct pollfd> pollfds;
+
 
 // STRUCTS
 
 typedef struct			s_data
 {
-	uint16_t			port;			// port d'ecoute
-	int					sock_fd;		// fd du socket d'entree
-	client_map			client_socks;	// map contenant les fd et sockets des clients
-	struct addrinfo		*bind_addr;		// socket du serveur
+	uint16_t			port;			// port d'ecoute (SERVEUR)
+	int					sock_fd;		// fd du socket d'entree (SERVEUR)
+	struct addrinfo		*bind_addr;		// socket (SERVEUR)
+	pollfds				poll_fds;		// vector de pollfds clients (CLIENTS)
+	client_map			client_socks;	// map contenant les fd et sockets (CLIENTS)
+	int					timeout;		// ms avant de timeout
 }						t_data;
 
 // TEMPLATES
