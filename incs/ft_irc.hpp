@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/02/28 15:54:02 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:41:24 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <poll.h>
+#include <unistd.h>
 
 #include "string.h"
 
