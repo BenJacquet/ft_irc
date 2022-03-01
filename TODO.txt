@@ -37,3 +37,27 @@ Commandes:
 /part <#channelname>				--	leave <#channelname>
 /quit <[message]>					--	disconnect from irc
 /invite <friendnickname> <#chan>	--	invite <nickname> to <#chan>
+
+
+ORDRE :
+- Creation du serveur
+- Accepter et renvoyer les requetes
+- Creation les objets (channel, users)
+- Ajouter des nouveaux utilisateurs
+- Implementer les commandes
+- Implementer les codes (RFC 2812)
+- Modifier les droits des utilisateurs
+
+THOMAS :
+- Implementer classes (Channel, User)
+
+Channel :
+Users		users;
+(inconnu)	mode;
+std::string	topic;
+Users		blacklist;
+
+Users :
+(addrinfo?)	socket;
+bool		protocol (ipv4/ipv6);
+(inconnu)	mode (flags operateur, ban);
