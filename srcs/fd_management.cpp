@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:34:01 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:31:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
  * @param fd fd to find
  * @return iterator to found occurence or iterator to end if not found
  */
-pollfds::iterator find_fd(t_data &data, int fd)
+v_pollfds::iterator find_fd(t_data &data, int fd)
 {
-	pollfds::iterator it = data.poll_fds.begin();
-	pollfds::iterator end = data.poll_fds.end();
+	v_pollfds::iterator it = data.poll_fds.begin();
+	v_pollfds::iterator end = data.poll_fds.end();
 
 	for (; it != end; it++)
 	{
@@ -40,8 +40,8 @@ pollfds::iterator find_fd(t_data &data, int fd)
  */
 void remove_fd(t_data &data, int fd)
 {
-	pollfds::iterator end = data.poll_fds.end();
-	pollfds::iterator found = find_fd(data, fd);
+	v_pollfds::iterator end = data.poll_fds.end();
+	v_pollfds::iterator found = find_fd(data, fd);
 
 	if (found == end)
 		return;
@@ -57,8 +57,8 @@ void remove_fd(t_data &data, int fd)
  */
 void add_fd(t_data &data, int fd)
 {
-	pollfds::iterator end = data.poll_fds.end();
-	pollfds::iterator found = find_fd(data, fd);
+	v_pollfds::iterator end = data.poll_fds.end();
+	v_pollfds::iterator found = find_fd(data, fd);
 	struct pollfd poll;
 
 	poll.fd = fd;

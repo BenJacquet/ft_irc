@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 17:25:58 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:32:59 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct			s_data
 	int					sock_fd;		// fd du socket d'entree (SERVEUR)
 	struct addrinfo		*bind_addr;		// socket (SERVEUR)
 	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
-	v_users_known		users_known;	// vector des utilisateur connu
+	// v_users_known		users_known;	// vector des utilisateur connu
 	int					timeout;		// ms avant de timeout
 }						t_data;
 

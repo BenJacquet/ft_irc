@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:16:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:31:24 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int receive_packets(t_data &data, int client)
  * @param data 
  * @param it iterator pointing to fd
  */
-void io_loop(t_data &data, pollfds::iterator it)
+void io_loop(t_data &data, v_pollfds::iterator it)
 {
 	int i = 0;
 	while (1)
