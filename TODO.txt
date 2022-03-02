@@ -34,7 +34,7 @@ Commandes:
 /ignore <nickname>					--	ignore <nickname>
 /away <message>						--	afk <message>
 /away								--	remove afk message
-/join								--	join a channel
+/join <#channel>					--	joins <#channel>
 /part <#channelname>				--	leave <#channelname>
 /quit <[message]>					--	disconnect from irc
 /invite <friendnickname> <#chan>	--	invite <nickname> to <#chan>
@@ -71,3 +71,4 @@ RESSOURCES UTILES :
  - (To know) https://ircgod.com/docs/irc/to_know/
  - (ircgod) https://ircgod.com/
  - (channel modes) https://wiki.zandronum.com/IRC:Channel_Modes
+ - (commands) https://www.techbull.com/techbull/guide/internet/irccommande.html
