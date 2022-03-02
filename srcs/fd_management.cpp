@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 13:19:36 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:10:13 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief finds the fd received as argument in the pollfd vector
  * 
- * @param data reference to data
+ * @param data
  * @param fd fd to find
  * @return iterator to found occurence or iterator to end if not found
  */
@@ -35,7 +35,7 @@ pollfds::iterator find_fd(t_data &data, int fd)
 /**
  * @brief removed the fd from the pollfd vector
  * 
- * @param data reference to data
+ * @param data
  * @param fd fd to remove
  */
 void remove_fd(t_data &data, int fd)
@@ -52,7 +52,7 @@ void remove_fd(t_data &data, int fd)
 /**
  * @brief adds the fd to the pollfd vector
  * 
- * @param data reference to data
+ * @param data
  * @param fd fd to add
  */
 void add_fd(t_data &data, int fd)
@@ -74,7 +74,7 @@ void add_fd(t_data &data, int fd)
 /**
  * @brief accepts new connections and adds them to the pollfd vector
  * 
- * @param data reference to data
+ * @param data
  * @return the new client fd in case of valid connection and
  * 			-1 in case of accept() malfunction
  */

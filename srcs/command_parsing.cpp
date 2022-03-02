@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 13:06:30 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:16:19 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief loop function that checks for input on cin, parses it and sends it
  * 		to the adequate function to execute a command
  * 
- * @param data reference to data
+ * @param data
  * @return int 
  */
 int command_loop(t_data &data)

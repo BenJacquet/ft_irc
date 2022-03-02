@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:03:39 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:16:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ int send_packets(int client, char *to_send)
 	return (ret);
 }
 
+/**
+ * @brief receives packets from fd
+ * 
+ * @param data 
+ * @param client fd to receive from
+ * @return amount of bytes received
+ */
 int receive_packets(t_data &data, int client)
 {
 	char buff[BUFFERSIZE]; // peut etre passer sur un vecteur contenant les paquets entiers
@@ -59,10 +66,10 @@ int receive_packets(t_data &data, int client)
 }
 
 /**
- * @brief 
+ * @brief main i/o operations loop
  * 
  * @param data 
- * @param it 
+ * @param it iterator pointing to fd
  */
 void io_loop(t_data &data, pollfds::iterator it)
 {

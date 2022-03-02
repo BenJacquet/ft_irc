@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:31:12 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 13:04:56 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:10:23 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * 		contains a valid port or not and stores it inside data.port
  * 
  * @param av string containing the port
- * @param data reference to data
+ * @param data
  * @return true in case the port is valid
  * @return false in case the port is invalid
  */

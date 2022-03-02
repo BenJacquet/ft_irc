@@ -6,17 +6,26 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:41:22 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 12:41:38 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:21:37 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+/**
+ * @brief displays an error
+ * 
+ * @param error string containing the error
+ */
 void put_error(std::string const error)
 {
 	CERR(RED, "Error: " + error);
 }
 
+/**
+ * @brief displays usage of ircserv
+ * 
+ */
 void put_usage()
 {
 	put_error("ircserv: bad number of arguments.");
@@ -27,11 +36,21 @@ void put_usage()
 	COUT(CYAN, "the connection password. It will be needed by any IRC client that tries to connect to your server.");
 }
 
+/**
+ * @brief displays a new connection
+ * 
+ * @param client_fd self-explanatory
+ */
 void put_connection(int client_fd)
 {
 	COUT(GREEN, "Successfully connected with " << client_fd);
 }
 
+/**
+ * @brief displays a disconnection
+ * 
+ * @param client_fd self-explanatory
+ */
 void put_disconnection(int client_fd)
 {
 	COUT(YELLOW, "Lost connection with " << client_fd);

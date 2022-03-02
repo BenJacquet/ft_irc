@@ -6,15 +6,21 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 12:35:27 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:29:24 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+/**
+ * @brief setup of out listening socket from the hints provided
+ * 
+ * @param data 
+ * @param av array of strings containing port and password
+ * @return 0 or 1 if getaddrinfo() malfunctionned
+ */
 int addrinfo_setup(t_data &data, char **av)
 {
-	// TESTS GETADDR_INFO
 	struct addrinfo hints;
 	std::memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC;
@@ -31,10 +37,16 @@ int addrinfo_setup(t_data &data, char **av)
 	return (0);
 }
 
+/**
+ * @brief setup of the server, calls socket(), bind() and listen()
+ * 		to prepare the server to be ready to listen
+ * 
+ * @param data 
+ * @return 0 or 1 if socket(), bind() or listen() failed
+ */
 int server_setup(t_data &data)
 {
 	data.timeout = (3 * 60 * 1000);
-	// TESTS SOCKET
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
 							   data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
 	{
