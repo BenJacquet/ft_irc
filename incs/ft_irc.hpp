@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 16:09:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:45:58 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct			s_data
 
 		void io_loop(t_data &data, pollfds::iterator it); //AUTHOR: jabenjam
 		int receive_packets(t_data &data, int client); //AUTHOR: jabenjam
-		int send_packets(int client, char *to_send); //AUTHOR: jabenjam
+		int send_packets(int client, char *to_send); //AUTHOR: thoberth
 
 	/* SERVER SETUP */
 
