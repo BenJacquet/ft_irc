@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 16:45:58 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:25:58 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@
 #include <unistd.h>
 #include <signal.h>
 
-#include "string.h"
+#include <string.h>
+
+#include "../class/Channel.hpp"
+#include "../class/Users.hpp"
 
 // DEFINES
 
@@ -68,9 +71,8 @@
 
 // TYPEDEFS
 
-typedef std::map<int, struct sockaddr_in> client_map;
-typedef std::pair<int, struct sockaddr_in> client_pair;
-typedef std::vector<struct pollfd> pollfds;
+typedef std::vector<struct pollfd>	v_pollfds;
+typedef std::vector<Users> 			v_users_known;
 
 // STRUCTS
 
@@ -79,8 +81,8 @@ typedef struct			s_data
 	uint16_t			port;			// port d'ecoute (SERVEUR)
 	int					sock_fd;		// fd du socket d'entree (SERVEUR)
 	struct addrinfo		*bind_addr;		// socket (SERVEUR)
-	pollfds				poll_fds;		// vector de pollfds clients (CLIENTS)
-	client_map			client_socks;	// map contenant les fd et sockets (CLIENTS)
+	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
+	v_users_known		users_known;	// vector des utilisateur connu
 	int					timeout;		// ms avant de timeout
 }						t_data;
 
@@ -88,14 +90,14 @@ typedef struct			s_data
 
 	/* FD MANAGEMENT */
 
-		pollfds::iterator find_fd(t_data &data, int fd); //AUTHOR: jabenjam
+		v_pollfds::iterator find_fd(t_data &data, int fd); //AUTHOR: jabenjam
 		void remove_fd(t_data &data, int fd); //AUTHOR: jabenjam
 		void add_fd(t_data &data, int fd); //AUTHOR: jabenjam
 		int new_connection(t_data &data); //AUTHOR: jabenjam
 
 	/* IO OPERATIONS */
 
-		void io_loop(t_data &data, pollfds::iterator it); //AUTHOR: jabenjam
+		void io_loop(t_data &data, v_pollfds::iterator it); //AUTHOR: jabenjam
 		int receive_packets(t_data &data, int client); //AUTHOR: jabenjam
 		int send_packets(int client, char *to_send); //AUTHOR: thoberth
 
