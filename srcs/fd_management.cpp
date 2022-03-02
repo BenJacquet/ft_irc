@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:10:13 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:34:01 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void add_fd(t_data &data, int fd)
 		return;
 	fcntl(fd, F_SETFL, O_NONBLOCK);
 	data.poll_fds.push_back(poll);
-	COUT(CYAN, "added descriptor to pollfd vector" << poll.fd);
+	COUT(CYAN, "added descriptor " << poll.fd << " to pollfd vector ");
 }
 
 /**

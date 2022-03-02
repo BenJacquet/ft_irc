@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:25:35 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:09:38 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,26 @@ int poll_setup(t_data &data)
 	return (0);
 }
 
+void	handle_signals(int signal)
+{
+	if (signal == SIGQUIT)
+	{
+		COUT(WHITE, "\b\bprogram terminated by ctrl-\\");
+		exit(1);
+	}
+	else if (signal == SIGINT)
+	{
+		COUT(WHITE, "\b\bprogram interrupted by ctrl-c");
+		exit(1);
+	}
+}
+
+void	signal_manager()
+{
+	signal(SIGQUIT, &handle_signals);
+	signal(SIGINT, &handle_signals);
+}
+
 /**
  * @brief main server loop
  * 
@@ -72,6 +92,7 @@ int server_loop(t_data &data)
 {
 	while (1)
 	{
+		signal_manager();
 		// if (command_loop(data) == 1)
 		// 	return (0);
 		if (poll_setup(data) == 1)

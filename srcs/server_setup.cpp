@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:29:24 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:01:38 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int server_setup(t_data &data)
 {
 	data.timeout = (3 * 60 * 1000);
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
-							   data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
+								data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
 	{
 		put_error("socket()");
 		return (1);

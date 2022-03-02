@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 13:03:01 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:09:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #include <fcntl.h>
 #include <poll.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include "string.h"
 
