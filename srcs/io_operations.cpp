@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 13:19:49 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:03:39 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-/*
-**	fonction qui pour utiliser send(), de maniere safe
-**	renvoie la taille envoye ou -1 si send() echoue
-*/
+/**
+ * @brief fonction qui pour utiliser send(), de maniere safe
+ * renvoie la taille envoye ou -1 si send() echoue
+ * 
+ * @param client client to send packets
+ * @param to_send the param to send to client
+ */
 int send_packets(int client, char *to_send)
 {
 	int len = ft_strlen(to_send);
