@@ -42,10 +42,12 @@ Commandes:
 ORDRE :
 - Creation du serveur
 - Accepter et renvoyer les requetes
+- Handshake avec le serveur
+- Stocker les credentials encryptés (SHA 256)
 - Creation les objets (channel, users)
 - Ajouter des nouveaux utilisateurs
-- Implementer les commandes
-- Implementer les codes (RFC 2812)
+- Implementer les commandes (pour les operateurs uniquement les changements de mode, kick, kill etc)
+- Implementer les codes (RFC 2812) (uniquement ceux des commandes implementees)
 - Modifier les droits des utilisateurs
 
 THOMAS :

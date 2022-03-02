@@ -1,6 +1,14 @@
 NAME = ircserv
 
-SRCS = srcs/main.cpp
+SRCS = srcs/main.cpp\
+		srcs/utils.cpp\
+		srcs/fd_management.cpp\
+		srcs/io_operations.cpp\
+		srcs/server_setup.cpp\
+		srcs/server_loop.cpp\
+		srcs/server_display.cpp\
+		srcs/arg_parsing.cpp\
+		srcs/command_parsing.cpp
 
 INCS = incs/ft_irc.hpp
 

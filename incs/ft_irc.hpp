@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/01 17:41:24 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:52:01 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 // DEFINES
 
 #define BUFFERSIZE 4096
+
+#define BACKLOG 10
 
 #define COUT(COLOR, DATA) std::cout << COLOR << DATA << RESET << std::endl
 #define CERR(COLOR, DATA) std::cout << COLOR << DATA << RESET << std::endl
@@ -69,7 +71,6 @@ typedef std::map<int, struct sockaddr_in> client_map;
 typedef std::pair<int, struct sockaddr_in> client_pair;
 typedef std::vector<struct pollfd> pollfds;
 
-
 // STRUCTS
 
 typedef struct			s_data
@@ -82,7 +83,53 @@ typedef struct			s_data
 	int					timeout;		// ms avant de timeout
 }						t_data;
 
+// PROTOTYPES
+
+	/* FD MANAGEMENT */
+
+		pollfds::iterator find_fd(t_data &data, int fd); //AUTHOR: jabenjam
+		void remove_fd(t_data &data, int fd); //AUTHOR: jabenjam
+		void add_fd(t_data &data, int fd); //AUTHOR: jabenjam
+		int new_connection(t_data &data); //AUTHOR: jabenjam
+
+	/* IO OPERATIONS */
+
+		void io_loop(t_data &data, pollfds::iterator it); //AUTHOR: jabenjam
+		int receive_packets(t_data &data, int client); //AUTHOR: jabenjam
+		int send_packets(int client, char *to_send); //AUTHOR: jabenjam
+
+	/* SERVER SETUP */
+
+		int server_setup(t_data &data); //AUTHOR: jabenjam
+		int addrinfo_setup(t_data &data, char **av); //AUTHOR: jabenjam
+
+	/* SERVER LOOP */
+
+		int server_loop(t_data &data); //AUTHOR: jabenjam
+		int poll_setup(t_data &data); //AUTHOR: jabenjam
+
+	/* SERVER DISPLAY */
+
+		void put_disconnection(int client_fd); //AUTHOR: jabenjam
+		void put_connection(int client_fd); //AUTHOR: jabenjam
+		void put_usage(); //AUTHOR: jabenjam
+		void put_error(std::string const error); //AUTHOR: jabenjam
+
+	/* ARGUMENT PARSING */
+
+		int parse_arguments(int ac, char **av, t_data &data); //AUTHOR: jabenjam
+
+	/* COMMAND PARSING */
+
+		int command_loop(t_data &data); //AUTHOR: jabenjam
+
+	/* UTILS */
+	
+		int ft_strlen(char *str); //AUTHOR: thoberth
+
 // TEMPLATES
+
+
 
 // HEADER
 

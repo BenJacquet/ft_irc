@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   command_parsing.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 12:42:52 by jabenjam         ###   ########.fr       */
+/*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
+/*   Updated: 2022/03/02 12:39:14 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-int main(int ac, char **av)
+int command_loop(t_data &data)
 {
-	t_data data;
+	std::string cmd;
+	static_cast<void>(data);
 
-	if (parse_arguments(ac, av, data) != 0 || addrinfo_setup(data, av) != 0 || server_setup(data) != 0)
-		return (1);
-	COUT(L_CYAN, ASCII_HEADER);
-	server_loop(data);
-	freeaddrinfo(data.bind_addr);
+	cmd.clear();
+	if (std::cin.peek() != EOF)
+	{
+		std::getline(std::cin, cmd);
+		if (cmd.compare("/quit") == 0 || std::cin.eof())
+			return (1);
+	}
 	return (0);
 }
