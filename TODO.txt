@@ -34,6 +34,7 @@ Commandes:
 /ignore <nickname>					--	ignore <nickname>
 /away <message>						--	afk <message>
 /away								--	remove afk message
+/join								--	join a channel
 /part <#channelname>				--	leave <#channelname>
 /quit <[message]>					--	disconnect from irc
 /invite <friendnickname> <#chan>	--	invite <nickname> to <#chan>
