@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 12:42:30 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 13:19:49 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ int receive_packets(t_data &data, int client)
 	return (received);
 }
 
+/**
+ * @brief 
+ * 
+ * @param data 
+ * @param it 
+ */
 void io_loop(t_data &data, pollfds::iterator it)
 {
 	int i = 0;

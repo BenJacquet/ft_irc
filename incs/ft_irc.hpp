@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 12:52:01 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 13:03:01 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct			s_data
 	/* ARGUMENT PARSING */
 
 		int parse_arguments(int ac, char **av, t_data &data); //AUTHOR: jabenjam
+		bool valid_port(std::string av, t_data &data); //AUTHOR: jabenjam
 
 	/* COMMAND PARSING */
 

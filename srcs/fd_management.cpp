@@ -6,12 +6,19 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 12:51:20 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/02 13:19:36 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+/**
+ * @brief finds the fd received as argument in the pollfd vector
+ * 
+ * @param data reference to data
+ * @param fd fd to find
+ * @return iterator to found occurence or iterator to end if not found
+ */
 pollfds::iterator find_fd(t_data &data, int fd)
 {
 	pollfds::iterator it = data.poll_fds.begin();
@@ -25,6 +32,12 @@ pollfds::iterator find_fd(t_data &data, int fd)
 	return (end);
 }
 
+/**
+ * @brief removed the fd from the pollfd vector
+ * 
+ * @param data reference to data
+ * @param fd fd to remove
+ */
 void remove_fd(t_data &data, int fd)
 {
 	pollfds::iterator end = data.poll_fds.end();
@@ -36,6 +49,12 @@ void remove_fd(t_data &data, int fd)
 	data.poll_fds.erase(found);
 }
 
+/**
+ * @brief adds the fd to the pollfd vector
+ * 
+ * @param data reference to data
+ * @param fd fd to add
+ */
 void add_fd(t_data &data, int fd)
 {
 	pollfds::iterator end = data.poll_fds.end();
@@ -52,6 +71,13 @@ void add_fd(t_data &data, int fd)
 	COUT(CYAN, "added descriptor to pollfd vector" << poll.fd);
 }
 
+/**
+ * @brief accepts new connections and adds them to the pollfd vector
+ * 
+ * @param data reference to data
+ * @return the new client fd in case of valid connection and
+ * 			-1 in case of accept() malfunction
+ */
 int new_connection(t_data &data)
 {
 	struct sockaddr_in client_sock;

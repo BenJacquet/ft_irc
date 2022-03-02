@@ -63,3 +63,10 @@ Users :
 (addrinfo?)	socket;
 bool		protocol (ipv4/ipv6);
 (inconnu)	mode (flags operateur, ban);
+
+RESSOURCES UTILES :
+ - (RFC 2812) https://datatracker.ietf.org/doc/html/rfc2812
+ - (C networking introduction) https://www.gta.ufrj.br/ensino/eel878/sockets/index.html
+ - (To know) https://ircgod.com/docs/irc/to_know/
+ - (ircgod) https://ircgod.com/
+ - (channel modes) https://wiki.zandronum.com/IRC:Channel_Modes
