@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/01 15:19:47 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:10:13 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ class Channel
 		void part(std::string chan_name);
 		void quit();
 		void invite(Users to_inv, std::string chan_name);
+
+		bool addusers(Users to_add);
 };
 
 #endif /* ********************************************************* CHANNEL_H */

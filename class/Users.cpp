@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/02 15:50:55 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:34:18 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 Users::Users() : _operator(false), _socket_info()
 {
 }
+
+Users::Users(size_t id) : _operator(false), _id(id)
+{}
 
 Users::Users( const Users & src )
 {
@@ -50,7 +53,7 @@ Users &				Users::operator=( Users const & rhs )
 }
 
 /**
- * @brief comparaison between 2 Users
+ *  @brief comparaison between 2 Users
  * 
  * @param a user a
  * @param b user b
@@ -59,9 +62,7 @@ Users &				Users::operator=( Users const & rhs )
  */
 bool operator==(Users &a, Users &b)
 {
-	if (a.getSocket_info().ai_family != b.getSocket_info().ai_family)
-		return false;
-	if (a.getSocket_info().ai_addr->sa_data != b.getSocket_info().ai_addr->sa_data)
+	if (a.getId() != b.getId())
 		return false;
 	return true;
 }
@@ -83,6 +84,11 @@ std::string	Users::getNick_name() const
 addrinfo	Users::getSocket_info() const
 {
 	return this->_socket_info;
+}
+
+size_t	Users::getId() const
+{
+	return this->_id;
 }
 
 void Users::setNick_name(std::string new_nick_name)

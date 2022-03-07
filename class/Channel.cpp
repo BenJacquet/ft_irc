@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/02 17:41:06 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:48:37 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,20 @@ void Channel::query(Users receiver, std::string msg = std::string())
  * @param to_stalk the user to stalk
  */
 void Channel::whois(Users to_stalk)
-{}
+{
+
+}
 
 /**
- * @brief uses scan ignore msg about an other users
+ * @brief users can ignore msg about an other users
  * 
  * @param to_ignore the user to ignore
+ * @param want_to_ignore the users who ignore @param to_ignore
  */
-void Channel::ignore(Users to_ignore)
-{}
+void Channel::ignore(Users want_to_ignore, Users to_ignore)
+{
+	
+}
 
 /**
  * @brief users can switch to AFK mode and define a msg to the

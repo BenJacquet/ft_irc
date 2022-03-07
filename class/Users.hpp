@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/02 17:43:45 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:38:08 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class Users
 {
 	public:
 		Users();
+		Users( size_t id );
 		Users( Users const & src );
 		~Users();
 
@@ -36,6 +37,7 @@ class Users
 	public:
 		std::string getNick_name() const;
 		addrinfo	getSocket_info() const;
+		size_t		getId() const;
 		void setNick_name(std::string new_nick_name);
 		bool is_ignored(Users is_in_blacklist);
 };
