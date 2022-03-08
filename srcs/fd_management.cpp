@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 17:31:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:39:17 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,17 @@ void add_fd(t_data &data, int fd)
  */
 int new_connection(t_data &data)
 {
-	struct sockaddr_in client_sock;
-	socklen_t size = sizeof(struct sockaddr_storage);
-	int client_fd = accept(data.sock_fd, reinterpret_cast<struct sockaddr *>(&client_sock), &size);
-
+	struct sockaddr_in6	client_sock;
+	socklen_t			size = sizeof(struct sockaddr_storage);
+	int					client_fd = accept(data.sock_fd, reinterpret_cast<struct sockaddr *>(&client_sock), &size);
 	if (client_fd < 1)
 	{
 		CERR(YELLOW, "accept()");
 		return (-1);
 	}
+	// Users				new_user(client_fd, client_sock);
+	// data.unregistered.push_back(new_user);
+	// put_connection(new_user);
 	put_connection(client_fd);
 	add_fd(data, client_fd);
 	return (client_fd);

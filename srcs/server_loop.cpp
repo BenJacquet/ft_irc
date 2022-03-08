@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 17:32:37 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:43:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int poll_setup(t_data &data)
 	}
 	for (it = data.poll_fds.begin(); it != end; it++)
 	{
-		// COUT(WHITE, "(" << &it << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &end << ")");
+		COUT(WHITE, "(" << &it << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &end << ")");
 		if (it->revents == 0)
 			continue;
 		else

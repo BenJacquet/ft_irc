@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 16:01:38 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:44:10 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int addrinfo_setup(t_data &data, char **av)
 {
 	struct addrinfo hints;
 	std::memset(&hints, 0, sizeof(hints));
-	hints.ai_family = AF_UNSPEC;
+	hints.ai_family = AF_INET6;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
@@ -46,13 +46,18 @@ int addrinfo_setup(t_data &data, char **av)
  */
 int server_setup(t_data &data)
 {
+	data.poll_fds.clear();
 	data.timeout = (3 * 60 * 1000);
+	// data.users.clear();
+	// data.unregistered.clear();
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
 								data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
 	{
 		put_error("socket()");
 		return (1);
 	}
+	int no = 0;
+	setsockopt(data.sock_fd, IPPROTO_IPV6, IPV6_V6ONLY, (void *)&no, sizeof(no));
 	COUT(BLUE, data.sock_fd);
 	add_fd(data, data.sock_fd);
 	if (bind(data.sock_fd, data.bind_addr->ai_addr, data.bind_addr->ai_addrlen) == -1)

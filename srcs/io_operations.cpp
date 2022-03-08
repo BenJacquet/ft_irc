@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 17:31:24 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:30:22 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int send_packets(int client, char *to_send)
 	int len = ft_strlen(to_send);
 	int ret = 0;
 	while (ret < len && ret != -1)
-		ret += send(client, to_send + ret, len - ret, 0);
+		ret += send(client, to_send + ret, len - ret, MSG_NOSIGNAL);
 	if (ret == -1)
 		CERR(YELLOW, "couldn't send packet!");
 	else

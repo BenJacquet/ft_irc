@@ -65,6 +65,15 @@ Users :
 bool		protocol (ipv4/ipv6);
 (inconnu)	mode (flags operateur, ban);
 
+USERS WORKFLOW :
+- Utilisateur qui se connecte mais pas encore authentifié stocké dans data.users (RFC 2812 - 3.1)
+- Attribution d'un UID, initialisation de toutes les variables sauf PASS
+- Enregistrement quand l'user fait /msg nickserver register [password] (RFC 2812 - 3.1.1)
+- Check si le nickname est disponible (RFC 2812 - 3.1.2)
+- User qui fait /msg nickserver [password]
+- Quand l'utilisateur est registered -> ajout du flag PASS
+- Comparaison avec le nickname et le password pour l'authentifier
+
 RESSOURCES UTILES :
  - (RFC 2812) https://datatracker.ietf.org/doc/html/rfc2812
  - (C networking introduction) https://www.gta.ufrj.br/ensino/eel878/sockets/index.html

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 17:32:59 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:41:01 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@
 // TYPEDEFS
 
 typedef std::vector<struct pollfd>	v_pollfds;
-typedef std::vector<Users> 			v_users_known;
+typedef std::vector<Users> 			v_Users;
 
 // STRUCTS
 
@@ -82,7 +82,8 @@ typedef struct			s_data
 	int					sock_fd;		// fd du socket d'entree (SERVEUR)
 	struct addrinfo		*bind_addr;		// socket (SERVEUR)
 	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
-	// v_users_known		users_known;	// vector des utilisateur connu
+	// v_Users				users;			// vector des utilisateurs connectés
+
 	int					timeout;		// ms avant de timeout
 }						t_data;
 
