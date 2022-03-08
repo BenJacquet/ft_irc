@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/07 16:10:13 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/08 13:30:44 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ class Channel
 		void msg(Users receiver, std::string msg);
 		void query(Users receiver, std::string msg = std::string());
 		void whois(Users to_stalk);
-		void ignore(Users to_ignore);
-		void away(std::string msg );
-		void away();
+		void ignore(Users want_to_ignore, Users to_ignore);
+		void away(Users to_away, std::string msg);
+		void away(Users to_not_away);
 		void part(std::string chan_name);
 		void quit();
 		void invite(Users to_inv, std::string chan_name);

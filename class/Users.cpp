@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/07 16:34:18 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:23:34 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-Users::Users() : _operator(false), _socket_info()
+Users::Users()
 {
 }
 
-Users::Users(size_t id) : _operator(false), _id(id)
-{}
+Users::Users(int fd, sockaddr sock_addr)
+{
+	this->_fd = fd;
+	this->_socket_addr = sock_addr;
+}
 
 Users::Users( const Users & src )
 {
@@ -47,7 +50,7 @@ Users &				Users::operator=( Users const & rhs )
 	if ( this != &rhs )
 	{
 		this->_operator = rhs._operator;
-		this->_socket_info = rhs._socket_info;
+		this->_socket_addr = rhs._socket_addr;
 	}
 	return *this;
 }
@@ -62,7 +65,7 @@ Users &				Users::operator=( Users const & rhs )
  */
 bool operator==(Users &a, Users &b)
 {
-	if (a.getId() != b.getId())
+	if (a.getUid() != b.getUid())
 		return false;
 	return true;
 }
@@ -76,24 +79,55 @@ bool operator!=(Users &a, Users &b)
 ** --------------------------------- METHODS ----------------------------------
 */
 
+void			Users::msg(Users to_send, std:string content)
+{
+	
+}
+
+/*
+** --------------------------------- ACCESSOR ---------------------------------
+*/
+
+/*
+** 					GETTERS					**
+*/
+
+int			Users::getUid() const
+{
+	return this->_uid;
+}
+
+int				Users::getFd() const
+{
+	return this->_fd;
+}
+
+int				Users::getOperator() const
+{
+	return this->_operator;
+}
+
+std::string		Users::getReal_name() const
+{}
+
 std::string	Users::getNick_name() const
 {
-	return this->nick_name;
+	return this->_nick_name;
 }
 
-addrinfo	Users::getSocket_info() const
+std::string		Users::getPw() const
 {
-	return this->_socket_info;
+	return this->_pw;
 }
 
-size_t	Users::getId() const
+int				Users::getReg_status() const
 {
-	return this->_id;
+	return this->_reg_status;
 }
 
-void Users::setNick_name(std::string new_nick_name)
+sockaddr	Users::getSocket_addr() const
 {
-	this->nick_name = new_nick_name;
+	return this->_socket_addr;
 }
 
 bool Users::is_ignored(Users is_in_blacklist)
@@ -110,8 +144,45 @@ bool Users::is_ignored(Users is_in_blacklist)
 }
 
 /*
-** --------------------------------- ACCESSOR ---------------------------------
+** 					SETTERS					**
 */
+
+void			Users::setReal_name(std::string new_real_name)
+{
+	this->_real_name = new_real_name;
+}
+
+void			Users::setNick_name(std::string new_nick_name)
+{
+	this->_nick_name = new_nick_name;
+}
+
+void			Users::setPw(std::string new_pw)
+{
+	this->_pw = new_pw;
+}
+
+void			Users::setReg_status(int new_status)
+{
+	this->_reg_status = new_status;
+}
+
+void			Users::add_blacklist(Users to_add)
+{
+	if (this->_ignore_blacklist.size() > 0)
+	{
+		std::vector<Users>::iterator it = this->_ignore_blacklist.begin();
+		for(; it != this->_ignore_blacklist.end(); it++)
+		{
+			if (*it == to_add)
+			{
+				CERR(RED, to_add.getReal_name() << "is already in the black list");
+				return ;
+			}
+		}
+	}
+	this->_ignore_blacklist.push_back(to_add);
+}
 
 
 /* ************************************************************************** */

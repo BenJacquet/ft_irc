@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/07 16:48:37 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/08 13:32:42 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void Channel::ignore(Users want_to_ignore, Users to_ignore)
  * 
  * @param msg the defined msg
  */
-void Channel::away(std::string msg = "I'm actually in AFK.")
+void Channel::away(Users to_away, std::string msg = "I'm currently AFK")
 {
 	
 }
@@ -135,7 +135,7 @@ void Channel::away(std::string msg = "I'm actually in AFK.")
  * @brief users go back in normal mode (not AFK)
  * 
  */
-void Channel::away()
+void Channel::away(Users to_away)
 {}
 
 /**
