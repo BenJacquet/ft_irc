@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/09 15:41:43 by jabenjam         ###   ########.fr       */
+/*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
+/*   Updated: 2022/03/09 16:40:58 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-int main(int ac, char **av)
+void	command_nick(t_data &data, Message &cmd)
 {
-	t_data data;
+	registration(data, cmd.getSender());
+}
 
-	if (parse_arguments(ac, av, data) != 0 || addrinfo_setup(data, av) != 0 || server_setup(data) != 0)
-		return (1);
-	COUT(L_CYAN, ASCII_HEADER);
-	server_loop(data);
-	return (0);
+void	command_user(t_data &data, Message &cmd)
+{
+	registration(data, cmd.getSender());
+}
+
+void	initialize_command_map(t_data &data)
+{
+	data.commands.clear();
+	data.commands.insert(p_Command("NICK", &command_nick));
+	data.commands.insert(p_Command("USER", &command_user));
 }

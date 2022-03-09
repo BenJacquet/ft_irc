@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/08 16:41:01 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/09 16:41:11 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
+#include <sstream>
 #include <map>
 #include <vector>
 #include <list>
@@ -33,8 +34,11 @@
 
 #include <string.h>
 
-#include "../class/Channel.hpp"
+// #include "../class/Channel.hpp"
 #include "../class/Users.hpp"
+#include "../class/Message.hpp"
+
+class Message;
 
 // DEFINES
 
@@ -42,8 +46,95 @@
 
 #define BACKLOG 10
 
-#define COUT(COLOR, DATA) std::cout << COLOR << DATA << RESET << std::endl
-#define CERR(COLOR, DATA) std::cout << COLOR << DATA << RESET << std::endl
+#define COUT(COLOR, DATA) (std::cout << COLOR << DATA << RESET << std::endl)
+#define CERR(COLOR, DATA) (std::cout << COLOR << DATA << RESET << std::endl)
+
+// TYPEDEFS
+
+typedef std::vector<struct pollfd>			v_pollfds;
+typedef std::vector<Users> 					v_Users;
+typedef struct std::pair<std::string, void (*)(struct s_data&, Message&)>	p_Command;
+typedef std::map<std::string, void (*)(struct s_data&, Message&)>	m_Commands;
+
+
+// STRUCTS
+
+typedef struct			s_data
+{
+	uint16_t			port;			// port d'ecoute (SERVEUR)
+	int					sock_fd;		// fd du socket d'entree (SERVEUR)
+	struct addrinfo		*bind_addr;		// socket (SERVEUR)
+	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
+	// v_Users				users;			// vector des utilisateurs connectés
+	m_Commands			commands;
+	int					timeout;		// ms avant de timeout
+}						t_data;
+
+
+// PROTOTYPES
+
+	/* FD MANAGEMENT */
+
+		v_pollfds::iterator find_fd(t_data &data, int fd); //AUTHOR: jabenjam
+		void remove_fd(t_data &data, int fd); //AUTHOR: jabenjam
+		void add_fd(t_data &data, int fd); //AUTHOR: jabenjam
+		int new_connection(t_data &data); //AUTHOR: jabenjam
+
+	/* IO OPERATIONS */
+
+		void io_loop(t_data &data, v_pollfds::iterator it); //AUTHOR: jabenjam
+		int receive_packets(t_data &data, int client); //AUTHOR: jabenjam
+		int send_packets(int client, std::string to_send); //AUTHOR: thoberth
+
+	/* SERVER SETUP */
+
+		int server_setup(t_data &data); //AUTHOR: jabenjam
+		int addrinfo_setup(t_data &data, char **av); //AUTHOR: jabenjam
+
+	/* SERVER LOOP */
+
+		int server_loop(t_data &data); //AUTHOR: jabenjam
+		int poll_setup(t_data &data); //AUTHOR: jabenjam
+
+	/* SERVER CONTROLL */
+
+		int command_loop(t_data &data); //AUTHOR: jabenjam
+
+	/* SERVER DISPLAY */
+
+		void put_disconnection(int client_fd); //AUTHOR: jabenjam
+		void put_connection(int client_fd); //AUTHOR: jabenjam
+		void put_usage(); //AUTHOR: jabenjam
+		void put_error(std::string const error); //AUTHOR: jabenjam
+
+	/* USER MANAGEMENT */
+
+		void registration(t_data &data, int client_fd); //AUTHOR: jabenjam
+
+	/* ARGUMENT PARSING */
+
+		int parse_arguments(int ac, char **av, t_data &data); //AUTHOR: jabenjam
+		bool valid_port(std::string av, t_data &data); //AUTHOR: jabenjam
+
+	/* COMMAND PARSING */
+
+		void command_parsing(t_data &data, int client, char buffer[BUFFERSIZE]); //AUTHOR: jabenjam
+		void initialize_command_map(t_data &data); //AUTHOR: jabenjam
+
+	/* COMMANDS*/
+
+		void	command_nick(t_data &data, Message &cmd);
+		void	command_user(t_data &data, Message &cmd);
+
+	/* UTILS */
+	
+		int ft_strlen(const char *str); //AUTHOR: thoberth
+
+// TEMPLATES
+
+// DEFINES NUMERIC REPLIES
+
+#define RPL_WELCOME(USER) ("Welcome to the Internet Relay Network " + USER + "\n")
 
 #define RESET		"\033[0m"			/* Reset*/
 #define BLACK		"\033[30m"			/* Black */
@@ -68,73 +159,6 @@
 #define L_BLUE		"\033[94m"			/* Light Blue */
 #define L_MAGENTA	"\033[95m"			/* Light Magenta */
 #define L_CYAN		"\033[96m"			/* Light Cyan */
-
-// TYPEDEFS
-
-typedef std::vector<struct pollfd>	v_pollfds;
-typedef std::vector<Users> 			v_Users;
-
-// STRUCTS
-
-typedef struct			s_data
-{
-	uint16_t			port;			// port d'ecoute (SERVEUR)
-	int					sock_fd;		// fd du socket d'entree (SERVEUR)
-	struct addrinfo		*bind_addr;		// socket (SERVEUR)
-	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
-	// v_Users				users;			// vector des utilisateurs connectés
-
-	int					timeout;		// ms avant de timeout
-}						t_data;
-
-// PROTOTYPES
-
-	/* FD MANAGEMENT */
-
-		v_pollfds::iterator find_fd(t_data &data, int fd); //AUTHOR: jabenjam
-		void remove_fd(t_data &data, int fd); //AUTHOR: jabenjam
-		void add_fd(t_data &data, int fd); //AUTHOR: jabenjam
-		int new_connection(t_data &data); //AUTHOR: jabenjam
-
-	/* IO OPERATIONS */
-
-		void io_loop(t_data &data, v_pollfds::iterator it); //AUTHOR: jabenjam
-		int receive_packets(t_data &data, int client); //AUTHOR: jabenjam
-		int send_packets(int client, char *to_send); //AUTHOR: thoberth
-
-	/* SERVER SETUP */
-
-		int server_setup(t_data &data); //AUTHOR: jabenjam
-		int addrinfo_setup(t_data &data, char **av); //AUTHOR: jabenjam
-
-	/* SERVER LOOP */
-
-		int server_loop(t_data &data); //AUTHOR: jabenjam
-		int poll_setup(t_data &data); //AUTHOR: jabenjam
-
-	/* SERVER DISPLAY */
-
-		void put_disconnection(int client_fd); //AUTHOR: jabenjam
-		void put_connection(int client_fd); //AUTHOR: jabenjam
-		void put_usage(); //AUTHOR: jabenjam
-		void put_error(std::string const error); //AUTHOR: jabenjam
-
-	/* ARGUMENT PARSING */
-
-		int parse_arguments(int ac, char **av, t_data &data); //AUTHOR: jabenjam
-		bool valid_port(std::string av, t_data &data); //AUTHOR: jabenjam
-
-	/* COMMAND PARSING */
-
-		int command_loop(t_data &data); //AUTHOR: jabenjam
-
-	/* UTILS */
-	
-		int ft_strlen(char *str); //AUTHOR: thoberth
-
-// TEMPLATES
-
-
 
 // HEADER
 

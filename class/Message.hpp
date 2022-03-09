@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Message.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/09 15:41:43 by jabenjam         ###   ########.fr       */
+/*   Created: 2022/03/09 16:21:31 by jabenjam          #+#    #+#             */
+/*   Updated: 2022/03/09 16:38:46 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+
 #include "../incs/ft_irc.hpp"
 
-int main(int ac, char **av)
+class Message
 {
-	t_data data;
-
-	if (parse_arguments(ac, av, data) != 0 || addrinfo_setup(data, av) != 0 || server_setup(data) != 0)
-		return (1);
-	COUT(L_CYAN, ASCII_HEADER);
-	server_loop(data);
-	return (0);
-}
+	private:
+		int			_sender;
+		int			_destination;
+		std::string	_payload;
+	public:
+		//CANONICAL FORM COMPONENTS
+		Message(int sender, std::string payload);
+		Message(const Message & src);
+		~Message();
+		Message & operator=(const Message & src);
+		//OTHER COMPONENTS
+		int getSender() const;
+		int getDestination() const;
+		std::string getPayload() const;
+};

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/08 16:44:10 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:44:26 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int addrinfo_setup(t_data &data, char **av)
 int server_setup(t_data &data)
 {
 	data.poll_fds.clear();
-	data.timeout = (3 * 60 * 1000);
+	data.timeout = (5 * 60 * 1000);
 	// data.users.clear();
 	// data.unregistered.clear();
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
@@ -56,8 +56,13 @@ int server_setup(t_data &data)
 		put_error("socket()");
 		return (1);
 	}
-	int no = 0;
-	setsockopt(data.sock_fd, IPPROTO_IPV6, IPV6_V6ONLY, (void *)&no, sizeof(no));
+	int no = 0, yes = 1;
+	if (setsockopt(data.sock_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1
+		|| setsockopt(data.sock_fd, IPPROTO_IPV6, IPV6_V6ONLY, (void *)&no, sizeof(no)))
+	{
+		put_error("setsockopt()");
+		return (1);
+	}
 	COUT(BLUE, data.sock_fd);
 	add_fd(data, data.sock_fd);
 	if (bind(data.sock_fd, data.bind_addr->ai_addr, data.bind_addr->ai_addrlen) == -1)

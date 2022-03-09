@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/08 16:30:22 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:17:52 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@
  * @param client client to send packets
  * @param to_send the param to send to client
  */
-int send_packets(int client, char *to_send)
+int send_packets(int client, std::string to_send)
 {
-	int len = ft_strlen(to_send);
+	int len = to_send.length();
 	int ret = 0;
 	while (ret < len && ret != -1)
-		ret += send(client, to_send + ret, len - ret, MSG_NOSIGNAL);
+		ret += send(client, to_send.c_str() + ret, len - ret, MSG_NOSIGNAL);
 	if (ret == -1)
 		CERR(YELLOW, "couldn't send packet!");
 	else
 	{
-		COUT(L_GREEN, "----> sent " << ret << " bytes to " << client << ":");
-		COUT(L_GREEN, to_send);
+		COUT(CYAN, "----> sent " << ret << " bytes to " << client << ":");
+		COUT(CYAN, to_send);
 	}
 	return (ret);
 }
@@ -44,12 +44,12 @@ int send_packets(int client, char *to_send)
  */
 int receive_packets(t_data &data, int client)
 {
-	char buff[BUFFERSIZE]; // peut etre passer sur un vecteur contenant les paquets entiers
+	char buffer[BUFFERSIZE]; // peut etre passer sur un vecteur contenant les paquets entiers
+	//std::istringstream buffer;
 	int received = 0;
 
-	std::memset(buff, 0, BUFFERSIZE);
-	static_cast<void>(data);
-	received = recv(client, buff, BUFFERSIZE, 0);
+	std::memset(buffer, 0, BUFFERSIZE);
+	received = recv(client, buffer, BUFFERSIZE, 0);
 	if (received == 0)
 	{
 		COUT(CYAN, received);
@@ -59,8 +59,8 @@ int receive_packets(t_data &data, int client)
 	else if (received != -1)
 	{
 		COUT(L_GREEN, "<---- received " << received << " bytes from " << client << ":");
-		COUT(L_GREEN, buff);
-		send_packets(client, buff);
+		COUT(L_GREEN, buffer);
+		command_parsing(data, client, buffer);
 	}
 	return (received);
 }

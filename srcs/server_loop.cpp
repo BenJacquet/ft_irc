@@ -6,11 +6,14 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/08 16:43:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:44:45 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
+
+struct addrinfo	*listen_socket;
+int 			listen_fd;
 
 /**
  * @brief polls all fds to check if one had any expected event
@@ -37,7 +40,7 @@ int poll_setup(t_data &data)
 	}
 	for (it = data.poll_fds.begin(); it != end; it++)
 	{
-		COUT(WHITE, "(" << &it << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &end << ")");
+		// COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*end) << ")");
 		if (it->revents == 0)
 			continue;
 		else
@@ -64,14 +67,14 @@ int poll_setup(t_data &data)
 
 void	handle_signals(int signal)
 {
-	if (signal == SIGQUIT)
+	if (signal == SIGQUIT || signal == SIGINT)
 	{
-		COUT(WHITE, "\b\bprogram terminated by ctrl-\\");
-		exit(1);
-	}
-	else if (signal == SIGINT)
-	{
-		COUT(WHITE, "\b\bprogram interrupted by ctrl-c");
+		if (signal == SIGQUIT)
+			COUT(WHITE, "\b\bprogram terminated by ctrl-\\");
+		else
+			COUT(WHITE, "\b\bprogram interrupted by ctrl-c");
+		freeaddrinfo(listen_socket);
+		close(listen_fd);
 		exit(1);
 	}
 }
@@ -90,6 +93,9 @@ void	signal_manager()
  */
 int server_loop(t_data &data)
 {
+	listen_socket = data.bind_addr;
+	listen_fd = data.sock_fd;
+	initialize_command_map(data);
 	while (1)
 	{
 		signal_manager();
@@ -98,5 +104,7 @@ int server_loop(t_data &data)
 		if (poll_setup(data) == 1)
 			return (1);
 	}
+	freeaddrinfo(data.bind_addr);
+	close(data.sock_fd);
 	return (0);
 }
