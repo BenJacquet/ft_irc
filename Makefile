@@ -6,11 +6,15 @@ SRCS = srcs/main.cpp\
 		srcs/io_operations.cpp\
 		srcs/server_setup.cpp\
 		srcs/server_loop.cpp\
+		srcs/server_control.cpp\
 		srcs/server_display.cpp\
-		srcs/arg_parsing.cpp\
-		srcs/command_parsing.cpp
+		srcs/argument_parsing.cpp\
+		srcs/command_parsing.cpp\
+		srcs/commands.cpp\
+		class/Message.cpp
 
-INCS = incs/ft_irc.hpp
+INCS = incs/ft_irc.hpp\
+		class/Message.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
