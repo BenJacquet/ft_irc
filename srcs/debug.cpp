@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   debug.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/09 16:49:16 by jabenjam         ###   ########.fr       */
+/*   Created: 2022/03/11 11:45:28 by jabenjam          #+#    #+#             */
+/*   Updated: 2022/03/11 11:56:06 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-int main(int ac, char **av)
+void	print_pollfd(t_data &data)
 {
-	t_data data;
+	v_pollfds::iterator it = data.poll_fds.begin();
+	v_pollfds::iterator end = data.poll_fds.end();
 
-	if (parse_arguments(ac, av, data) != 0 || addrinfo_setup(data, av) != 0 || server_setup(data) != 0)
-		return (1);
-	COUT(L_CYAN, ASCII_HEADER);
-	server_loop(data);
-	return (0);
+	COUT(YELLOW, "pollfd content:");
+	for (; it != end; it++)
+		COUT(YELLOW, "(" << &(*it) << ") - " << it->fd);
 }

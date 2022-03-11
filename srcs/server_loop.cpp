@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/09 15:44:45 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 12:08:09 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ int poll_setup(t_data &data)
 		CERR(YELLOW, "poll() timeout.");
 		return (1);
 	}
-	for (it = data.poll_fds.begin(); it != end; it++)
+	for (it = data.poll_fds.begin(), end = data.poll_fds.end(); it != end; it++)
 	{
-		// COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*end) << ")");
+		COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*end) << ")");
+		//print_pollfd(data);
 		if (it->revents == 0)
 			continue;
 		else
@@ -53,6 +54,7 @@ int poll_setup(t_data &data)
 					if (new_connection(data) == -1)
 						break;
 				}
+				it = data.poll_fds.begin();
 				end = data.poll_fds.end();
 			}
 			else

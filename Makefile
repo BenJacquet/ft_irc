@@ -11,10 +11,11 @@ SRCS = srcs/main.cpp\
 		srcs/argument_parsing.cpp\
 		srcs/command_parsing.cpp\
 		srcs/commands.cpp\
+		srcs/debug.cpp\
 		class/Message.cpp
 
 INCS = incs/ft_irc.hpp\
-		class/Message.cpp
+		class/Message.hpp
 
 OBJS = $(SRCS:.cpp=.o)
 

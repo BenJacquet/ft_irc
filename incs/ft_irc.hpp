@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/09 16:41:11 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 12:15:01 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,18 @@ typedef struct			s_data
 
 	/* COMMANDS*/
 
-		void	command_nick(t_data &data, Message &cmd);
-		void	command_user(t_data &data, Message &cmd);
+		void	command_nick(t_data &data, Message &cmd); //AUTHOR: jabenjam
+		void	command_user(t_data &data, Message &cmd); //AUTHOR: jabenjam
+		void	command_pass(t_data &data, Message &cmd); //AUTHOR: jabenjam
+		void	command_die(t_data &data, Message &cmd);
 
 	/* UTILS */
 	
 		int ft_strlen(const char *str); //AUTHOR: thoberth
+
+	/* DEBUG */
+
+		void print_pollfd(t_data &data); //AUTHOR: jabenjam
 
 // TEMPLATES
 
