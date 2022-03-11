@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 14:00:28 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 17:33:56 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,10 @@ typedef struct			s_data
 	int					sock_fd;		// fd du socket d'entree (SERVEUR)
 	struct addrinfo		*bind_addr;		// socket (SERVEUR)
 	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
-	// v_Users				users;			// vector des utilisateurs connectés
+	v_Users				users;			// vector des utilisateurs connectés
 	m_Commands			commands;
 	int					timeout;		// ms avant de timeout
 }						t_data;
-
 
 // PROTOTYPES
 
@@ -83,8 +82,8 @@ typedef struct			s_data
 
 	/* IO OPERATIONS */
 
-		void io_loop(t_data &data, v_pollfds::iterator it); //AUTHOR: jabenjam
-		int receive_packets(t_data &data, int client); //AUTHOR: jabenjam
+		void io_loop(t_data &data, Users& client); //AUTHOR: jabenjam
+		int receive_packets(t_data &data, Users* client); //AUTHOR: jabenjam
 		int send_packets(int client, std::string to_send); //AUTHOR: thoberth
 
 	/* SERVER SETUP */
@@ -110,7 +109,7 @@ typedef struct			s_data
 
 	/* USER MANAGEMENT */
 
-		void registration(t_data &data, int client_fd); //AUTHOR: jabenjam
+		void registration(t_data &data, Users *client); //AUTHOR: jabenjam - thoberth
 
 	/* ARGUMENT PARSING */
 
@@ -119,8 +118,9 @@ typedef struct			s_data
 
 	/* COMMAND PARSING */
 
-		void command_parsing(t_data &data, int client, char buffer[BUFFERSIZE]); //AUTHOR: jabenjam
+		void command_parsing(t_data &data, Users* client, char buffer[BUFFERSIZE]); //AUTHOR: jabenjam
 		void initialize_command_map(t_data &data); //AUTHOR: jabenjam
+		std::vector<std::string> parse_line(const std::string &line);
 
 	/* COMMANDS*/
 
@@ -132,6 +132,7 @@ typedef struct			s_data
 	/* UTILS */
 
 		int ft_strlen(const char *str); //AUTHOR: thoberth
+		Users &find_client(t_data & data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
 
 	/* DEBUG */
 

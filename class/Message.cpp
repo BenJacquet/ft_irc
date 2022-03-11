@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:22:10 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/09 16:39:13 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:04:19 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Message.hpp"
 
-Message::Message(int sender, std::string payload)
+Message::Message(Users* sender, std::string payload)
 :_sender(sender)
-,_destination(3)
+,_destination(sender) /* a initialiser apres parsing */
 ,_payload(payload)
 {
 	//std::cout << "Default constructor for Message called" << std::endl
@@ -38,12 +38,12 @@ Message & Message::operator=(const Message &src)
 	return (*this);
 }
 
-int Message::getSender() const
+Users* Message::getSender() const
 {
 	return (this->_sender);
 }
 
-int Message::getDestination() const
+Users* Message::getDestination() const
 {
 	return (this->_destination);
 }

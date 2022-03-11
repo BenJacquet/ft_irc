@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 13:53:54 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 17:45:47 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int poll_setup(t_data &data)
 {
 	int poll_r = poll(reinterpret_cast<struct pollfd *>(&data.poll_fds[0]), data.poll_fds.size(), data.timeout);
 	v_pollfds::iterator it = data.poll_fds.begin();
-	v_pollfds::iterator end = data.poll_fds.end();
 
 	if (poll_r < 0)
 	{
@@ -38,27 +37,41 @@ int poll_setup(t_data &data)
 		CERR(YELLOW, "poll() timeout.");
 		return (1);
 	}
-	for (it = data.poll_fds.begin(), end = data.poll_fds.end(); it != end; it++)
+	for (; it != data.poll_fds.end(); it++)
 	{
+		//COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
+		std::cout << "socket_actuel = " << it->fd << std::endl;
+		// std::cout << "test 1\n";
 		if (it->revents == 0)
 			continue;
 		else
 		{
+			// std::cout << "test 2\n";
 			if (it->fd == data.sock_fd)
 			{
-				COUT(WHITE, "listening socket is readable");
+				// std::cout << "test 3\n";
+				//COUT(WHITE, "listening socket is readable");
 				while (1)
 				{
+					// std::cout << "test 4\n";
+					if (data.poll_fds.size() == data.poll_fds.capacity())
+					{
+						// std::cout << "test 5\n";
+						data.poll_fds.reserve(data.poll_fds.size() * 2);
+						it = data.poll_fds.begin();
+					}
 					if (new_connection(data) == -1)
+					{
+						// std::cout << "test 6\n";
 						break;
+					}
 				}
-				it = data.poll_fds.begin();
-				end = data.poll_fds.end();
 			}
 			else
 			{
+				// std::cout << "test 7\n";
 				COUT(WHITE, it->fd << " is readable");
-				io_loop(data, it);
+				io_loop(data, find_client(data, it->fd));
 			}
 		}
 	}
@@ -96,6 +109,7 @@ int server_loop(t_data &data)
 	listen_socket = data.bind_addr;
 	listen_fd = data.sock_fd;
 	initialize_command_map(data);
+	data.users.clear();
 	while (1)
 	{
 		signal_manager();

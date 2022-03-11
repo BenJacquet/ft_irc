@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/11 13:28:34 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:54:08 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include <string>
 # include "../incs/ft_irc.hpp"
+
 /*
 0000 0111
 2^2 PASS_W
@@ -39,7 +40,7 @@
 class Users
 {
 	public:
-		Users( int fd, sockaddr sock_addr);
+		Users( int fd, sockaddr_in6 sock_addr);
 		Users( Users const & src );
 		~Users();
 
@@ -50,11 +51,14 @@ class Users
 		int					_uid;
 		int					_fd;
 		int					_operator;
+		std::string			_host_name;
+		std::string			_user_name;
+		std::string			_full_id; /* nickname!user_name@hostname */
 		std::string			_real_name;
 		std::string			_nick_name;
 		std::string			_pw;
 		int					_reg_status;
-		struct sockaddr		_socket_addr;
+		struct sockaddr_in6		_socket_addr;
 		std::vector<Users>	_ignore_blacklist;
 
 	public:
@@ -64,11 +68,14 @@ class Users
 		int				getUid() const;
 		int				getFd() const;
 		int				getOperator() const;
+		std::string		getHost_name() const;
+		std::string		getUser_name() const;
+		std::string		getFull_id() const;
 		std::string		getReal_name() const;
 		std::string		getNick_name() const;
 		std::string		getPw() const;
 		int				getReg_status() const;
-		sockaddr		getSocket_addr() const;
+		sockaddr_in6	getSocket_addr() const;
 		bool			is_ignored(Users is_in_blacklist);
 		/*		SETTERS		*/
 		void			setReal_name(std::string new_real_name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/09 15:17:52 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 17:33:35 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ int send_packets(int client, std::string to_send)
  * @param client fd to receive from
  * @return amount of bytes received
  */
-int receive_packets(t_data &data, int client)
+int receive_packets(t_data &data, Users* client)
 {
 	char buffer[BUFFERSIZE]; // peut etre passer sur un vecteur contenant les paquets entiers
 	//std::istringstream buffer;
 	int received = 0;
 
 	std::memset(buffer, 0, BUFFERSIZE);
-	received = recv(client, buffer, BUFFERSIZE, 0);
+	received = recv(client->getFd(), buffer, BUFFERSIZE, 0);
 	if (received == 0)
 	{
 		COUT(CYAN, received);
-		put_disconnection(client);
-		remove_fd(data, client);
+		put_disconnection(client->getFd());
+		remove_fd(data, client->getFd());
 	}
 	else if (received != -1)
 	{
@@ -71,12 +71,13 @@ int receive_packets(t_data &data, int client)
  * @param data 
  * @param it iterator pointing to fd
  */
-void io_loop(t_data &data, v_pollfds::iterator it)
+void io_loop(t_data &data, Users& client)
 {
 	int i = 0;
+	COUT(WHITE, "IOLOOP CLIENT FD=" << client.getFd());
 	while (1)
 	{
-		if ((i = receive_packets(data, it->fd) < 1))
+		if ((i = receive_packets(data, &client) < 1))
 			return;
 		// if (send_packets(it->fd) == -1)
 	}

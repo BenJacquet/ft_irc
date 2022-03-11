@@ -3,26 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   command_parsing.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 13:35:42 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:01:22 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-void	registration(t_data &data, int client_fd)
+void	registration(t_data &data, Users *client)
 {
-	std::string user = "jabenjam!jabenjam@localhost";
-	std::string	nick = "jabenjam";
-	std::string host = "localhost";
-	send_packets(client_fd, RPL_WELCOME(host, nick, user));
-	add_fd(data, client_fd);
+	// std::string host = "localhost";
+	// std::string nick = "jabenjam";
+	// std::string user = "jabenjam!jabenjam@localhost";
+	send_packets(client->getFd(), RPL_WELCOME(client->getHost_name(), client->getNick_name(),\
+		client->getFull_id()));
+	add_fd(data, client->getFd());
 }
 
+std::vector<std::string>	parse_line(const std::string &line)
+{
+	std::istringstream	line_stream(line);
 
-void	command_parsing(t_data &data, int client, char buffer[BUFFERSIZE])
+	std::vector<std::string> words;
+	for (int z = 0; std::getline(line_stream, words[z], ' '); z++)
+		COUT(CYAN, "words[" << z << "] - " << words[z]);
+	return (words);
+}
+
+void	command_parsing(t_data &data, Users *client, char buffer[BUFFERSIZE])
 {
 	std::string line;
 	std::istringstream buffer_stream(buffer);

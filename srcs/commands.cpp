@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 13:57:43 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 16:01:48 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-void	command_nick(t_data &data, Message &cmd)
+void	command_nick(t_data &data, Message &cmd) // author thoberth
 {
 	(void)data;
-	(void)cmd;
-	// send_packets(cmd.getSender(), cmd.getPayload());
-	// registration(data, cmd.getSender());
+	std::vector<std::string> args = parse_line(cmd.getPayload());
 	// edit nick of sender
 }
 
@@ -36,7 +34,7 @@ void	command_pass(t_data &data, Message &cmd)
 void	command_ping(t_data &data, Message &cmd)
 {
 	(void)data;
-	send_packets(cmd.getSender(), "localhost");
+	send_packets(cmd.getSender()->getFd(), "localhost");
 	// check user password and authenticate if valid
 }
 
