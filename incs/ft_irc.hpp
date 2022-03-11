@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 12:15:01 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:52:44 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ typedef struct			s_data
 		void	command_die(t_data &data, Message &cmd);
 
 	/* UTILS */
-	
+
 		int ft_strlen(const char *str); //AUTHOR: thoberth
 
 	/* DEBUG */
@@ -140,7 +140,7 @@ typedef struct			s_data
 
 // DEFINES NUMERIC REPLIES
 
-#define RPL_WELCOME(USER) ("Welcome to the Internet Relay Network " + USER + "\n")
+#define RPL_WELCOME(HOST, NICK, USER) (":" + HOST + " " + "001" + " " + NICK + " :" + "Welcome to the Internet Relay Network " + USER + "\n")
 
 #define RESET		"\033[0m"			/* Reset*/
 #define BLACK		"\033[30m"			/* Black */

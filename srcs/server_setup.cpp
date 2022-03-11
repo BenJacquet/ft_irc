@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 11:55:55 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:53:48 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int server_setup(t_data &data)
 	}
 	COUT(BLUE, data.sock_fd);
 	add_fd(data, data.sock_fd);
-	print_pollfd(data);
 	if (bind(data.sock_fd, data.bind_addr->ai_addr, data.bind_addr->ai_addrlen) == -1)
 	{
 		put_error("bind()");

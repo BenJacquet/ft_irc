@@ -71,13 +71,16 @@ USERS WORKFLOW :
 - Enregistrement quand l'user fait /msg nickserver register [password] (RFC 2812 - 3.1.1)
 - Check si le nickname est disponible (RFC 2812 - 3.1.2)
 - User qui fait /msg nickserver [password]
+- copie du sockadrr et du fd dans l'user qui existe si 
 - Quand l'utilisateur est registered -> ajout du flag PASS
 - Comparaison avec le nickname et le password pour l'authentifier
 
 RESSOURCES UTILES :
  - (RFC 2812) https://datatracker.ietf.org/doc/html/rfc2812
+ - (Server-Client communication) http://chi.cs.uchicago.edu/chirc/irc_examples.html
  - (C networking introduction) https://www.gta.ufrj.br/ensino/eel878/sockets/index.html
  - (To know) https://ircgod.com/docs/irc/to_know/
  - (ircgod) https://ircgod.com/
  - (channel modes) https://wiki.zandronum.com/IRC:Channel_Modes
  - (commands) https://www.techbull.com/techbull/guide/internet/irccommande.html
+ - (address reuse) https://hea-www.harvard.edu/~fine/Tech/addrinuse.html

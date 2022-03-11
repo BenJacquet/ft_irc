@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 11:45:22 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:35:42 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	registration(t_data &data, int client_fd)
 {
-	std::string nick = "jabenjam!jabenjam@localhost";
-	send_packets(client_fd, RPL_WELCOME(nick));
+	std::string user = "jabenjam!jabenjam@localhost";
+	std::string	nick = "jabenjam";
+	std::string host = "localhost";
+	send_packets(client_fd, RPL_WELCOME(host, nick, user));
 	add_fd(data, client_fd);
 }
 
