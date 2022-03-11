@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/08 13:32:42 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:27:11 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void Channel::msg(Users receiver, std::string msg)
  * @param receiver the user who received the msg
  * @param msg the msg
  */
-void Channel::query(Users receiver, std::string msg = std::string())
+void Channel::query(Users receiver, std::string msg)
 {
 
 }

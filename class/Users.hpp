@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/08 16:21:25 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:28:34 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ class Users
 
 	public:
 		/*		METHODS		*/
-		void			msg(Users to_send, std::string content);
+		//void			msg(Users to_send, std::string content);
 		/*		GETTERS		*/
 		int				getUid() const;
 		int				getFd() const;

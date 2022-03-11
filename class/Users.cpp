@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/08 16:23:34 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/11 13:28:46 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ bool operator!=(Users &a, Users &b)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void			Users::msg(Users to_send, std:string content)
-{
+// void			Users::msg(Users to_send, std::string content)
+// {
 	
-}
+// }
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------

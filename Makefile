@@ -12,10 +12,12 @@ SRCS = srcs/main.cpp\
 		srcs/command_parsing.cpp\
 		srcs/commands.cpp\
 		srcs/debug.cpp\
-		class/Message.cpp
+		class/Message.cpp\
+		class/Users.cpp
 
 INCS = incs/ft_irc.hpp\
-		class/Message.hpp
+		class/Message.hpp\
+		class/Users.hpp
 
 OBJS = $(SRCS:.cpp=.o)
 
