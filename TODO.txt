@@ -1,20 +1,20 @@
--Gerer des clients multiples et ne jamais attendre/bloquer
+-Gerer des clients multiples et ne jamais attendre/bloquer OK
 
--Ne pas utiliser le fork
+-Ne pas utiliser le fork OK
 
--Toutes les operations doivent etre non bloquantes
+-Toutes les operations doivent etre non bloquantes OK
 
--Seulement 1 poll() ou equivalent toutes les operations I/O
+-Seulement 1 poll() ou equivalent toutes les operations I/O OK
 
--Interdit d'utiliser read/recv sans utiliser poll()
+-Interdit d'utiliser read/recv sans utiliser poll() OK
 
--Definir un client de reference pour la correction
+-Definir un client de reference pour la correction OK (IRSSI)
 
 -Le client doit pouvoir se connecter au serveur sans rencontrer d'erreur
 
 -Aucun crash meme si plus de memoire
 
--Connexions via TCP/IP (v4 ou v6)
+-Connexions via TCP/IP (v4 ou v6) OK
 
 -Fonctionnalités a implémenter :
 	-authentication
@@ -64,6 +64,12 @@ Users :
 (addrinfo?)	socket;
 bool		protocol (ipv4/ipv6);
 (inconnu)	mode (flags operateur, ban);
+
+FIXES :
+- Plusieurs utilisateurs et /disconnect (segfault ou boucle infinie)
+- connect / disconnect / reconnect /reconnect en boucle (segfault)
+- Check si l'uid existe deja
+- generer un nickname si deja pris
 
 USERS WORKFLOW :
 - Utilisateur qui se connecte mais pas encore authentifié stocké dans data.users (RFC 2812 - 3.1)

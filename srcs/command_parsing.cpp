@@ -6,33 +6,28 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 12:07:47 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:46:49 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
-
-void	registration(t_data &data, Users *client)
-{
-	// std::string host = "localhost";
-	// std::string nick = "jabenjam";
-	// std::string user = "jabenjam!jabenjam@localhost";
-	send_packets(client->getFd(), RPL_WELCOME(client->getHost_name(), client->getNick_name(),\
-		client->getFull_id()));
-	add_fd(data, client->getFd());
-}
 
 std::vector<std::string>	parse_line(const std::string &line)
 {
 	std::istringstream	line_stream(line);
 
 	std::vector<std::string> words;
-	for (int z = 0; std::getline(line_stream, words[z], ' '); z++)
+	std::string buffer;
+	for (int z = 0; std::getline(line_stream, buffer, ' '); z++)
+	{
+		words.push_back(buffer);
 		COUT(CYAN, "words[" << z << "] - " << words[z]);
+		buffer.clear();
+	}
 	return (words);
 }
 
-void	command_parsing(t_data &data, Users *client, char buffer[BUFFERSIZE])
+void	command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE])
 {
 	std::string line;
 	std::istringstream buffer_stream(buffer);
@@ -41,7 +36,7 @@ void	command_parsing(t_data &data, Users *client, char buffer[BUFFERSIZE])
 	while (1)
 	{
 		std::getline(buffer_stream, line, '\n');
-		Message	cmd(client, line);
+		Message	cmd(&client, line);
 		if (line.empty() == true)
 		{
 			COUT(YELLOW, "Line is empty");
@@ -51,7 +46,7 @@ void	command_parsing(t_data &data, Users *client, char buffer[BUFFERSIZE])
 		if (line.find("CAP LS", 0) == 0)
 		{
 			COUT(BLUE, "Found CAP LS");
-			continue ;
+			continue;
 		}
 		for (it = data.commands.begin(); it != end; it++)
 		{

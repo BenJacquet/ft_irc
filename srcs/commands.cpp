@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 16:01:48 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:14:48 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,29 @@ void	command_nick(t_data &data, Message &cmd) // author thoberth
 {
 	(void)data;
 	std::vector<std::string> args = parse_line(cmd.getPayload());
+	cmd.getSender()->setReg_status(1);
+	cmd.getSender()->setNick_name(args[1]);
 	// edit nick of sender
 }
 
 void	command_user(t_data &data, Message &cmd)
 {
-	registration(data, cmd.getSender());
+	std::vector<std::string> args = parse_line(cmd.getPayload());
+	if (args.size() < 6)
+		return;
+	cmd.getSender()->setReg_status(2);
+	cmd.getSender()->setUser_name(args[2]);
+	cmd.getSender()->setHostname(args[3]);
+	cmd.getSender()->setReal_name(args[4] + " " + args[5]);
+	cmd.getSender()->setFull_id(args[1] + "!" + args[2] + "@" + args[3]);
+	registration(data, *cmd.getSender());
 	// edit real_name of sender;
 }
 
 void	command_pass(t_data &data, Message &cmd)
 {
-	registration(data, cmd.getSender());
+	registration(data, *cmd.getSender());
+	cmd.getSender()->setReg_status(3);
 	// check user password and authenticate if valid
 }
 

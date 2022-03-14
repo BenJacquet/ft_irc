@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/14 14:34:02 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:04:47 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ Users::Users()
 
 Users::Users(int fd, sockaddr_in6 sock_addr)
 {
+	srand(time(NULL));
+
 	this->_fd = fd;
-	COUT(YELLOW, "this->_fd = " << this->_fd);
 	this->_socket_addr = sock_addr;
+	this->_reg_status = 0;
+	this->_online = 0;
+	this->_uid = static_cast<unsigned int>(random() % __INT_MAX__);
 }
 
 Users::Users( const Users & src )
@@ -50,7 +54,20 @@ Users &				Users::operator=( Users const & rhs )
 {
 	if ( this != &rhs )
 	{
+		this->_uid = rhs._uid;
 		this->_fd = rhs._fd;
+		this->_operator = rhs._operator;
+		this->_online = rhs._online;
+		this->_host_name = rhs._host_name;
+		this->_user_name = rhs._user_name;
+		this->_full_id = rhs._full_id;
+		this->_real_name = rhs._real_name;
+		this->_nick_name = rhs._nick_name;
+		this->_pw = rhs._pw;
+		this->_reg_status = rhs._reg_status;
+		this->_socket_addr = rhs._socket_addr;
+		this->_ignore_blacklist = rhs._ignore_blacklist;
+		
 	}
 	return *this;
 }
@@ -99,7 +116,6 @@ int			Users::getUid() const
 
 int				Users::getFd() const
 {
-	COUT(RED, "fd =" << this->_fd);
 	return this->_fd;
 }
 
@@ -146,6 +162,11 @@ int				Users::getReg_status() const
 sockaddr_in6	Users::getSocket_addr() const
 {
 	return this->_socket_addr;
+}
+
+bool			Users::getOnline() const
+{
+	return this->_online;
 }
 
 bool Users::is_ignored(Users is_in_blacklist)
@@ -207,5 +228,35 @@ void			Users::add_blacklist(Users to_add)
 	this->_ignore_blacklist.push_back(to_add);
 }
 
+void			Users::setOnline(bool online)
+{
+	this->_online = online;
+}
+
+void			Users::setHostname(std::string new_host_name)
+{
+	this->_host_name = new_host_name;
+}
+
+void			Users::setUser_name(std::string new_user_name)
+{
+	this->_user_name = new_user_name;
+}
+
+void			Users::setFull_id(std::string new_full_id)
+{
+	this->_full_id = new_full_id;
+}
+
+
+void			Users::disconnect()
+{
+	this->setOnline(false);
+}
+
+void			Users::connect()
+{
+	this->setOnline(true);
+}
 
 /* ************************************************************************** */

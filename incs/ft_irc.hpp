@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 12:20:56 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:01:11 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
@@ -81,8 +82,8 @@ typedef struct			s_data
 
 	/* IO OPERATIONS */
 
-		void io_loop(t_data &data, Users& client); //AUTHOR: jabenjam
-		int receive_packets(t_data &data, Users* client); //AUTHOR: jabenjam
+		void io_loop(t_data &data, Users &client); //AUTHOR: jabenjam
+		int receive_packets(t_data &data, Users &client); //AUTHOR: jabenjam
 		int send_packets(int client, std::string to_send); //AUTHOR: thoberth
 
 	/* SERVER SETUP */
@@ -108,7 +109,9 @@ typedef struct			s_data
 
 	/* USER MANAGEMENT */
 
-		void registration(t_data &data, Users *client); //AUTHOR: jabenjam - thoberth
+		void registration(t_data &data, Users &client); //AUTHOR: jabenjam - thoberth
+		void disconnect_user(t_data &data, Users &client); //AUTHOR: jabenjam
+		v_Users::iterator find_uid(t_data &data, unsigned int uid); //AUTHOR: jabenjam
 
 	/* ARGUMENT PARSING */
 
@@ -117,21 +120,21 @@ typedef struct			s_data
 
 	/* COMMAND PARSING */
 
-		void command_parsing(t_data &data, Users* client, char buffer[BUFFERSIZE]); //AUTHOR: jabenjam
+		void command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE]); //AUTHOR: jabenjam
 		void initialize_command_map(t_data &data); //AUTHOR: jabenjam
-		std::vector<std::string> parse_line(const std::string &line);
+		std::vector<std::string> parse_line(const std::string &line); //AUTHOR: jabenjam
 
 	/* COMMANDS*/
 
 		void	command_nick(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_user(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_pass(t_data &data, Message &cmd); //AUTHOR: jabenjam
-		void	command_die(t_data &data, Message &cmd);
+		void	command_die(t_data &data, Message &cmd);  //AUTHOR: jabenjam
 
 	/* UTILS */
 
 		int ft_strlen(const char *str); //AUTHOR: thoberth
-		Users &find_client(t_data & data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
+		Users &find_client(t_data &data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
 
 	/* DEBUG */
 

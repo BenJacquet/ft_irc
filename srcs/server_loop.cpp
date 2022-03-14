@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 14:04:06 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:09:06 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int poll_setup(t_data &data)
 	for (; it != data.poll_fds.end(); it++)
 	{
 		//COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
-		std::cout << "socket_actuel = " << it->fd << std::endl;
 		if (it->revents == 0)
 			continue;
 		else
@@ -65,7 +64,10 @@ int poll_setup(t_data &data)
 			{
 				COUT(WHITE, it->fd << " is readable");
 				io_loop(data, find_client(data, it->fd));
-				exit(1);
+				if (data.users.size() == 0)
+					break;
+				print_pollfd(data);
+				print_users(data);
 			}
 		}
 	}
@@ -103,7 +105,6 @@ int server_loop(t_data &data)
 	listen_socket = data.bind_addr;
 	listen_fd = data.sock_fd;
 	initialize_command_map(data);
-	print_users(data); // PRINT DU VECTOR--------------------------
 	while (1)
 	{
 		signal_manager();

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 14:34:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:23:36 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ v_pollfds::iterator find_fd(t_data &data, int fd)
 	for (; it != end; it++)
 	{
 		if (it->fd == fd)
+			return (it);
+	}
+	return (end);
+}
+
+v_Users::iterator find_uid(t_data &data, unsigned int uid)
+{
+	v_users::iterator it = data.users.begin();
+	v_users::iterator end = data.users.end();
+
+	for (; it != end; it++)
+	{
+		if (it->_uid == uid)
 			return (it);
 	}
 	return (end);
@@ -71,6 +84,33 @@ void add_fd(t_data &data, int fd)
 	COUT(CYAN, "added descriptor " << poll.fd << " to pollfd vector ");
 }
 
+void	registration(t_data &data, Users &client)
+{
+	(void)data;
+	send_packets(client.getFd(), RPL_WELCOME(client.getHost_name(), client.getNick_name(),\
+		client.getFull_id()));
+	client.connect();
+}
+
+void	disconnect_user(t_data &data, Users &client)
+{
+	v_Users::iterator it = data.users.begin();
+	v_Users::iterator end = data.users.end();
+
+	put_disconnection(client.getFd());
+	remove_fd(data, client.getFd());
+	if (client.getReg_status() != 3)
+	{
+		for (; it != end; it++)
+		{
+			if (*it == client)
+				data.users.erase(it);
+		}
+	}
+	else
+		client.disconnect();
+}
+
 /**
  * @brief accepts new connections and adds them to the pollfd vector
  * 
@@ -88,9 +128,8 @@ int new_connection(t_data &data)
 		CERR(YELLOW, "accept()");
 		return (-1);
 	}
+	// add_user(data, client_fd, client_sock); // A IMPLEMENTER
 	data.users.push_back(Users(client_fd, client_sock));
-	// data.users[0].setFd(client_fd);
-	print_users(data); // PRINT DU VECTOR--------------------------
 	put_connection(client_fd);
 	add_fd(data, client_fd);
 	return (client_fd);

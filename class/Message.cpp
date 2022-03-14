@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:22:10 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 16:04:19 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:19:43 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Message.hpp"
 
-Message::Message(Users* sender, std::string payload)
+Message::Message(Users *sender, std::string payload)
 :_sender(sender)
 ,_destination(sender) /* a initialiser apres parsing */
 ,_payload(payload)
