@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 17:33:56 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/14 12:20:56 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef std::vector<Users> 					v_Users;
 typedef struct std::pair<std::string, void (*)(struct s_data&, Message&)>	p_Command;
 typedef std::map<std::string, void (*)(struct s_data&, Message&)>	m_Commands;
 
-
 // STRUCTS
 
 typedef struct			s_data
@@ -67,7 +66,7 @@ typedef struct			s_data
 	struct addrinfo		*bind_addr;		// socket (SERVEUR)
 	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
 	v_Users				users;			// vector des utilisateurs connectés
-	m_Commands			commands;
+	m_Commands			commands;		// map qui contient en key->string de la commande et value->fonction pointeur
 	int					timeout;		// ms avant de timeout
 }						t_data;
 
@@ -96,7 +95,7 @@ typedef struct			s_data
 		int server_loop(t_data &data); //AUTHOR: jabenjam
 		int poll_setup(t_data &data); //AUTHOR: jabenjam
 
-	/* SERVER CONTROLL */
+	/* SERVER CONTROL */
 
 		int command_loop(t_data &data); //AUTHOR: jabenjam
 
@@ -137,6 +136,7 @@ typedef struct			s_data
 	/* DEBUG */
 
 		void print_pollfd(t_data &data); //AUTHOR: jabenjam
+		void print_users(t_data &data); //AUTHOR: jabenjam
 
 // TEMPLATES
 

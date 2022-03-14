@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/11 15:56:18 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/14 14:34:02 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ Users::Users()
 Users::Users(int fd, sockaddr_in6 sock_addr)
 {
 	this->_fd = fd;
+	COUT(YELLOW, "this->_fd = " << this->_fd);
 	this->_socket_addr = sock_addr;
 }
 
@@ -49,8 +50,7 @@ Users &				Users::operator=( Users const & rhs )
 {
 	if ( this != &rhs )
 	{
-		this->_operator = rhs._operator;
-		this->_socket_addr = rhs._socket_addr;
+		this->_fd = rhs._fd;
 	}
 	return *this;
 }
@@ -99,6 +99,7 @@ int			Users::getUid() const
 
 int				Users::getFd() const
 {
+	COUT(RED, "fd =" << this->_fd);
 	return this->_fd;
 }
 
@@ -167,6 +168,11 @@ bool Users::is_ignored(Users is_in_blacklist)
 void			Users::setReal_name(std::string new_real_name)
 {
 	this->_real_name = new_real_name;
+}
+
+void			Users::setFd(int fd)
+{
+	this->_fd = fd;
 }
 
 void			Users::setNick_name(std::string new_nick_name)

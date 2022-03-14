@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/11 15:54:08 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/14 14:27:48 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 class Users
 {
 	public:
+		Users(); /* do not use this constructor */
 		Users( int fd, sockaddr_in6 sock_addr);
 		Users( Users const & src );
 		~Users();
@@ -47,7 +48,6 @@ class Users
 		Users &		operator=( Users const & rhs );
 
 	private:
-		Users(); /* do not use this constructor */
 		int					_uid;
 		int					_fd;
 		int					_operator;
@@ -58,7 +58,7 @@ class Users
 		std::string			_nick_name;
 		std::string			_pw;
 		int					_reg_status;
-		struct sockaddr_in6		_socket_addr;
+		struct sockaddr_in6	_socket_addr;
 		std::vector<Users>	_ignore_blacklist;
 
 	public:
@@ -79,6 +79,7 @@ class Users
 		bool			is_ignored(Users is_in_blacklist);
 		/*		SETTERS		*/
 		void			setReal_name(std::string new_real_name);
+		void			setFd(int fd);
 		void			setNick_name(std::string new_nick_name);
 		void			setPw(std::string new_pw);
 		void			setReg_status(int new_status);

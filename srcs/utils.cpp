@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 17:52:36 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:58:09 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int ft_strlen(const char *str)
  * 
  */
 
-Users& find_client(t_data & data, int fd)
+Users& find_client(t_data &data, int fd)
 {
 	v_Users::iterator it = data.users.begin();
 	v_Users::iterator ite = data.users.end();
@@ -41,6 +41,6 @@ Users& find_client(t_data & data, int fd)
 		if (it->getFd() == fd)
 			return (*it);
 	}
-	COUT(WHITE, "end(" << &(*ite) << ") - " << "(" << &(*it) << ") - " << "FIND CLIENT fd to look for=" << fd << " ||| it->fd=" << it->getFd() << " ||| size of user=" << data.users.size());
+	//COUT(WHITE, "end(" << &(*ite) << ") - " << "(" << &(*it) << ") - " << "FIND CLIENT fd to look for=" << fd << " ||| it->fd=" << it->getFd() << " ||| size of user=" << data.users.size());
 	return (*it);
 }

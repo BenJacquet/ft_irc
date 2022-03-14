@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_management.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 17:43:31 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/14 14:34:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,14 @@ int new_connection(t_data &data)
 	struct sockaddr_in6	client_sock;
 	socklen_t			size = sizeof(struct sockaddr_storage);
 	int					client_fd = accept(data.sock_fd, reinterpret_cast<struct sockaddr *>(&client_sock), &size);
-	//CERR(RED, client_fd);
 	if (client_fd < 1)
 	{
 		CERR(YELLOW, "accept()");
 		return (-1);
 	}
 	data.users.push_back(Users(client_fd, client_sock));
+	// data.users[0].setFd(client_fd);
+	print_users(data); // PRINT DU VECTOR--------------------------
 	put_connection(client_fd);
 	add_fd(data, client_fd);
 	return (client_fd);
