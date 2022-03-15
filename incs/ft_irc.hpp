@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 10:45:58 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:56:54 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct			s_data
 
 	/* IO OPERATIONS */
 
-		void io_loop(t_data &data, Users &client); //AUTHOR: jabenjam
+		int io_loop(t_data &data, Users &client); //AUTHOR: jabenjam
 		int receive_packets(t_data &data, Users &client); //AUTHOR: jabenjam
 		int send_packets(int client, std::string to_send); //AUTHOR: thoberth
 

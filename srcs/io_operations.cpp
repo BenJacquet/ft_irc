@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 15:21:40 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:56:26 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int receive_packets(t_data &data, Users &client)
 	received = recv(client.getFd(), buffer, BUFFERSIZE, 0);
 	if (received == 0)
 	{
-		COUT(CYAN, received);
 		disconnect_user(data, client);
+		return (-1);
 	}
 	else if (received != -1)
 	{
@@ -70,13 +70,15 @@ int receive_packets(t_data &data, Users &client)
  * @param data 
  * @param it iterator pointing to fd
  */
-void io_loop(t_data &data, Users &client)
+int io_loop(t_data &data, Users &client)
 {
 	int i = 0;
 	while (1)
 	{
 		if ((i = receive_packets(data, client) < 1))
-			return;
+			return (0);
+		else
+			return (-1);
 		// if (send_packets(it->fd) == -1)
 	}
 }

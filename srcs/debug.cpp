@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:45:28 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 17:02:14 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 12:09:29 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	print_pollfd(t_data &data)
 	v_pollfds::iterator end = data.poll_fds.end();
 
 	COUT(MAGENTA, "pollfd content:");
+	COUT(MAGENTA, "Contains " << data.poll_fds.size() << (data.poll_fds.size() <= 1 ? " fd" : " fds"));
+	COUT(MAGENTA, "Begin is (" << &(*it) << ") - " << "End is (" << &(*end) << ")");
 	for (; it != end; it++)
 		COUT(MAGENTA, "(" << &(*it) << ") - " << it->fd);
 }
@@ -38,6 +40,7 @@ void	print_users(t_data &data)
 		<< std::endl << "- Password:" << it->getPw()
 		<< std::endl << "- Fd:" << it->getFd()
 		<< std::endl << "- Online:" << it->getOnline()
+		<< std::endl << "- Reg Status:" << it->getReg_status()
 		<< std::endl << "- Uid:" << it->getUid()
 		<< std::endl << "-------------");
 }

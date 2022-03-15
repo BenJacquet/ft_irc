@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 16:09:06 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:55:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int poll_setup(t_data &data)
 {
 	int poll_r = poll(reinterpret_cast<struct pollfd *>(&data.poll_fds[0]), data.poll_fds.size(), data.timeout);
 	v_pollfds::iterator it = data.poll_fds.begin();
+	v_pollfds::iterator end = data.poll_fds.end();
 
 	if (poll_r < 0)
 	{
@@ -49,22 +50,25 @@ int poll_setup(t_data &data)
 				//COUT(WHITE, "listening socket is readable");
 				while (1)
 				{
-					if (data.poll_fds.size() == data.poll_fds.capacity())
-					{
-						data.poll_fds.reserve(data.poll_fds.size() * 2);
-						it = data.poll_fds.begin();
-					}
+					// if (data.poll_fds.size() == data.poll_fds.capacity())
+					// {
+					// 	data.poll_fds.reserve(data.poll_fds.size() * 2);
+					// 	it = data.poll_fds.begin();
+					// }
 					if (new_connection(data) == -1)
-					{
 						break;
-					}
+					// it = data.poll_fds.begin();
 				}
 			}
 			else
 			{
-				COUT(WHITE, it->fd << " is readable");
-				io_loop(data, find_client(data, it->fd));
-				if (data.users.size() == 0)
+				COUT(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
+				if (io_loop(data, find_client(data, it->fd)) == -1)
+				{
+					it = data.poll_fds.begin();
+					end = data.poll_fds.end();
+				}
+				if (data.poll_fds.size() == 0)
 					break;
 				print_pollfd(data);
 				print_users(data);

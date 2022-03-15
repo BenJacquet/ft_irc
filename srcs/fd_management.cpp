@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 10:54:13 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 12:17:16 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void remove_fd(t_data &data, int fd)
 
 	if (found == end)
 		return;
+	COUT(RED, "removed descriptor " << fd << " from pollfd vector ");
 	close(fd); // check si interdit ou non
 	data.poll_fds.erase(found);
 }
@@ -98,7 +99,6 @@ void	disconnect_user(t_data &data, Users &client)
 	v_Users::iterator end = data.users.end();
 
 	put_disconnection(client.getFd());
-	remove_fd(data, client.getFd());
 	if (client.getReg_status() != 3)
 	{
 		for (; it != end; it++)
@@ -109,6 +109,7 @@ void	disconnect_user(t_data &data, Users &client)
 	}
 	else
 		client.disconnect();
+	remove_fd(data, client.getFd());
 }
 
 /**
