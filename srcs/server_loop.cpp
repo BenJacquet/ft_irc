@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 16:59:19 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/15 23:29:32 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int poll_setup(t_data &data)
 	}
 	for (; it != data.poll_fds.end(); it++)
 	{
-		//COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
+		// COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
 		if (it->revents == 0)
 		{
 			//CERR(RED, " test1");
@@ -70,15 +70,17 @@ int poll_setup(t_data &data)
 			{
 				CERR(RED, " test6");
 				CERR(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
-				if (io_loop(data, find_client(data, it->fd)) == -1)
+				if (io_loop(data, find_client(data, it->fd)) < -1)
 				{
 					CERR(RED, " test7");
 					it = data.poll_fds.begin();
 					end = data.poll_fds.end();
 					CERR(RED, "resized");
 				}
-				if (data.poll_fds.size() == 0)
+				if (data.poll_fds.size() < 2)
+				{
 					break;
+				}
 				print_pollfd(data);
 				print_users(data);
 				CERR(RED, " test8");
@@ -124,6 +126,7 @@ int server_loop(t_data &data)
 		signal_manager();
 		// if (command_loop(data) == 1)
 		// 	return (0);
+		CERR(BLUE, "HORS DU FOR");
 		if (poll_setup(data) == 1)
 			return (1);
 	}

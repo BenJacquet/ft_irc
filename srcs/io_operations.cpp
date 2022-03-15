@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 17:08:21 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/15 23:28:39 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,14 @@ int send_packets(int client, std::string to_send)
  */
 int receive_packets(t_data &data, Users &client)
 {
-	char buffer[BUFFERSIZE]; // peut etre passer sur un vecteur contenant les paquets entiers
+	char buffer[BUFFERSIZE]; // peut etre passer sur std::string et append
 	//std::istringstream buffer;
 	int received = 0;
 
 	std::memset(buffer, 0, BUFFERSIZE);
 	received = recv(client.getFd(), buffer, BUFFERSIZE, 0);
 	if (received == 0)
-	{
 		disconnect_user(data, client);
-		return (-1);
-	}
 	else if (received != -1)
 	{
 		COUT(L_GREEN, "<---- received " << received << " bytes from " << client.getFd() << ":");
@@ -72,13 +69,7 @@ int receive_packets(t_data &data, Users &client)
  */
 int io_loop(t_data &data, Users &client)
 {
-	int i = 0;
-	while (i != -1)
-	{
-		if ((i = receive_packets(data, client) == -1))
-			return (-1);
-		else
-			return (0);
-	}
-	return (-1);
+	int i = receive_packets(data, client);
+	
+	return (i);
 }
