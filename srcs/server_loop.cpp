@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 16:00:15 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:35:30 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int poll_setup(t_data &data)
 	}
 	for (; it != data.poll_fds.end(); it++)
 	{
-		//COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
+		// COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
 		if (it->revents == 0)
 			continue;
 		else
@@ -50,27 +50,27 @@ int poll_setup(t_data &data)
 				//COUT(WHITE, "listening socket is readable");
 				while (1)
 				{
-					// if (data.poll_fds.size() == data.poll_fds.capacity())
-					// {
-					// 	data.poll_fds.reserve(data.poll_fds.size() * 2);
-					// 	it = data.poll_fds.begin();
-					// }
 					if (new_connection(data) == -1)
+					{
+						it = data.poll_fds.begin() + 1;
+						end = data.poll_fds.end();
 						break;
-					// it = data.poll_fds.begin();
+					}
 				}
 			}
 			else
 			{
 				COUT(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
-				if (io_loop(data, find_client(data, it->fd)) == -1)
+				if (io_loop(data, find_client(data, it->fd)) < 1)
 				{
 					it = data.poll_fds.begin();
 					end = data.poll_fds.end();
 					COUT(RED, "resized");
 				}
-				if (data.poll_fds.size() == 0)
+				if (data.poll_fds.size() < 2)
+				{
 					break;
+				}
 				print_pollfd(data);
 				print_users(data);
 			}
@@ -115,6 +115,7 @@ int server_loop(t_data &data)
 		signal_manager();
 		// if (command_loop(data) == 1)
 		// 	return (0);
+		CERR(BLUE, "HORS DU FOR");
 		if (poll_setup(data) == 1)
 			return (1);
 	}
