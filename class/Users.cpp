@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/14 17:04:47 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 10:52:43 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ bool operator!=(Users &a, Users &b)
 ** 					GETTERS					**
 */
 
-int			Users::getUid() const
+unsigned int	Users::getUid() const
 {
 	return this->_uid;
 }

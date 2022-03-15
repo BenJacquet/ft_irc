@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/14 16:42:32 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 10:52:24 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ class Users
 		/*		METHODS		*/
 		//void			msg(Users to_send, std::string content);
 		/*		GETTERS		*/
-		int				getUid() const;
+		unsigned int	getUid() const;
 		int				getFd() const;
 		int				getOperator() const;
 		std::string		getHost_name() const;

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 17:23:36 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 10:51:47 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ v_pollfds::iterator find_fd(t_data &data, int fd)
 
 v_Users::iterator find_uid(t_data &data, unsigned int uid)
 {
-	v_users::iterator it = data.users.begin();
-	v_users::iterator end = data.users.end();
+	v_Users::iterator it = data.users.begin();
+	v_Users::iterator end = data.users.end();
 
 	for (; it != end; it++)
 	{
-		if (it->_uid == uid)
+		if (it->getUid() == uid)
 			return (it);
 	}
 	return (end);
