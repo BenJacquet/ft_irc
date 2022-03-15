@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 15:56:26 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:58:21 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int io_loop(t_data &data, Users &client)
 	int i = 0;
 	while (1)
 	{
-		if ((i = receive_packets(data, client) < 1))
+		if ((i = receive_packets(data, client) < 0))
 			return (0);
 		else
 			return (-1);
