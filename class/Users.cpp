@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/15 10:52:43 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 11:41:56 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,15 @@ bool operator!=(Users &a, Users &b)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-// void			Users::msg(Users to_send, std::string content)
-// {
-	
-// }
+void			Users::disconnect()
+{
+	this->setOnline(false);
+}
+
+void			Users::connect()
+{
+	this->setOnline(true);
+}
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
@@ -186,46 +191,14 @@ bool Users::is_ignored(Users is_in_blacklist)
 ** 					SETTERS					**
 */
 
-void			Users::setReal_name(std::string new_real_name)
+void			Users::setUid(unsigned int new_uid)
 {
-	this->_real_name = new_real_name;
+	this->_uid = new_uid;
 }
 
 void			Users::setFd(int fd)
 {
 	this->_fd = fd;
-}
-
-void			Users::setNick_name(std::string new_nick_name)
-{
-	this->_nick_name = new_nick_name;
-}
-
-void			Users::setPw(std::string new_pw)
-{
-	this->_pw = new_pw;
-}
-
-void			Users::setReg_status(int new_status)
-{
-	this->_reg_status = new_status;
-}
-
-void			Users::add_blacklist(Users to_add)
-{
-	if (this->_ignore_blacklist.size() > 0)
-	{
-		std::vector<Users>::iterator it = this->_ignore_blacklist.begin();
-		for(; it != this->_ignore_blacklist.end(); it++)
-		{
-			if (*it == to_add)
-			{
-				CERR(RED, to_add.getReal_name() << "is already in the black list");
-				return ;
-			}
-		}
-	}
-	this->_ignore_blacklist.push_back(to_add);
 }
 
 void			Users::setOnline(bool online)
@@ -248,15 +221,47 @@ void			Users::setFull_id(std::string new_full_id)
 	this->_full_id = new_full_id;
 }
 
-
-void			Users::disconnect()
+void			Users::setReal_name(std::string new_real_name)
 {
-	this->setOnline(false);
+	this->_real_name = new_real_name;
 }
 
-void			Users::connect()
+void			Users::setNick_name(std::string new_nick_name)
 {
-	this->setOnline(true);
+	this->_nick_name = new_nick_name;
 }
+
+void			Users::setPw(std::string new_pw)
+{
+	this->_pw = new_pw;
+}
+
+void			Users::setReg_status(int new_status)
+{
+	this->_reg_status = new_status;
+}
+
+void			Users::setSocket_addr(sockaddr_in6 new_sock_add)
+{
+	this->_socket_addr = new_sock_add;
+}
+
+void			Users::add_blacklist(Users to_add)
+{
+	if (this->_ignore_blacklist.size() > 0)
+	{
+		std::vector<Users>::iterator it = this->_ignore_blacklist.begin();
+		for(; it != this->_ignore_blacklist.end(); it++)
+		{
+			if (*it == to_add)
+			{
+				CERR(RED, to_add.getReal_name() << "is already in the black list");
+				return ;
+			}
+		}
+	}
+	this->_ignore_blacklist.push_back(to_add);
+}
+
 
 /* ************************************************************************** */

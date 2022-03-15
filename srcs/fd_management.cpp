@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_management.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 12:17:16 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:37:01 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int new_connection(t_data &data)
 		CERR(YELLOW, "accept()");
 		return (-1);
 	}
-	// add_user(data, client_fd, client_sock); // A IMPLEMENTER
 	data.users.push_back(Users(client_fd, client_sock));
 	put_connection(client_fd);
 	add_fd(data, client_fd);

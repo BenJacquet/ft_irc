@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/15 10:52:24 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 11:41:24 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,29 @@ class Users
 		Users &		operator=( Users const & rhs );
 
 	private:
-		unsigned int		_uid;
-		int					_fd;
-		int					_operator;
-		bool				_online;
-		std::string			_host_name;
-		std::string			_user_name;
-		std::string			_full_id; /* nickname!user_name@hostname */
-		std::string			_real_name;
-		std::string			_nick_name;
-		std::string			_pw;
-		int					_reg_status;
-		struct sockaddr_in6	_socket_addr;
-		std::vector<Users>	_ignore_blacklist;
+		unsigned int		_uid; /* G & S */
+		int					_fd; /* G & S */
+		int					_operator; /* G */
+		bool				_online; /* G & S */
+		std::string			_host_name; /* G & S */
+		std::string			_user_name; /* G & S */
+		std::string			_full_id; /* G & S */ /* nickname!user_name@hostname */
+		std::string			_real_name; /* G & S */
+		std::string			_nick_name; /* G & S */
+		std::string			_pw; /* G & S */
+		int					_reg_status; /* G & S */
+		struct sockaddr_in6	_socket_addr; /* G & S */
+		std::vector<Users>	_ignore_blacklist; /* G & S */
 
 	public:
 		/*		METHODS		*/
-		//void			msg(Users to_send, std::string content);
+		void			disconnect();
+		void			connect();
 		/*		GETTERS		*/
 		unsigned int	getUid() const;
 		int				getFd() const;
 		int				getOperator() const;
+		bool			getOnline() const;
 		std::string		getHost_name() const;
 		std::string		getUser_name() const;
 		std::string		getFull_id() const;
@@ -76,25 +78,24 @@ class Users
 		std::string		getNick_name() const;
 		std::string		getPw() const;
 		int				getReg_status() const;
-		bool			getOnline() const;
 		sockaddr_in6	getSocket_addr() const;
 		bool			is_ignored(Users is_in_blacklist);
 		/*		SETTERS		*/
-		void			setReal_name(std::string new_real_name);
+		void			setUid(unsigned int new_uid);
 		void			setFd(int fd);
-		void			setNick_name(std::string new_nick_name);
+		void			setOnline(bool online);
+		void			setHostname(std::string new_host_name);
 		void			setUser_name(std::string new_user_name);
 		void			setFull_id(std::string new_full_id);
-		void			setHostname(std::string new_host_name);
+		void			setReal_name(std::string new_real_name);
+		void			setNick_name(std::string new_nick_name);
 		void			setPw(std::string new_pw);
 		void			setReg_status(int new_status);
-		void			setOnline(bool online);
+		void			setSocket_addr(sockaddr_in6 new_sock_add);
 		void			add_blacklist(Users to_add);
-		void			disconnect();
-		void			connect();
 };
 
 bool operator==(Users & a, Users & b);
-bool operator!=(Users &a, Users &b);
+bool operator!=(Users & a, Users & b);
 
 #endif /* *********************************************************** USERS_H */

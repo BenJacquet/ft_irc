@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 15:58:21 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:08:21 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ int receive_packets(t_data &data, Users &client)
 int io_loop(t_data &data, Users &client)
 {
 	int i = 0;
-	while (1)
+	while (i != -1)
 	{
-		if ((i = receive_packets(data, client) < 0))
-			return (0);
-		else
+		if ((i = receive_packets(data, client) == -1))
 			return (-1);
-		// if (send_packets(it->fd) == -1)
+		else
+			return (0);
 	}
+	return (-1);
 }

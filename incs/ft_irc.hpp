@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 16:02:00 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:00:48 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ class Users;
 #define BACKLOG 10
 
 #define COUT(COLOR, DATA) (std::cout << COLOR << DATA << RESET << std::endl)
-#define CERR(COLOR, DATA) (std::cerr << COLOR << DATA << RESET << std::endl)
+#define CERR(COLOR, DATA) (std::cerr << COLOR << DATA << RESET << '\n')
 
 // TYPEDEFS
 

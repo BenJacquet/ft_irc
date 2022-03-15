@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 16:00:15 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:59:19 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,37 +42,46 @@ int poll_setup(t_data &data)
 	{
 		//COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
 		if (it->revents == 0)
+		{
+			//CERR(RED, " test1");
 			continue;
+		}
 		else
 		{
+			CERR(RED, " test2");
 			if (it->fd == data.sock_fd)
 			{
+				CERR(RED, " test3");
 				//COUT(WHITE, "listening socket is readable");
 				while (1)
 				{
-					// if (data.poll_fds.size() == data.poll_fds.capacity())
-					// {
-					// 	data.poll_fds.reserve(data.poll_fds.size() * 2);
-					// 	it = data.poll_fds.begin();
-					// }
+					CERR(RED, " test4");
 					if (new_connection(data) == -1)
+					{
+						CERR(RED, " test5");
+						it = data.poll_fds.begin() + 1;
+						end = data.poll_fds.end();
+						CERR(RED, " test5.5");
 						break;
-					// it = data.poll_fds.begin();
+					}
 				}
 			}
 			else
 			{
-				COUT(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
+				CERR(RED, " test6");
+				CERR(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
 				if (io_loop(data, find_client(data, it->fd)) == -1)
 				{
+					CERR(RED, " test7");
 					it = data.poll_fds.begin();
 					end = data.poll_fds.end();
-					COUT(RED, "resized");
+					CERR(RED, "resized");
 				}
 				if (data.poll_fds.size() == 0)
 					break;
 				print_pollfd(data);
 				print_users(data);
+				CERR(RED, " test8");
 			}
 		}
 	}
