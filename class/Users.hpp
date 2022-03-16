@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/15 11:41:24 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/16 12:29:10 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 # include <iostream>
 # include <string>
 # include "../incs/ft_irc.hpp"
-
-/*
-0000 0111
-2^2 PASS_W
-2^1 NICK_N
-2^0 REAL_N
-*/
 
 /**
  * @brief class Users
@@ -41,7 +34,7 @@ class Users
 {
 	public:
 		Users(); /* do not use this constructor */
-		Users( int fd, sockaddr_in6 sock_addr);
+		Users( int fd, sockaddr_in6 sock_addr, struct s_data &data );
 		Users( Users const & src );
 		~Users();
 

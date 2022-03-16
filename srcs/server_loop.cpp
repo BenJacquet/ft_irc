@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 23:29:32 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:43:46 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,50 +43,41 @@ int poll_setup(t_data &data)
 		// COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
 		if (it->revents == 0)
 		{
-			//CERR(RED, " test1");
 			continue;
 		}
 		else
 		{
-			CERR(RED, " test2");
+			CERR(BLUE, "testing fd=" << it->fd << "(" << &(*it) << ")");
 			if (it->fd == data.sock_fd)
 			{
-				CERR(RED, " test3");
-				//COUT(WHITE, "listening socket is readable");
 				while (1)
 				{
-					CERR(RED, " test4");
 					if (new_connection(data) == -1)
 					{
-						CERR(RED, " test5");
 						it = data.poll_fds.begin() + 1;
 						end = data.poll_fds.end();
-						CERR(RED, " test5.5");
 						break;
 					}
 				}
 			}
 			else
 			{
-				CERR(RED, " test6");
-				CERR(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
-				if (io_loop(data, find_client(data, it->fd)) < -1)
+				COUT(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
+				v_Users::iterator found = find_client_fd(data, it->fd);
+				if (found < data.users.end())
 				{
-					CERR(RED, " test7");
-					it = data.poll_fds.begin();
-					end = data.poll_fds.end();
-					CERR(RED, "resized");
+					COUT(RED, "found=(" << &(*found) << ")" << " - end=(" << &(*data.users.end()) << ")");
+					io_loop(data, *found);
+					if (it >= data.poll_fds.end() - 1)
+						break;
 				}
 				if (data.poll_fds.size() < 2)
-				{
 					break;
-				}
-				print_pollfd(data);
-				print_users(data);
-				CERR(RED, " test8");
 			}
 		}
 	}
+	print_pollfd(data);
+	print_users(data);
 	return (0);
 }
 
@@ -124,9 +115,6 @@ int server_loop(t_data &data)
 	while (1)
 	{
 		signal_manager();
-		// if (command_loop(data) == 1)
-		// 	return (0);
-		CERR(BLUE, "HORS DU FOR");
 		if (poll_setup(data) == 1)
 			return (1);
 	}

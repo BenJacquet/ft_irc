@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 11:58:09 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 12:29:37 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,27 @@ int ft_strlen(const char *str)
  * 
  */
 
-Users& find_client(t_data &data, int fd)
+v_Users::iterator find_client_fd(t_data &data, int fd)
 {
 	v_Users::iterator it = data.users.begin();
 	v_Users::iterator ite = data.users.end();
 	for(; it != ite; it++)
 	{
 		if (it->getFd() == fd)
-			return (*it);
+			return (it);
 	}
 	//COUT(WHITE, "end(" << &(*ite) << ") - " << "(" << &(*it) << ") - " << "FIND CLIENT fd to look for=" << fd << " ||| it->fd=" << it->getFd() << " ||| size of user=" << data.users.size());
-	return (*it);
+	return (it);
+}
+
+v_Users::iterator find_client_uid(t_data &data, unsigned int uid)
+{
+	v_Users::iterator it = data.users.begin();
+	v_Users::iterator ite = data.users.end();
+	for(; it != ite; it++)
+	{
+		if (it->getUid() == uid)
+			return (it);
+	}
+	return (it);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/15 11:41:56 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/16 12:30:07 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Users::Users()
 {
 }
 
-Users::Users(int fd, sockaddr_in6 sock_addr)
+Users::Users(int fd, sockaddr_in6 sock_addr, struct s_data &data)
 {
 	srand(time(NULL));
 
@@ -28,7 +28,10 @@ Users::Users(int fd, sockaddr_in6 sock_addr)
 	this->_socket_addr = sock_addr;
 	this->_reg_status = 0;
 	this->_online = 0;
-	this->_uid = static_cast<unsigned int>(random() % __INT_MAX__);
+	unsigned int uid = static_cast<unsigned int>(random() % __INT_MAX__);
+	for (; find_client_uid(data, uid) != data.users.end();)
+		uid = static_cast<unsigned int>(random() % __INT_MAX__);
+	this->_uid = uid;
 }
 
 Users::Users( const Users & src )

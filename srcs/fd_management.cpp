@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_management.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 16:37:01 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:38:49 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,21 @@ void	disconnect_user(t_data &data, Users &client)
 	v_Users::iterator end = data.users.end();
 
 	put_disconnection(client.getFd());
+	remove_fd(data, client.getFd());
 	if (client.getReg_status() != 3)
 	{
 		for (; it != end; it++)
 		{
 			if (*it == client)
+			{
 				data.users.erase(it);
+				COUT(RED, "removed client (" << &(*it) << ")");
+				break;
+			}
 		}
 	}
 	else
 		client.disconnect();
-	remove_fd(data, client.getFd());
 }
 
 /**
@@ -129,7 +133,7 @@ int new_connection(t_data &data)
 		CERR(YELLOW, "accept()");
 		return (-1);
 	}
-	data.users.push_back(Users(client_fd, client_sock));
+	data.users.push_back(Users(client_fd, client_sock, data));
 	put_connection(client_fd);
 	add_fd(data, client_fd);
 	return (client_fd);

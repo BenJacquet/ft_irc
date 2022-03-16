@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 23:28:26 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/16 12:24:19 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ typedef struct			s_data
 	/* UTILS */
 
 		int ft_strlen(const char *str); //AUTHOR: thoberth
-		Users &find_client(t_data &data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
+		v_Users::iterator find_client_fd(t_data &data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
+		v_Users::iterator find_client_uid(t_data &data, unsigned int uid); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
 
 	/* DEBUG */
 
