@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 12:29:37 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:36:49 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ v_Users::iterator find_client_uid(t_data &data, unsigned int uid)
 	for(; it != ite; it++)
 	{
 		if (it->getUid() == uid)
+			return (it);
+	}
+	return (it);
+}
+
+v_Users::iterator find_client_nick(t_data &data, std::string nick)
+{
+	v_Users::iterator it = data.users.begin();
+	v_Users::iterator ite = data.users.end();
+	for(; it != ite; it++)
+	{
+		if (it->getNick_name().compare(nick) == 0)
 			return (it);
 	}
 	return (it);

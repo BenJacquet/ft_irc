@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/16 12:30:07 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:53:29 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ bool operator!=(Users &a, Users &b)
 void			Users::disconnect()
 {
 	this->setOnline(false);
+	this->setFd(-1);
 }
 
 void			Users::connect()
@@ -202,6 +203,11 @@ void			Users::setUid(unsigned int new_uid)
 void			Users::setFd(int fd)
 {
 	this->_fd = fd;
+}
+
+void			Users::setOperator(bool op)
+{
+	this->_operator = op;
 }
 
 void			Users::setOnline(bool online)

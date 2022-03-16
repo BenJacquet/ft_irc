@@ -66,9 +66,6 @@ bool		protocol (ipv4/ipv6);
 (inconnu)	mode (flags operateur, ban);
 
 FIXES :
-- Plusieurs utilisateurs et /disconnect (segfault ou boucle infinie)
-- connect / disconnect / reconnect /reconnect en boucle (segfault)
-- Check si l'uid existe deja
 - generer un nickname si deja pris
 
 USERS WORKFLOW :

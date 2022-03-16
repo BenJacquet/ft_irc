@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/16 12:29:10 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:52:10 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 class Users
 {
 	public:
-		Users(); /* do not use this constructor */
+		Users();
 		Users( int fd, sockaddr_in6 sock_addr, struct s_data &data );
 		Users( Users const & src );
 		~Users();
@@ -43,7 +43,7 @@ class Users
 	private:
 		unsigned int		_uid; /* G & S */
 		int					_fd; /* G & S */
-		int					_operator; /* G */
+		bool				_operator; /* G & S*/
 		bool				_online; /* G & S */
 		std::string			_host_name; /* G & S */
 		std::string			_user_name; /* G & S */
@@ -76,6 +76,7 @@ class Users
 		/*		SETTERS		*/
 		void			setUid(unsigned int new_uid);
 		void			setFd(int fd);
+		void			setOperator(bool op);
 		void			setOnline(bool online);
 		void			setHostname(std::string new_host_name);
 		void			setUser_name(std::string new_user_name);

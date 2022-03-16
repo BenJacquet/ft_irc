@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 17:40:47 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:50:06 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct			s_data
 	v_Chan				chans;			// vector de Chan existantes
 	m_Commands			commands;		// map qui contient en key->string de la commande et value->fonction pointeur
 	int					timeout;		// ms avant de timeout
+	std::string			password;		// password admin
 }						t_data;
 
 // PROTOTYPES
@@ -141,7 +142,8 @@ typedef struct			s_data
 
 		int ft_strlen(const char *str); //AUTHOR: thoberth
 		v_Users::iterator find_client_fd(t_data &data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
-		v_Users::iterator find_client_uid(t_data &data, unsigned int uid); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
+		v_Users::iterator find_client_uid(t_data &data, unsigned int uid); //AUTHOR: jabenjam
+		v_Users::iterator find_client_nick(t_data &data, std::string nick); //AUTHOR: jabenjam
 
 	/* DEBUG */
 

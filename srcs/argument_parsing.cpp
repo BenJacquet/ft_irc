@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arg_parsing.cpp                                    :+:      :+:    :+:   */
+/*   argument_parsing.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:31:12 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:10:23 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:39:58 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ int parse_arguments(int ac, char **av, t_data &data)
 		put_error("ircserv: invalid port, valid port range is 1025-65535.");
 		return (1);
 	}
+	data.password = av[2];
 	return (0);
 }

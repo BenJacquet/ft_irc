@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 14:43:46 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:37:58 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int poll_setup(t_data &data)
 		}
 		else
 		{
-			CERR(BLUE, "testing fd=" << it->fd << "(" << &(*it) << ")");
 			if (it->fd == data.sock_fd)
 			{
 				while (1)
@@ -66,7 +65,6 @@ int poll_setup(t_data &data)
 				v_Users::iterator found = find_client_fd(data, it->fd);
 				if (found < data.users.end())
 				{
-					COUT(RED, "found=(" << &(*found) << ")" << " - end=(" << &(*data.users.end()) << ")");
 					io_loop(data, *found);
 					if (it >= data.poll_fds.end() - 1)
 						break;
