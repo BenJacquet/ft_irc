@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/15 15:42:19 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:38:50 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,5 @@ void	initialize_command_map(t_data &data)
 	data.commands.insert(p_Command("PING", &command_ping));
 	// data.commands.insert(p_Command("PRIVMSG", &command_privmsg));
 	data.commands.insert(p_Command("die", &command_die));
+	data.commands.insert(p_Command("JOIN", &join_parsing));
 }

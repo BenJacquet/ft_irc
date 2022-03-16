@@ -13,11 +13,13 @@ SRCS = srcs/main.cpp\
 		srcs/commands.cpp\
 		srcs/debug.cpp\
 		class/Message.cpp\
-		class/Users.cpp
+		class/Users.cpp\
+		class/Chan.cpp
 
 INCS = incs/ft_irc.hpp\
 		class/Message.hpp\
-		class/Users.hpp
+		class/Users.hpp\
+		class/Chan.hpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 12:24:19 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:40:47 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@
 
 #include <string.h>
 
-// #include "../class/Channel.hpp"
+#include "../class/Chan.hpp"
 #include "../class/Users.hpp"
 #include "../class/Message.hpp"
 
 class Message;
 class Users;
+class Chan;
 
 // DEFINES
 
@@ -55,6 +56,7 @@ class Users;
 
 typedef std::vector<struct pollfd>			v_pollfds;
 typedef std::vector<Users> 					v_Users;
+typedef std::vector<Chan> 					v_Chan;
 typedef struct std::pair<std::string, void (*)(struct s_data&, Message&)>	p_Command;
 typedef std::map<std::string, void (*)(struct s_data&, Message&)>	m_Commands;
 
@@ -67,6 +69,7 @@ typedef struct			s_data
 	struct addrinfo		*bind_addr;		// socket (SERVEUR)
 	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
 	v_Users				users;			// vector des utilisateurs connectés
+	v_Chan				chans;			// vector de Chan existantes
 	m_Commands			commands;		// map qui contient en key->string de la commande et value->fonction pointeur
 	int					timeout;		// ms avant de timeout
 }						t_data;
@@ -130,6 +133,9 @@ typedef struct			s_data
 		void	command_user(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_pass(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_die(t_data &data, Message &cmd);  //AUTHOR: jabenjam
+		void	join_parsing(t_data &data, Message &cmd); // Author: thoberth
+		int		join(t_data &data, Users creator, std::string name_Chan,
+			std::string mdp_tojoin, bool isprivate); // Author: thoberth
 
 	/* UTILS */
 
