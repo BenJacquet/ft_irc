@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 17:51:11 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/16 18:01:52 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,19 @@ void	command_nick(t_data &data, Message &cmd)
 	(void)data;
 	Users	*sender = cmd.getSender();
 	std::string charset = "0123456789";
-	// for (; find_client_nick(data, nick) != data.users.end();)
-	// 	uid = static_cast<unsigned int>(random() % __INT_MAX__);
-	// this->_uid = uid;
-
 	std::vector<std::string> args = parse_line(cmd.getPayload());
+	std::string nick = args[1];
+
+	// for (int i = 0; find_client_nick(data, nick) != data.users.end(); i++)
+	// {
+	// 	if (i > 9)
+	// 		i = 0;
+	// 	tmp = nick + charset[i];
+	// }
+	// while (find_client_nick(data, nick) != data.users.end())
+		// nick = alter_nick(nick);
 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
-	sender->setNick_name(args[1]);
+	sender->setNick_name(nick);
 	// edit nick of sender
 }
 
