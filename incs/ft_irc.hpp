@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 17:50:06 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/17 19:40:08 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,9 @@ typedef struct			s_data
 		void	command_user(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_pass(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_die(t_data &data, Message &cmd);  //AUTHOR: jabenjam
+		void	join(t_data &data, Users & creator, std::string name_chan,\
+		std::string mdp_tojoin = "none", bool isprivate = false); // Author: thoberth
 		void	join_parsing(t_data &data, Message &cmd); // Author: thoberth
-		int		join(t_data &data, Users creator, std::string name_Chan,
-			std::string mdp_tojoin, bool isprivate); // Author: thoberth
 
 	/* UTILS */
 
@@ -155,6 +155,8 @@ typedef struct			s_data
 // DEFINES NUMERIC REPLIES
 
 #define RPL_WELCOME(HOST, NICK, USER) (":" + HOST + " " + "001" + " " + NICK + " :" + "Welcome to the Internet Relay Network " + USER + "\n")
+#define RPL_TOPIC(CHANNEL, TOPIC) (CHANNEL + " :" + TOPIC)
+#define RPL_NOTOPIC(CHANNEL) (CHANNEL + " :No topic is set")
 
 #define RESET		"\033[0m"			/* Reset*/
 #define BLACK		"\033[30m"			/* Black */

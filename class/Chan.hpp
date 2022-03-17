@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chan.hpp                                           :+:      :+:    :+:   */
+/*   Chan.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/16 17:29:32 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/17 11:16:39 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ class Chan
 		// void quit();
 		// void invite(Users to_inv, std::string Chan_name);
 	/*		GETTERS		*/
+		std::string		getTopic(void) const;
 	/*		SETTERS		*/
 		bool addusers(Users to_add);
 };

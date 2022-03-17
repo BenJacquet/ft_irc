@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/16 17:31:16 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/17 13:02:16 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,18 @@ void Chan::nick(Users to_Change, std::string new_nick_name)
 			<< new_nick_name << std::endl);
 		to_Change.setNick_name(new_nick_name);
 	}
+}
+
+bool	Chan::addusers(Users to_add)
+{
+	for(std::vector<Users>::iterator it = this->_users.begin(),
+		ite = this->_users.end(); it != ite; it++)
+	{
+		if (*it == to_add)
+			return false;
+	}
+	this->_users.push_back(to_add);
+	return true;
 }
 
 // /**
@@ -177,5 +189,9 @@ void Chan::nick(Users to_Change, std::string new_nick_name)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
+std::string		Chan::getTopic(void) const
+{
+	return this->_topic;
+}
 
 /* ************************************************************************** */

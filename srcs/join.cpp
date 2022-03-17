@@ -6,15 +6,62 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/16 17:41:05 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/17 19:44:17 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-int		join_parsing(t_data &data, Message &cmd)
+Chan*		is_chan_exist(t_data &data, std::string args)
 {
-	
+	v_Chan::iterator ite = data.chans.end();
+	for (v_Chan::iterator it = data.chans.begin(); it != ite ; it++)
+	{
+		if (it->getTopic() == args)
+			return &(*it);
+	}
+	return NULL;
+}
+
+void		join_parsing(t_data &data, Message &cmd)
+{
+	Chan *new_chan;
+	std::string chan;
+	std::string pw;
+	size_t pos;
+	std::vector<std::string> args = parse_line(cmd.getPayload());
+	for(size_t i=0; i < args.size(); i++)
+		COUT(L_BLUE, "i = " << i << " " << args[i]);
+	while ((pos = args[1].find(',')) != std::string::npos)
+	{
+		COUT(L_BLUE, "testyest\n");
+		chan.assign(args[1], 0, pos);
+		args[1].erase(0, pos + 1);
+		while (args.size() > 2 && (pos = args[2].find(',')) != std::string::npos)
+		{
+			pw.assign(args[2], 0, pos);
+			args[2].erase(0, pos + 1);
+		}
+		if ((new_chan = is_chan_exist(data, chan)) != NULL)
+		{
+			if (new_chan->addusers(*(cmd.getSender())))
+				COUT(L_BLUE, cmd.getSender()->getNick_name() << " has been added to " << chan);
+			else
+				COUT(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
+		}
+		else
+			join(data, *(cmd.getSender()), chan);
+	}
+	chan = args[1];
+	if ((new_chan = is_chan_exist(data, chan)) != NULL)
+	{
+		if (new_chan->addusers(*(cmd.getSender())))
+			COUT(L_BLUE, cmd.getSender()->getNick_name() << "has been added to " << chan);
+		else
+			COUT(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
+	}
+	else
+		join(data, *(cmd.getSender()), chan);
 }
 
 /**
@@ -25,11 +72,11 @@ int		join_parsing(t_data &data, Message &cmd)
  * @param name_Chan name of the Chan
  * @param mdp_tojoin the password if isprivate is true
  * @param isprivate false if no passw to set else true
- * @return 1 if Chan is created, 0 if something went wrong
  */
-int		join(t_data &data, Users creator, std::string name_Chan,
-	std::string mdp_tojoin = "none", bool isprivate = false)
+void		join(t_data &data, Users & creator, std::string name_chan,
+	std::string mdp_tojoin, bool isprivate)
 {
-	t_data.chans.push_back(Chan(creator, name_Chan, mdp_tojoin, isprivate));
-	return (1);
+	data.chans.push_back(Chan(creator, name_chan, mdp_tojoin, isprivate));
+	COUT(BLUE, name_chan << '\t' << " has been created by " << creator.getNick_name());
+	// send_packets(creator.getFd(), RPL_NOTOPIC(name_chan));
 }
