@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/18 11:50:44 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/18 17:16:06 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,12 @@ void		join_parsing(t_data &data, Message &cmd)
 void		join(t_data &data, Users & creator, std::string name_chan,
 	std::string mdp_tojoin, bool isprivate)
 {
+	std::string full_msg;
+	
+	full_msg = ":totob!" + creator.getUser_name() +
+				"@127.0.0.1 JOIN " + name_chan + "\r\n";
 	data.chans.push_back(Chan(creator, name_chan, mdp_tojoin, isprivate));
 	COUT(BLUE, name_chan << '\t' << " has been created by " << creator.getNick_name());
-	std::string to_send = creator.getFull_id() + " JOIN " + name_chan;
-	send_packets(creator.getFd(), to_send);
+	std::string to_send = ":" + creator.getFull_id() + " JOIN " + name_chan;
+	send_packets(creator.getFd(), full_msg);
 }
