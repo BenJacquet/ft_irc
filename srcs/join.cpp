@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/17 19:44:17 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/18 11:50:44 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void		join(t_data &data, Users & creator, std::string name_chan,
 {
 	data.chans.push_back(Chan(creator, name_chan, mdp_tojoin, isprivate));
 	COUT(BLUE, name_chan << '\t' << " has been created by " << creator.getNick_name());
-	// send_packets(creator.getFd(), RPL_NOTOPIC(name_chan));
+	std::string to_send = creator.getFull_id() + " JOIN " + name_chan;
+	send_packets(creator.getFd(), to_send);
 }

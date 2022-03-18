@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/17 10:12:26 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/18 11:29:08 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,5 @@ void	initialize_command_map(t_data &data)
 	// data.commands.insert(p_Command("PRIVMSG", &command_privmsg));
 	data.commands.insert(p_Command("die", &command_die));
 	data.commands.insert(p_Command("JOIN", &join_parsing));
+	data.commands.insert(p_Command("PART", &part_parsing));
 }
