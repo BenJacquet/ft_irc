@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/18 11:30:13 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/19 16:48:46 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ class Chan;
 
 #define BACKLOG 10
 
-#define COUT(COLOR, DATA) (std::cout << COLOR << DATA << std::endl << RESET)
-#define CERR(COLOR, DATA) (std::cerr << COLOR << DATA << '\n' << RESET)
+#define COUT(COLOR, DATA) (std::cout << COLOR << DATA << "\r\n")
+#define CERR(COLOR, DATA) (std::cerr << COLOR << DATA << "\r\n")
 
 // TYPEDEFS
 

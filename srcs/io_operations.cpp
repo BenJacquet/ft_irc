@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/18 17:02:07 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/19 16:52:44 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int send_packets(int client, std::string to_send)
 		CERR(YELLOW, "couldn't send packet!");
 	else
 	{
-		COUT(CYAN, "----> sent " << ret << " bytes to " << client << ":");
-		COUT(CYAN, to_send);
+		// COUT(RESET, "----> sent " << ret << " bytes to " << client << ":");
+		COUT(RESET, to_send);
 	}
 	return (ret);
 }
