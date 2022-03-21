@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/21 15:16:05 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:48:11 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,10 @@ typedef struct			s_data
 		void	command_user(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_pass(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_die(t_data &data, Message &cmd);  //AUTHOR: jabenjam
-		void	join(t_data &data, Users & creator, std::string name_chan,\
-		std::string mdp_tojoin = "none", bool isprivate = false); // Author: thoberth
+		void	join(t_data &data, Users & creator, std::string name_chan); // Author: thoberth
 		void	join_parsing(t_data &data, Message &cmd); // Author: thoberth
+		void	join_msg(Users &to_add, Chan &chan, bool isnewone); // Author: thoberth
+		void	RPL_353_366(Users &usr, Chan &chan); // Author: thoberth
 		void	part_parsing(t_data &data, Message &cmd); // Author: thoberth
 
 	/* UTILS */

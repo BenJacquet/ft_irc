@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/17 11:16:39 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:44:30 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ class Chan
 {
 	public:
 		Chan();
-		Chan( Users & usr_operator, std::string topic_name,
-			std::string mdp_tojoin, bool isprivate);
+		Chan( Users & usr_operator, std::string topic_name);
 		Chan( Chan const & src );
 		~Chan();
 
@@ -50,9 +49,11 @@ class Chan
 		// void quit();
 		// void invite(Users to_inv, std::string Chan_name);
 	/*		GETTERS		*/
-		std::string		getTopic(void) const;
+		std::string			getTopic(void) const;
+		std::vector<Users>	getUsers(void) const;
 	/*		SETTERS		*/
 		bool addusers(Users to_add);
+		bool rmusers(Users to_rm);
 };
 
 #endif /* ********************************************************* Chan_H */

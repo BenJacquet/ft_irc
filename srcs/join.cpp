@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/21 12:57:32 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:54:16 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void		join_parsing(t_data &data, Message &cmd)
 		COUT(L_BLUE, "i = " << i << " " << args[i]);
 	while ((pos = args[1].find(',')) != std::string::npos)
 	{
-		COUT(L_BLUE, "testyest\n");
 		chan.assign(args[1], 0, pos);
 		args[1].erase(0, pos + 1);
 		while (args.size() > 2 && (pos = args[2].find(',')) != std::string::npos)
@@ -45,7 +44,7 @@ void		join_parsing(t_data &data, Message &cmd)
 		if ((new_chan = is_chan_exist(data, chan)) != NULL)
 		{
 			if (new_chan->addusers(*(cmd.getSender())))
-				COUT(L_BLUE, cmd.getSender()->getNick_name() << " has been added to " << chan);
+				join_msg(*(cmd.getSender()), *new_chan, false);
 			else
 				COUT(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
 		}
@@ -56,7 +55,7 @@ void		join_parsing(t_data &data, Message &cmd)
 	if ((new_chan = is_chan_exist(data, chan)) != NULL)
 	{
 		if (new_chan->addusers(*(cmd.getSender())))
-			COUT(L_BLUE, cmd.getSender()->getNick_name() << "has been added to " << chan);
+			join_msg(*(cmd.getSender()), *new_chan, false);
 		else
 			COUT(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
 	}
@@ -73,14 +72,42 @@ void		join_parsing(t_data &data, Message &cmd)
  * @param mdp_tojoin the password if isprivate is true
  * @param isprivate false if no passw to set else true
  */
-void		join(t_data &data, Users & creator, std::string name_chan,
-	std::string mdp_tojoin, bool isprivate)
+void		join(t_data &data, Users & creator, std::string name_chan)
 {
-	std::string full_msg = ":" + creator.getFull_id() + " JOIN :" + name_chan + "\r\n";
-	std::string RPL_353 = ":" + creator.getFull_id() + " 353 " + creator.getNick_name() + " = " + name_chan + " :@" + creator.getNick_name() + "\r\n";
-	std::string RPL_366 = ":" + creator.getFull_id() + " 366 " + creator.getNick_name() + " " + name_chan + " :End of /NAMES list\r\n";
-	data.chans.push_back(Chan(creator, name_chan, mdp_tojoin, isprivate));
-	send_packets(creator.getFd(), RPL_353);
-	send_packets(creator.getFd(), RPL_366);
-	send_packets(creator.getFd(), full_msg);
+	data.chans.push_back(Chan(creator, name_chan));
+	join_msg(creator, data.chans.back(), true);
+}
+
+void		join_msg(Users &to_add, Chan &chan, bool isnewone)
+{
+	if (!isnewone)
+	{
+		std::string s;
+		v_Users vect = chan.getUsers();
+		for (v_Users::iterator it = vect.begin(), ite = vect.end();
+			it != ite; it++)
+		{
+			s = ":" + to_add.getFull_id() + " JOIN :" + chan.getTopic();
+			send_packets(it->getFd(), s);
+		}
+		RPL_353_366(to_add, chan);
+	}
+	else
+	{
+		RPL_353_366(to_add, chan);
+		std::string full_msg = ":" + to_add.getFull_id() + " JOIN :" + chan.getTopic();
+		send_packets(to_add.getFd(), full_msg);
+	}
+}
+
+void		RPL_353_366(Users &usr, Chan &chan)
+{
+	std::string rpl_353 =  ":" + usr.getFull_id() + " 353 " + usr.getNick_name() + " = " + chan.getTopic() + " :@";
+	v_Users vect = chan.getUsers();
+	for (v_Users::iterator it = vect.begin(), ite = vect.end();
+		it != ite; it++)
+		rpl_353 += it->getNick_name() + " ";
+	send_packets(usr.getFd(), rpl_353);
+	std::string rpl_366 = ":" + usr.getFull_id() + " 366 " + usr.getNick_name() + " " + chan.getTopic() + " :End of /NAMES list";
+	send_packets(usr.getFd(), rpl_366);
 }

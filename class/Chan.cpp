@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/17 13:02:16 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:44:28 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,10 @@ Chan::Chan() : _users(),/* _mode(),*/ _topic(), _blacklist_users()
  * @param usr_operator users create the Chan
  * @param topic_name name of the Chan/topic
  */
-Chan::Chan( Users & usr_operator , std::string topic_name,
-		std::string mdp_tojoin, bool isprivate = false)
+Chan::Chan( Users & usr_operator , std::string topic_name)
 {
-	this->_users.push_back(usr_operator);
+	this->addusers(usr_operator);
 	this->_topic = topic_name;
-	this->_mdp_to_join = mdp_tojoin;
-	(void)isprivate;
 	// ne pas oublier de passer _mode a private si isprivate == true
 }
 
@@ -99,7 +96,23 @@ bool	Chan::addusers(Users to_add)
 			return false;
 	}
 	this->_users.push_back(to_add);
+	COUT(L_CYAN, to_add.getNick_name() << " has join " << this->getTopic());
 	return true;
+}
+bool	Chan::rmusers(Users to_rm)
+{
+	for(std::vector<Users>::iterator it = this->_users.begin(),
+		ite = this->_users.end(); it != ite; it++)
+	{
+		if (*it == to_rm)
+		{
+			this->_users.erase(it);
+			COUT(L_CYAN, to_rm.getNick_name() << " is part of " << this->getTopic());
+			return true;
+		}
+	}
+	return false;
+
 }
 
 // /**
@@ -192,6 +205,11 @@ bool	Chan::addusers(Users to_add)
 std::string		Chan::getTopic(void) const
 {
 	return this->_topic;
+}
+
+std::vector<Users>	Chan::getUsers(void) const
+{
+	return (this->_users);
 }
 
 /* ************************************************************************** */
