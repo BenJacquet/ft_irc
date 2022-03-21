@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/18 16:46:35 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/21 12:31:05 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	command_nick(t_data &data, Message &cmd)
 {
 	(void)data;
 	Users	*sender = cmd.getSender();
-	std::string charset = "0123456789";
+	// std::string charset = "0123456789";
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	std::string nick = args[1];
 
@@ -45,7 +45,8 @@ void	command_user(t_data &data, Message &cmd)
 	sender->setUser_name(args[2]);
 	sender->setHostname(args[3]);
 	sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
-	sender->setFull_id(args[1] + "!" + args[2] + "@" + args[3]);
+	sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
+	//sender->setFull_id(args[1] + "!" + args[2] + "@" + args[3]);
 	registration(data, *sender);
 	// edit real_name of sender;
 }

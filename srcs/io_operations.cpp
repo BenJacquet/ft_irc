@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/19 16:52:44 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/21 11:53:31 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ int receive_packets(t_data &data, Users &client)
  * @param data 
  * @param it iterator pointing to fd
  */
-int io_loop(t_data &data, Users &client)
+void io_loop(t_data &data, Users &client)
 {
-	int i = receive_packets(data, client);
-	
-	return (i);
+	receive_packets(data, client);
 }
