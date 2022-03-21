@@ -3,31 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/21 12:31:05 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:05:24 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+void	alter_nick(t_data &data, std::string &nick)
+{
+	unsigned int i = 0;
+	std::string charset = "0123456789";
+	std::string new_nick(nick);
+
+	while (find_client_nick(data, new_nick) != data.users.end())
+	{
+		new_nick = new_nick + charset[i % 10];
+		COUT(CYAN, "generated " << new_nick);
+		i++;
+	}
+	nick = new_nick;
+}
+
+bool	authenticate_user(t_data &data, Users *client, std::string nick)
+{
+	v_Users::iterator found_reg = find_client_nick(data, nick);
+	v_Users::iterator found_unreg = find_client_fd(data, client->getFd());
+
+	if (found_reg != data.users.end())
+	{
+		if (found_reg->getPw() == client->getPw())
+		{
+			found_reg->setFd(client->getFd());
+			found_reg->connect();
+			data.users.erase(found_unreg);
+			return (true);
+		}
+	}
+	return (false);
+}
+
 void	command_nick(t_data &data, Message &cmd)
 {
 	(void)data;
 	Users	*sender = cmd.getSender();
-	// std::string charset = "0123456789";
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	std::string nick = args[1];
 
-	// for (int i = 0; find_client_nick(data, nick) != data.users.end(); i++)
-	// {
-	// 	if (i > 9)
-	// 		i = 0;
-	// 	tmp = nick + charset[i];
-	// }
-	// while (find_client_nick(data, nick) != data.users.end())
-		// nick = alter_nick(nick);
+	if (authenticate_user(data, sender, nick) == false)
+		alter_nick(data, nick);
 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
 	sender->setNick_name(nick);
 	// edit nick of sender

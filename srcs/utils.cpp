@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 17:36:49 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/18 11:52:26 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,3 +68,4 @@ v_Users::iterator find_client_nick(t_data &data, std::string nick)
 	}
 	return (it);
 }
+
