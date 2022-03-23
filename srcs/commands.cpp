@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/21 15:05:24 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/23 13:49:34 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,6 @@ void	command_die(t_data &data, Message &cmd)
 	// checks for privileges and kills server
 }
 
-// void	command_privmsg(t_data &data, Message &cmd)
-// {
-// 	(void)data;
-// 	(void)cmd;
-// 	(void)
-// 	// checks for user and 
-// }
-
 void	initialize_command_map(t_data &data)
 {
 	data.commands.clear();
@@ -118,7 +110,7 @@ void	initialize_command_map(t_data &data)
 	data.commands.insert(p_Command("USER", &command_user));
 	data.commands.insert(p_Command("PASS", &command_pass));
 	data.commands.insert(p_Command("PING", &command_ping));
-	// data.commands.insert(p_Command("PRIVMSG", &command_privmsg));
+	data.commands.insert(p_Command("PRIVMSG", &command_privmsg));
 	data.commands.insert(p_Command("die", &command_die));
 	data.commands.insert(p_Command("JOIN", &join_parsing));
 	data.commands.insert(p_Command("PART", &part_parsing));

@@ -16,7 +16,8 @@ SRCS = srcs/main.cpp\
 		class/Users.cpp\
 		class/Chan.cpp\
 		srcs/join.cpp\
-		srcs/part.cpp
+		srcs/part.cpp\
+		srcs/privmsg.cpp
 
 INCS = incs/ft_irc.hpp\
 		class/Message.hpp\

@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/21 17:48:11 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/23 15:07:04 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ typedef struct			s_data
 		void	command_user(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_pass(t_data &data, Message &cmd); //AUTHOR: jabenjam
 		void	command_die(t_data &data, Message &cmd);  //AUTHOR: jabenjam
+		void	command_privmsg(t_data &data, Message &cmd); // Author: thoberth
+		void	channel_privmsg(Chan &chan, Users &user, std::string content); // Author: thoberth
 		void	join(t_data &data, Users & creator, std::string name_chan); // Author: thoberth
 		void	join_parsing(t_data &data, Message &cmd); // Author: thoberth
 		void	join_msg(Users &to_add, Chan &chan, bool isnewone); // Author: thoberth
@@ -148,6 +150,7 @@ typedef struct			s_data
 		v_Users::iterator find_client_fd(t_data &data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
 		v_Users::iterator find_client_uid(t_data &data, unsigned int uid); //AUTHOR: jabenjam
 		v_Users::iterator find_client_nick(t_data &data, std::string nick); //AUTHOR: jabenjam
+		Chan*	is_chan_exist(t_data &data, std::string args); // Author: thoberth
 
 	/* DEBUG */
 

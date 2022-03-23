@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/21 13:02:15 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/23 11:50:26 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,19 @@ int poll_setup(t_data &data)
 			}
 			else
 			{
+				CERR(RED, "test0\n");
+				// sleep(1);
 				COUT(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
 				v_Users::iterator found = find_client_fd(data, it->fd);
 				if (found != data.users.end())
 				{
+					CERR(RED, "test1\n");
 					io_loop(data, *found);
-					if (it >= data.poll_fds.end() - 1)
+					if (it == (data.poll_fds.end()))
+					{
+						CERR(RED, "test2\n");
 						break;
+					}
 				}
 				if (data.poll_fds.size() < 2)
 					break;

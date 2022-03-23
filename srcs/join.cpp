@@ -6,28 +6,16 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/21 17:54:16 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/23 14:11:12 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-Chan*		is_chan_exist(t_data &data, std::string args)
-{
-	v_Chan::iterator ite = data.chans.end();
-	for (v_Chan::iterator it = data.chans.begin(); it != ite ; it++)
-	{
-		if (it->getTopic() == args)
-			return &(*it);
-	}
-	return NULL;
-}
-
 void		join_parsing(t_data &data, Message &cmd)
 {
 	Chan *new_chan;
 	std::string chan;
-	std::string pw;
 	size_t pos;
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	for(size_t i=0; i < args.size(); i++)
@@ -36,11 +24,6 @@ void		join_parsing(t_data &data, Message &cmd)
 	{
 		chan.assign(args[1], 0, pos);
 		args[1].erase(0, pos + 1);
-		while (args.size() > 2 && (pos = args[2].find(',')) != std::string::npos)
-		{
-			pw.assign(args[2], 0, pos);
-			args[2].erase(0, pos + 1);
-		}
 		if ((new_chan = is_chan_exist(data, chan)) != NULL)
 		{
 			if (new_chan->addusers(*(cmd.getSender())))
@@ -84,13 +67,13 @@ void		join_msg(Users &to_add, Chan &chan, bool isnewone)
 	{
 		std::string s;
 		v_Users vect = chan.getUsers();
+		RPL_353_366(to_add, chan);
 		for (v_Users::iterator it = vect.begin(), ite = vect.end();
 			it != ite; it++)
 		{
 			s = ":" + to_add.getFull_id() + " JOIN :" + chan.getTopic();
 			send_packets(it->getFd(), s);
 		}
-		RPL_353_366(to_add, chan);
 	}
 	else
 	{
