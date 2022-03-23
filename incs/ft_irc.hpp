@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/23 15:07:04 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/23 17:53:09 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct			s_data
 		void io_loop(t_data &data, Users &client); //AUTHOR: jabenjam
 		int receive_packets(t_data &data, Users &client); //AUTHOR: jabenjam
 		int send_packets(int client, std::string to_send); //AUTHOR: thoberth
+		std::string create_reply(t_data &data, Users *client, int code, std::string arg); //AUTHOR: jabenjam
 
 	/* SERVER SETUP */
 
@@ -116,7 +117,7 @@ typedef struct			s_data
 		void registration(t_data &data, Users &client); //AUTHOR: jabenjam - thoberth
 		void disconnect_user(t_data &data, Users &client); //AUTHOR: jabenjam
 		v_Users::iterator find_uid(t_data &data, unsigned int uid); //AUTHOR: jabenjam
-		void	alter_nick(t_data &data, std::string &nick); //AUTHOR: jabenjam
+		void	check_nick(t_data &data, std::string &nick); //AUTHOR: jabenjam
 		bool	authenticate_user(t_data &data, Users *client, std::string nick); //AUTHOR: jabenjam
 
 	/* ARGUMENT PARSING */
@@ -161,9 +162,11 @@ typedef struct			s_data
 
 // DEFINES NUMERIC REPLIES
 
-#define RPL_WELCOME(HOST, NICK, USER) (":" + HOST + " " + "001" + " " + NICK + " :" + "Welcome to the Internet Relay Network " + USER + "\r\n")
-#define RPL_TOPIC(CHANNEL, TOPIC) (CHANNEL + " :" + TOPIC)
-#define RPL_NOTOPIC(CHANNEL) (CHANNEL + " :No topic is set")
+#define UPDATE_NICK(FULL, NICK) (":" + FULL + " NICK " + NICK)
+
+#define RPL_WELCOME(FULL) (":Welcome to the Internet Relay Network " + FULL) // 001
+
+#define ERR_NICKNAMEINUSE(NICK) (NICK + " :Nickname is already in use") // 433
 
 #define RESET		"\033[0m"			/* Reset*/
 #define BLACK		"\033[30m"			/* Black */

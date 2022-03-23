@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/16 16:52:10 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/23 17:50:33 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ class Users
 	public:
 		/*		METHODS		*/
 		void			disconnect();
-		void			connect();
+		void			connect(int fd);
 		/*		GETTERS		*/
 		unsigned int	getUid() const;
 		int				getFd() const;

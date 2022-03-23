@@ -3,28 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/23 13:49:34 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/23 17:56:50 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-void	alter_nick(t_data &data, std::string &nick)
+void	check_nick(t_data &data, std::string &nick)
 {
-	unsigned int i = 0;
-	std::string charset = "0123456789";
-	std::string new_nick(nick);
-
-	while (find_client_nick(data, new_nick) != data.users.end())
-	{
-		new_nick = new_nick + charset[i % 10];
-		COUT(CYAN, "generated " << new_nick);
-		i++;
-	}
-	nick = new_nick;
+	(void)data;
+	(void)nick;
+	// Verifier si nick < 9 chars
+	// Verifier si chars interdits
 }
 
 bool	authenticate_user(t_data &data, Users *client, std::string nick)
@@ -34,13 +27,15 @@ bool	authenticate_user(t_data &data, Users *client, std::string nick)
 
 	if (found_reg != data.users.end())
 	{
-		if (found_reg->getPw() == client->getPw())
+		if (found_reg == found_unreg)
+			return (true);
+		else if (found_reg->getPw() == client->getPw() && found_reg->getOnline() == false)
 		{
-			found_reg->setFd(client->getFd());
-			found_reg->connect();
+			found_reg->connect(client->getFd());
 			data.users.erase(found_unreg);
 			return (true);
 		}
+		throw std::exception();
 	}
 	return (false);
 }
@@ -51,11 +46,24 @@ void	command_nick(t_data &data, Message &cmd)
 	Users	*sender = cmd.getSender();
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	std::string nick = args[1];
-
-	if (authenticate_user(data, sender, nick) == false)
-		alter_nick(data, nick);
-	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
 	sender->setNick_name(nick);
+
+	try
+	{
+		authenticate_user(data, sender, nick);
+	}
+	catch (const std::exception &e)
+	{
+		send_packets(sender->getFd(), create_reply(data, sender, 433, nick));
+	}
+	if (sender->getReg_status() != 1)
+	{
+		sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
+		COUT(RED, "UPDATED FULLID");
+		send_packets(sender->getFd(), UPDATE_NICK(sender->getFull_id(), nick));
+		registration(data, *sender);
+	}
+	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
 	// edit nick of sender
 }
 
@@ -72,8 +80,8 @@ void	command_user(t_data &data, Message &cmd)
 	sender->setHostname(args[3]);
 	sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
 	sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
-	//sender->setFull_id(args[1] + "!" + args[2] + "@" + args[3]);
-	registration(data, *sender);
+	if (find_client_nick(data, sender->getNick_name()) == data.users.end())
+		registration(data, *sender);
 	// edit real_name of sender;
 }
 

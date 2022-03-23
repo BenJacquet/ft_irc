@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/16 16:53:29 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/23 17:54:00 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,10 @@ void			Users::disconnect()
 	this->setFd(-1);
 }
 
-void			Users::connect()
+void			Users::connect(int fd)
 {
 	this->setOnline(true);
+	this->setFd(fd);
 }
 
 /*
