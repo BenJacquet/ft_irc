@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/23 17:52:09 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:33:52 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 	(void)arg;
 
 	if (client->getNick_name().empty() == true)
-		reply = ":" + client->getHost_name() + " " + code_str.str() + " * ";
+		reply = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " * ";
 	else
-		reply = ":" + client->getHost_name() + " " + code_str.str() + " " + client->getNick_name() + " ";
+		reply = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " " + client->getNick_name() + " ";
 	switch (code)
 	{
 		case (001):
 			return (reply + RPL_WELCOME(client->getFull_id()));
 		case (433):
-			return (reply + ERR_NICKNAMEINUSE(client->getNick_name()));
+			return (reply + ERR_NICKNAMEINUSE(arg));
 		default:
 			break;
 	}

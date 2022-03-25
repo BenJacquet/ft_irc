@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/23 17:50:33 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:44:13 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,15 @@ class Users
 		std::string			_nick_name; /* G & S */
 		std::string			_pw; /* G & S */
 		int					_reg_status; /* G & S */
+		bool				_in_use; /* G & S */
+		bool				_authentified; /* G & S */
 		struct sockaddr_in6	_socket_addr; /* G & S */
 		std::vector<Users>	_ignore_blacklist; /* G & S */
 
 	public:
 		/*		METHODS		*/
 		void			disconnect();
-		void			connect(int fd);
+		void			connect(Users &unreg);
 		/*		GETTERS		*/
 		unsigned int	getUid() const;
 		int				getFd() const;
@@ -71,6 +73,7 @@ class Users
 		std::string		getNick_name() const;
 		std::string		getPw() const;
 		int				getReg_status() const;
+		bool			getIn_use() const;
 		sockaddr_in6	getSocket_addr() const;
 		bool			is_ignored(Users is_in_blacklist);
 		/*		SETTERS		*/
@@ -85,6 +88,7 @@ class Users
 		void			setNick_name(std::string new_nick_name);
 		void			setPw(std::string new_pw);
 		void			setReg_status(int new_status);
+		void			setIn_use(bool in_use);
 		void			setSocket_addr(sockaddr_in6 new_sock_add);
 		void			add_blacklist(Users to_add);
 };

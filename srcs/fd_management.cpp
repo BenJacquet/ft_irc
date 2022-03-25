@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/23 17:51:37 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:41:51 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	registration(t_data &data, Users &client)
 {
 	(void)data;
 	send_packets(client.getFd(), create_reply(data, &client, 001 , ""));
-	client.connect(client.getFd());
+	client.connect(client);
 }
 
 void	disconnect_user(t_data &data, Users &client)

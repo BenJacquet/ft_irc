@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 16:54:02 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:35:45 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void create_admin(t_data &data)
 	Users admin;
 
 	admin.setFd(-1);
-	admin.setUid(0);
+	admin.setUid(1);
 	admin.setOperator(true);
 	admin.setOnline(false);
 	admin.setNick_name("admin");

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/23 17:54:00 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:42:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,15 @@ void			Users::disconnect()
 	this->setFd(-1);
 }
 
-void			Users::connect(int fd)
+void			Users::connect(Users &unreg)
 {
 	this->setOnline(true);
-	this->setFd(fd);
+	this->setFd(unreg.getFd());
+	this->setFull_id(unreg.getFull_id());
+	this->setHostname(unreg.getFull_id());
+	this->setReal_name(unreg.getReal_name());
+	this->setSocket_addr(unreg.getSocket_addr());
+	this->setUser_name(unreg.getUser_name());
 }
 
 /*
@@ -168,6 +173,12 @@ int				Users::getReg_status() const
 {
 	return this->_reg_status;
 }
+
+bool			Users::getIn_use() const
+{
+	return this->_in_use;
+}
+
 
 sockaddr_in6	Users::getSocket_addr() const
 {
@@ -249,6 +260,11 @@ void			Users::setPw(std::string new_pw)
 void			Users::setReg_status(int new_status)
 {
 	this->_reg_status = new_status;
+}
+
+void			Users::setIn_use(bool in_use)
+{
+	this->_in_use = in_use;
 }
 
 void			Users::setSocket_addr(sockaddr_in6 new_sock_add)
