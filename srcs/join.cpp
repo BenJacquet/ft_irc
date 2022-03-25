@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/23 14:11:12 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:16:25 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void		join_parsing(t_data &data, Message &cmd)
 	std::string chan;
 	size_t pos;
 	std::vector<std::string> args = parse_line(cmd.getPayload());
-	for(size_t i=0; i < args.size(); i++)
-		COUT(L_BLUE, "i = " << i << " " << args[i]);
 	while ((pos = args[1].find(',')) != std::string::npos)
 	{
 		chan.assign(args[1], 0, pos);
@@ -29,7 +27,7 @@ void		join_parsing(t_data &data, Message &cmd)
 			if (new_chan->addusers(*(cmd.getSender())))
 				join_msg(*(cmd.getSender()), *new_chan, false);
 			else
-				COUT(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
+				CERR(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
 		}
 		else
 			join(data, *(cmd.getSender()), chan);
@@ -40,7 +38,7 @@ void		join_parsing(t_data &data, Message &cmd)
 		if (new_chan->addusers(*(cmd.getSender())))
 			join_msg(*(cmd.getSender()), *new_chan, false);
 		else
-			COUT(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
+			CERR(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
 	}
 	else
 		join(data, *(cmd.getSender()), chan);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 14:01:14 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 19:21:51 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,13 @@ typedef struct			s_data
 		void	join_msg(Users &to_add, Chan &chan, bool isnewone); // Author: thoberth
 		void	RPL_353_366(Users &usr, Chan &chan); // Author: thoberth
 		void	part_parsing(t_data &data, Message &cmd); // Author: thoberth
+		void	who_command_parsing(t_data &data, Message &cmd); // Author: thoberth
+		void	who_parsing(t_data &data, Message &cmd); // Author: thoberth
+		void	whois_parsing(t_data &data, Message &cmd); // Author: thoberth
+		void	whowas_parsing(t_data &data, Message &cmd); // Author: thoberth
+		void	mode_parsing(t_data &data, Message &cmd); // Author: thoberth
+		void	user_mode(Users &user, std::string content); // Author: thoberth
+		void	chan_mode(Chan &chan, std::string content); // Author: thoberth
 
 	/* UTILS */
 

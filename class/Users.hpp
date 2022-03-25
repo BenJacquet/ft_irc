@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 13:56:22 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:50:11 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ class Users
 	private:
 		unsigned int		_uid; /* G & S */
 		int					_fd; /* G & S */
-		bool				_operator; /* G & S*/
 		bool				_online; /* G & S */
+		std::string			_mode; /* G & S */
 		std::string			_host_name; /* G & S */
 		std::string			_user_name; /* G & S */
 		std::string			_full_id; /* G & S */ /* nickname!user_name@hostname */
@@ -63,8 +63,8 @@ class Users
 		/*		GETTERS		*/
 		unsigned int	getUid() const;
 		int				getFd() const;
-		int				getOperator() const;
 		bool			getOnline() const;
+		std::string		getMode() const;
 		std::string		getHost_name() const;
 		std::string		getUser_name() const;
 		std::string		getFull_id() const;
@@ -78,8 +78,8 @@ class Users
 		/*		SETTERS		*/
 		void			setUid(unsigned int new_uid);
 		void			setFd(int fd);
-		void			setOperator(bool op);
 		void			setOnline(bool online);
+		void			setMode(std::string new_mode);
 		void			setHostname(std::string new_host_name);
 		void			setUser_name(std::string new_user_name);
 		void			setFull_id(std::string new_full_id);

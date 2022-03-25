@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 14:19:19 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 19:20:04 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ Users::Users(int fd, sockaddr_in6 sock_addr, struct s_data &data)
 	for (; find_client_uid(data, uid) != data.users.end();)
 		uid = static_cast<unsigned int>(random() % __INT_MAX__);
 	this->_uid = uid;
+	this->_mode = "+wi";
 }
 
 Users::Users( const Users & src )
@@ -59,8 +60,8 @@ Users &				Users::operator=( Users const & rhs )
 	{
 		this->_uid = rhs._uid;
 		this->_fd = rhs._fd;
-		this->_operator = rhs._operator;
 		this->_online = rhs._online;
+		this->_mode = rhs._mode;
 		this->_host_name = rhs._host_name;
 		this->_user_name = rhs._user_name;
 		this->_full_id = rhs._full_id;
@@ -134,9 +135,9 @@ int				Users::getFd() const
 	return this->_fd;
 }
 
-int				Users::getOperator() const
+std::string		Users::getMode() const
 {
-	return this->_operator;
+	return this->_mode;
 }
 
 std::string		Users::getHost_name() const
@@ -217,14 +218,14 @@ void			Users::setFd(int fd)
 	this->_fd = fd;
 }
 
-void			Users::setOperator(bool op)
-{
-	this->_operator = op;
-}
-
 void			Users::setOnline(bool online)
 {
 	this->_online = online;
+}
+
+void		Users::setMode(std::string new_mode)
+{
+	this->_mode = new_mode;
 }
 
 void			Users::setHostname(std::string new_host_name)

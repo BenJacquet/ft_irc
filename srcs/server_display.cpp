@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_display.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:41:22 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/02 15:21:37 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:22:33 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void put_usage()
  */
 void put_connection(int client_fd)
 {
-	COUT(GREEN, "Successfully connected with " << client_fd);
+	(void)client_fd;
+	// COUT(GREEN, "Successfully connected with " << client_fd);
 }
 
 /**

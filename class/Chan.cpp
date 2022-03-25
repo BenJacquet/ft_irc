@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/21 16:44:28 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:41:34 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-Chan::Chan() : _users(),/* _mode(),*/ _topic(), _blacklist_users()
+Chan::Chan() : _users(), _mode(), _topic(), _blacklist_users()
 {
 }
 /**
@@ -29,7 +29,7 @@ Chan::Chan( Users & usr_operator , std::string topic_name)
 {
 	this->addusers(usr_operator);
 	this->_topic = topic_name;
-	// ne pas oublier de passer _mode a private si isprivate == true
+
 }
 
 Chan::Chan( const Chan & src )
@@ -56,7 +56,7 @@ Chan &				Chan::operator=( Chan const & rhs )
 	if ( this != &rhs )
 	{
 		this->_users = rhs._users;
-		// this->_mode = rhs._mode;
+		this->_mode = rhs._mode;
 		this->_topic = rhs._topic;
 		this->_blacklist_users = rhs._blacklist_users;
 	}
@@ -96,9 +96,9 @@ bool	Chan::addusers(Users to_add)
 			return false;
 	}
 	this->_users.push_back(to_add);
-	COUT(L_CYAN, to_add.getNick_name() << " has join " << this->getTopic());
 	return true;
 }
+
 bool	Chan::rmusers(Users to_rm)
 {
 	for(std::vector<Users>::iterator it = this->_users.begin(),
@@ -107,96 +107,12 @@ bool	Chan::rmusers(Users to_rm)
 		if (*it == to_rm)
 		{
 			this->_users.erase(it);
-			COUT(L_CYAN, to_rm.getNick_name() << " is part of " << this->getTopic());
 			return true;
 		}
 	}
 	return false;
-
 }
 
-// /**
-//  * @brief send private msg to the user specified
-//  * 		but don't open a window
-//  * 
-//  * @param receiver the user for whom the meaage is intented
-//  * @param msg the msg
-//  */
-// void Chan::msg(Users receiver, std::string msg)
-// {
-	
-// }
-
-// /**
-//  * @brief send private msg to the user specified
-//  * 		and open a window
-//  * 
-//  * @param receiver the user who received the msg
-//  * @param msg the msg
-//  */
-// void Chan::query(Users receiver, std::string msg)
-// {
-
-// }
-
-// /**
-//  * @brief show information about the user specified
-//  * 
-//  * @param to_stalk the user to stalk
-//  */
-// void Chan::whois(Users to_stalk)
-// {
-
-// }
-
-// /**
-//  * @brief users can ignore msg about an other users
-//  * 
-//  * @param to_ignore the user to ignore
-//  * @param want_to_ignore the users who ignore @param to_ignore
-//  */
-// void Chan::ignore(Users want_to_ignore, Users to_ignore)
-// {
-	
-// }
-
-// /**
-//  * @brief users can switch to AFK mode and define a msg to the
-//  * 		users who use private msg to them
-//  * 
-//  * @param msg the defined msg
-//  */
-// void Chan::away(Users to_away, std::string msg = "I'm currently AFK")
-// {
-	
-// }
-
-// /**
-//  * @brief users go back in normal mode (not AFK)
-//  * 
-//  */
-// void Chan::away(Users to_away)
-// {}
-
-// /**
-//  * @brief user leave the Chan specified
-//  * 
-//  * @param Chan_name the name of the Chan to leave
-//  */
-// void Chan::part(std::string Chan_name)
-// {}
-
-// void Chan::quit()
-// {}
-
-// /**
-//  * @brief user can invite an other user
-//  * 
-//  * @param to_inv the user invited to the Chan
-//  * @param Chan_name the name of the Chan
-//  */
-// void Chan::invite(Users to_inv, std::string Chan_name)
-// {}
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------

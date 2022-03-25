@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/21 16:44:30 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:40:53 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ class Chan
 
 	private:
 		std::vector<Users> _users;
-		// std::string _mode;
+		std::string _mode;
 		std::string	_mdp_to_join;
 		std::string _topic; /* name ? */
 		std::vector<Users> _blacklist_users;
@@ -39,15 +39,6 @@ class Chan
 	public:
 	/*		METHOD		*/
 		void nick(Users to_Change, std::string new_nick_name);
-		// void msg(Users receiver, std::string msg);
-		// void query(Users receiver, std::string msg = std::string());
-		// void whois(Users to_stalk);
-		// void ignore(Users want_to_ignore, Users to_ignore);
-		// void away(Users to_away, std::string msg);
-		// void away(Users to_not_away);
-		// void part(std::string Chan_name);
-		// void quit();
-		// void invite(Users to_inv, std::string Chan_name);
 	/*		GETTERS		*/
 		std::string			getTopic(void) const;
 		std::vector<Users>	getUsers(void) const;

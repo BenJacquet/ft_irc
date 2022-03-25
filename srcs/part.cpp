@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:50:06 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 13:40:14 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:16:35 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	part_parsing(t_data &data, Message &cmd)
 		it != ite && it->getTopic() != args[1]; it++)
 		;
 	if (it == data.chans.end())
-		COUT(RED, args[1] << "cannot be quit! (not find this channel)");
+		CERR(RED, args[1] << "cannot be quit! (not find this channel)");
 	else
 	{
 		std::string to_send = ":" + cmd.getSender()->getFull_id() + " PART " + args[1];

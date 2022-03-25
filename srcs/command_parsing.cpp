@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_parsing.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/21 12:50:47 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:19:52 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ std::vector<std::string>	parse_line(const std::string &line)
 	for (; std::getline(line_stream, buffer, ' '); z++)
 	{
 		words.push_back(buffer);
-		COUT(CYAN, "words[" << z << "] - " << words[z]);
+		//COUT(CYAN, "words[" << z << "] - " << words[z]);
 		buffer.clear();
 	}
 	words[z - 1].erase(words[z - 1].end() - 1);
@@ -41,13 +41,13 @@ void	command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE])
 		Message	cmd(&client, line);
 		if (line.empty() == true)
 		{
-			COUT(YELLOW, "Line is empty");
+			// COUT(YELLOW, "Line is empty");
 			break;
 		}
-		COUT(MAGENTA, "Line extracted = " << line);
+		// COUT(MAGENTA, "Line extracted = " << line);
 		if (line.find("CAP LS", 0) == 0)
 		{
-			COUT(BLUE, "Found CAP LS");
+			// COUT(BLUE, "Found CAP LS");
 			continue;
 		}
 		for (it = data.commands.begin(); it != end; it++)

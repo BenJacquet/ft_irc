@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_management.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 14:05:42 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:21:51 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void add_fd(t_data &data, int fd)
 		return;
 	fcntl(fd, F_SETFL, O_NONBLOCK);
 	data.poll_fds.push_back(poll);
-	COUT(CYAN, "added descriptor " << poll.fd << " to pollfd vector ");
+	//COUT(CYAN, "added descriptor " << poll.fd << " to pollfd vector ");
 }
 
 void	registration(t_data &data, Users &client)
@@ -129,7 +129,7 @@ int new_connection(t_data &data)
 	int					client_fd = accept(data.sock_fd, reinterpret_cast<struct sockaddr *>(&client_sock), &size);
 	if (client_fd < 1)
 	{
-		CERR(YELLOW, "accept()");
+		//CERR(YELLOW, "accept()");
 		return (-1);
 	}
 	data.users.push_back(Users(client_fd, client_sock, data));

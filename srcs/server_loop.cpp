@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/23 17:52:41 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:14:47 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int poll_setup(t_data &data)
 	}
 	for (; it != data.poll_fds.end(); it++)
 	{
-		// COUT(WHITE, "(" << &(*it) << ")it->fd: " << it->fd << " | data.sock_fd: " << data.sock_fd << " | end(" << &(*data.poll_fds.end()) << ")");
 		if (it->revents == 0)
 		{
 			continue;
@@ -61,7 +60,6 @@ int poll_setup(t_data &data)
 			}
 			else
 			{
-				COUT(WHITE, it->fd << " is readable" << "(" << &(*it) << ")");
 				v_Users::iterator found = find_client_fd(data, it->fd);
 				if (found != data.users.end())
 				{
@@ -74,8 +72,8 @@ int poll_setup(t_data &data)
 			}
 		}
 	}
-	print_pollfd(data);
-	print_users(data);
+	// print_pollfd(data);
+	// print_users(data);
 	return (0);
 }
 
