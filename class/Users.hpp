@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 13:44:13 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:56:22 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ class Users
 		std::string			_pw; /* G & S */
 		int					_reg_status; /* G & S */
 		bool				_in_use; /* G & S */
-		bool				_authentified; /* G & S */
 		struct sockaddr_in6	_socket_addr; /* G & S */
 		std::vector<Users>	_ignore_blacklist; /* G & S */
 

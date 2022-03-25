@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 13:41:36 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:56:56 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,57 @@ bool	authenticate_user(t_data &data, Users *client, std::string nick)
 	return (false);
 }
 
+// void	command_nick(t_data &data, Message &cmd)
+// {
+// 	(void)data;
+// 	Users	*sender = cmd.getSender();
+// 	std::vector<std::string> args = parse_line(cmd.getPayload());
+// 	std::string nick = args[1];
+
+// 	try
+// 	{
+// 		sender->setNick_name(nick);
+// 		authenticate_user(data, sender, nick);
+// 		sender->setIn_use(false);
+// 		if (sender->getReal_name().empty() == false)
+// 		{
+// 			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
+// 			COUT(RED, "UPDATED FULLID");
+// 			send_packets(sender->getFd(), UPDATE_NICK(sender->getFull_id(), nick));
+// 			COUT(GREEN, "REGISTERED IN NICK");
+// 			registration(data, *sender);
+// 		}
+// 	}
+// 	catch (const std::exception &e)
+// 	{
+// 		send_packets(sender->getFd(), create_reply(data, sender, 433, nick));
+// 		sender->setIn_use(true);
+// 	}
+// 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
+// 	// edit nick of sender
+// }
+
+// void	command_user(t_data &data, Message &cmd)
+// {
+// 	Users	*sender = cmd.getSender();
+// 	std::vector<std::string> args = parse_line(cmd.getPayload());
+
+// 	if (args.size() < 5)
+// 		return;
+// 	sender->setReg_status((sender->getUser_name().empty() == true ? 2 : sender->getReg_status()));
+// 	sender->setReg_status((sender->getPw().empty() == true ? sender->getReg_status() : 3));
+// 	sender->setUser_name(args[2]);
+// 	sender->setHostname(args[3]);
+// 	sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
+// 	sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
+// 	if (sender->getIn_use() == false)
+// 	{
+// 		COUT(GREEN, "REGISTERED IN USER");
+// 		registration(data, *sender);
+// 	}
+// 	// edit real_name of sender;
+// }
+
 void	command_nick(t_data &data, Message &cmd)
 {
 	(void)data;
@@ -47,25 +98,7 @@ void	command_nick(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	std::string nick = args[1];
 
-	try
-	{
-		authenticate_user(data, sender, nick);
-		sender->setNick_name(nick);
-		sender->setIn_use(false);
-		if (sender->getReal_name().empty() == false)
-		{
-			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
-			COUT(RED, "UPDATED FULLID");
-			send_packets(sender->getFd(), UPDATE_NICK(sender->getFull_id(), nick));
-			COUT(GREEN, "REGISTERED IN NICK");
-			registration(data, *sender);
-		}
-	}
-	catch (const std::exception &e)
-	{
-		send_packets(sender->getFd(), create_reply(data, sender, 433, nick));
-		sender->setIn_use(true);
-	}
+	sender->setNick_name(nick);
 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
 	// edit nick of sender
 }
@@ -83,6 +116,24 @@ void	command_user(t_data &data, Message &cmd)
 	sender->setHostname(args[3]);
 	sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
 	sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
+	try
+	{
+		authenticate_user(data, sender, sender->getNick_name());
+		sender->setIn_use(false);
+		if (sender->getReal_name().empty() == false)
+		{
+			sender->setFull_id(sender->getNick_name() + "!" + sender->getUser_name() + "@" + sender->getHost_name());
+			COUT(RED, "UPDATED FULLID");
+			send_packets(sender->getFd(), UPDATE_NICK(sender->getFull_id(), sender->getNick_name()));
+			COUT(GREEN, "REGISTERED AFTER AUTHENTICATION");
+			registration(data, *sender);
+		}
+	}
+	catch (const std::exception &e)
+	{
+		send_packets(sender->getFd(), create_reply(data, sender, 433, sender->getNick_name()));
+		sender->setIn_use(true);
+	}
 	if (sender->getIn_use() == false)
 	{
 		COUT(GREEN, "REGISTERED IN USER");
