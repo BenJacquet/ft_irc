@@ -87,3 +87,23 @@ RESSOURCES UTILES :
  - (channel modes) https://wiki.zandronum.com/IRC:Channel_Modes
  - (commands) https://www.techbull.com/techbull/guide/internet/irccommande.html
  - (address reuse) https://hea-www.harvard.edu/~fine/Tech/addrinuse.html
+
+
+
+Connexions
+
+	- User se connecte, trois cas possibles :
+		- User connu et deja authentifié :
+			REG = 3
+			Recuperer les infos depuis le USER
+
+		- User connu et non authentifié :
+			REG = 2
+
+		- User inconnu :
+			REG = 0
+			Recuperer les infos depuis le USER
+			REG = 1
+			Update le nickname depuis le nouveau NICK
+			REG = 2
+			Update le fullid
