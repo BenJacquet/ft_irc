@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:21:31 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/11 16:04:42 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:35:27 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,6 @@ class Message
 		Users *getSender() const;
 		Users *getDestination() const;
 		std::string getPayload() const;
+		void setSender(Users *sender);
+		void setDestination(Users *destination);
 };

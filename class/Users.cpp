@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 14:19:19 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:24:27 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,15 @@ void			Users::disconnect()
 	this->setFd(-1);
 }
 
-void			Users::connect(Users &unreg)
+void			Users::connect(Users *user)
 {
 	this->setOnline(true);
-	this->setFd(unreg.getFd());
-	this->setFull_id(unreg.getFull_id());
-	this->setHostname(unreg.getFull_id());
-	this->setReal_name(unreg.getReal_name());
-	this->setSocket_addr(unreg.getSocket_addr());
-	this->setUser_name(unreg.getUser_name());
+	this->setFd(user->getFd());
+	this->setFull_id(user->getFull_id());
+	this->setHost_name(user->getHost_name());
+	this->setReal_name(user->getReal_name());
+	this->setSocket_addr(user->getSocket_addr());
+	this->setUser_name(user->getUser_name());
 }
 
 /*
@@ -227,7 +227,7 @@ void			Users::setOnline(bool online)
 	this->_online = online;
 }
 
-void			Users::setHostname(std::string new_host_name)
+void			Users::setHost_name(std::string new_host_name)
 {
 	this->_host_name = new_host_name;
 }

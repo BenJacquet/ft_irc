@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 14:01:14 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:21:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct			s_data
 
 	/* USER MANAGEMENT */
 
-		void registration(t_data &data, Users &client); //AUTHOR: jabenjam - thoberth
+		void registration(t_data &data, Users *client); //AUTHOR: jabenjam - thoberth
 		void disconnect_user(t_data &data, Users &client); //AUTHOR: jabenjam
 		v_Users::iterator find_uid(t_data &data, unsigned int uid); //AUTHOR: jabenjam
 		void	check_nick(t_data &data, std::string &nick); //AUTHOR: jabenjam

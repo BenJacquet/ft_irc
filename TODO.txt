@@ -66,7 +66,7 @@ bool		protocol (ipv4/ipv6);
 (inconnu)	mode (flags operateur, ban);
 
 FIXES :
-- generer un nickname si deja pris
+- gerer le changement de nick sur un user deja authentifié
 
 USERS WORKFLOW :
 - Utilisateur qui se connecte mais pas encore authentifié stocké dans data.users (RFC 2812 - 3.1)

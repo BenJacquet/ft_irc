@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 13:56:22 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:22:04 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ class Users
 	public:
 		/*		METHODS		*/
 		void			disconnect();
-		void			connect(Users &unreg);
+		void			connect(Users *unreg);
 		/*		GETTERS		*/
 		unsigned int	getUid() const;
 		int				getFd() const;
@@ -80,7 +80,7 @@ class Users
 		void			setFd(int fd);
 		void			setOperator(bool op);
 		void			setOnline(bool online);
-		void			setHostname(std::string new_host_name);
+		void			setHost_name(std::string new_host_name);
 		void			setUser_name(std::string new_user_name);
 		void			setFull_id(std::string new_full_id);
 		void			setReal_name(std::string new_real_name);
