@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 16:08:36 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:01:06 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,11 @@ void	command_pass(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 
 	sender->setReg_status(3);
-	sender->setPw(args[1]);
+	if (args.size() > 1 && args[1].empty() == false)
+	{
+		sender->setPw(encrypt_data(data.salt, args[1]));
+		// sender->setPw(args[1]);
+	}
 	// check user password and authenticate if valid
 }
 

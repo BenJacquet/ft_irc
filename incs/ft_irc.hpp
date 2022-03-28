@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 13:20:58 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:58:40 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct			s_data
 	m_Commands			commands;		// map qui contient en key->string de la commande et value->fonction pointeur
 	int					timeout;		// ms avant de timeout
 	std::string			password;		// password admin
+	long				salt;			// sel pour les mdp
 }						t_data;
 
 // PROTOTYPES
@@ -161,6 +162,7 @@ typedef struct			s_data
 		v_Users::iterator find_client_uid(t_data &data, unsigned int uid);
 		v_Users::iterator find_client_nick(t_data &data, std::string nick);
 		Chan*	is_chan_exist(t_data &data, std::string args);
+		std::string	encrypt_data(long salt, std::string to_encrypt);
 
 	/* DEBUG */
 

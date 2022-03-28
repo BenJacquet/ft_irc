@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   crypto.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/22 10:20:43 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 16:54:38 by jabenjam         ###   ########.fr       */
+/*   Created: 2022/03/28 16:43:24 by jabenjam          #+#    #+#             */
+/*   Updated: 2022/03/28 17:03:36 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-int main(int ac, char **av)
+std::string	encrypt_data(long salt, std::string to_encrypt)
 {
-	t_data data;
+	long converted = atoll(to_encrypt.c_str());
+	std::ostringstream encrypted;
 
-	if (parse_arguments(ac, av, data) != 0 || addrinfo_setup(data, av) != 0 || server_setup(data) != 0)
-		return (1);
-	COUT(L_CYAN, ASCII_HEADER);
-	server_loop(data);
-	return (0);
+	encrypted << (converted ^ salt);
+
+	COUT(BLUE, encrypted.str());
+	return (encrypted.str());
 }

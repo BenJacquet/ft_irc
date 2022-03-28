@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 12:39:28 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:58:56 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void create_admin(t_data &data)
 	admin.setMode(admin.getMode() + "0");
 	admin.setOnline(false);
 	admin.setNick_name("admin");
-	admin.setPw(data.password);
+	admin.setPw(encrypt_data(data.salt, data.password));
+	// admin.setPw(data.password);
 	admin.setReg_status(3);
 	admin.setAuthenticated(0);
 	data.users.push_back(admin);
@@ -61,6 +62,8 @@ int addrinfo_setup(t_data &data, char **av)
  */
 int server_setup(t_data &data)
 {
+	srand(time(NULL));
+	data.salt = random();
 	data.timeout = (5 * 60 * 1000);
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
 								data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
