@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_management.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 15:21:51 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 14:23:20 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,26 @@ void add_fd(t_data &data, int fd)
 	//COUT(CYAN, "added descriptor " << poll.fd << " to pollfd vector ");
 }
 
-void	registration(t_data &data, Users &client)
+void	registration(t_data &data, Users *client)
 {
 	(void)data;
-	send_packets(client.getFd(), create_reply(data, &client, 001 , ""));
-	client.connect(client);
+	send_packets(client->getFd(), create_reply(data, client, 001 , ""));
+	client->setOnline(true);
+}
+
+void	replace_user(t_data &data, Users &user)
+{
+	int	to_replace = user.getAuthenticated();
+
+	if (to_replace != 0)
+	{
+		v_Users::iterator authentified = find_client_uid(data, to_replace);
+		if (authentified != data.users.end())
+		{
+			user.connect(*authentified);
+			data.users.erase(authentified);
+		}
+	}
 }
 
 void	disconnect_user(t_data &data, Users &client)

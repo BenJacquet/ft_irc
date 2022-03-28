@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 19:25:05 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:20:31 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	mode_parsing(t_data &data, Message &cmd)
 	v_Users::iterator	new_usr;
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	std::string content;
+
+	replace_user(data, *cmd.getSender());
+
 	for(size_t i=2; i < args.size(); i++)
 		content += args[i] + " " ;
 	if (((new_chan = is_chan_exist(data, args[1])) != NULL) ||

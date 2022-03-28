@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 15:19:11 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 14:16:07 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int send_packets(int client, std::string to_send)
 		CERR(YELLOW, "couldn't send packet!");
 	else
 	{
-		// COUT(L_BLUE, "----> sent " << ret << " bytes to " << client << ":");
-		// COUT(L_BLUE, to_send);
+		COUT(L_BLUE, "----> sent " << ret << " bytes to " << client << ":");
+		COUT(L_BLUE, to_send);
 	}
 	return (ret);
 }
@@ -79,8 +79,8 @@ int receive_packets(t_data &data, Users &client)
 		disconnect_user(data, client);
 	else if (received != -1)
 	{
-		// COUT(L_GREEN, "<---- received " << received << " bytes from " << client.getFd() << ":");
-		// COUT(L_GREEN, buffer);
+		COUT(L_GREEN, "<---- received " << received << " bytes from " << client.getFd() << ":");
+		COUT(L_GREEN, buffer);
 		command_parsing(data, client, buffer);
 	}
 	return (received);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 19:20:04 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 14:22:39 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ Users::Users(int fd, sockaddr_in6 sock_addr, struct s_data &data)
 	this->_reg_status = 0;
 	this->_online = 0;
 	unsigned int uid = static_cast<unsigned int>(random() % __INT_MAX__);
-	for (; find_client_uid(data, uid) != data.users.end();)
+	for (; uid != 0 && find_client_uid(data, uid) != data.users.end();)
 		uid = static_cast<unsigned int>(random() % __INT_MAX__);
 	this->_uid = uid;
+	this->_authenticated = 0;
 	this->_mode = "+wi";
 }
 
@@ -71,6 +72,7 @@ Users &				Users::operator=( Users const & rhs )
 		this->_reg_status = rhs._reg_status;
 		this->_socket_addr = rhs._socket_addr;
 		this->_ignore_blacklist = rhs._ignore_blacklist;
+		this->_authenticated = rhs._authenticated;
 		
 	}
 	return *this;
@@ -96,6 +98,23 @@ bool operator!=(Users &a, Users &b)
 	return (!(a == b));
 }
 
+std::ostream &operator<<(std::ostream &COUT, Users &user)
+{
+	COUT
+		<< std::endl << "- Nick:" << user.getNick_name()
+		<< std::endl << "- Real Name:" << user.getReal_name()
+		<< std::endl << "- Hostname:" << user.getHost_name()
+		<< std::endl << "- Full id:" << user.getFull_id()
+		<< std::endl << "- Password:" << user.getPw()
+		<< std::endl << "- Fd:" << user.getFd()
+		<< std::endl << "- Online:" << user.getOnline()
+		<< std::endl << "- Reg Status:" << user.getReg_status()
+		<< std::endl << "- Authenticated:" << user.getAuthenticated()
+		<< std::endl << "- Uid:" << user.getUid()
+		<< std::endl << "-------------";
+	return (COUT);
+}
+
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
@@ -103,18 +122,15 @@ bool operator!=(Users &a, Users &b)
 void			Users::disconnect()
 {
 	this->setOnline(false);
+	this->setAuthenticated(0);
 	this->setFd(-1);
 }
 
-void			Users::connect(Users &unreg)
+void			Users::connect(Users &user)
 {
 	this->setOnline(true);
-	this->setFd(unreg.getFd());
-	this->setFull_id(unreg.getFull_id());
-	this->setHostname(unreg.getFull_id());
-	this->setReal_name(unreg.getReal_name());
-	this->setSocket_addr(unreg.getSocket_addr());
-	this->setUser_name(unreg.getUser_name());
+	this->setUid(user.getUid());
+	this->setAuthenticated(0);
 }
 
 /*
@@ -180,6 +196,10 @@ bool			Users::getIn_use() const
 	return this->_in_use;
 }
 
+int				Users::getAuthenticated() const
+{
+	return this->_authenticated;
+}
 
 sockaddr_in6	Users::getSocket_addr() const
 {
@@ -266,6 +286,11 @@ void			Users::setReg_status(int new_status)
 void			Users::setIn_use(bool in_use)
 {
 	this->_in_use = in_use;
+}
+
+void			Users::setAuthenticated(int authenticated)
+{
+	this->_authenticated = authenticated;
 }
 
 void			Users::setSocket_addr(sockaddr_in6 new_sock_add)

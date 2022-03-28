@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 19:21:51 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:20:58 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,91 +79,93 @@ typedef struct			s_data
 
 	/* FD MANAGEMENT */
 
-		v_pollfds::iterator find_fd(t_data &data, int fd); //AUTHOR: jabenjam
-		void remove_fd(t_data &data, int fd); //AUTHOR: jabenjam
-		void add_fd(t_data &data, int fd); //AUTHOR: jabenjam
-		int new_connection(t_data &data); //AUTHOR: jabenjam
+		v_pollfds::iterator find_fd(t_data &data, int fd);
+		void remove_fd(t_data &data, int fd);
+		void add_fd(t_data &data, int fd);
+		int new_connection(t_data &data);
 
 	/* IO OPERATIONS */
 
-		void io_loop(t_data &data, Users &client); //AUTHOR: jabenjam
-		int receive_packets(t_data &data, Users &client); //AUTHOR: jabenjam
-		int send_packets(int client, std::string to_send); //AUTHOR: thoberth
-		std::string create_reply(t_data &data, Users *client, int code, std::string arg); //AUTHOR: jabenjam
+		void io_loop(t_data &data, Users &client);
+		int receive_packets(t_data &data, Users &client);
+		int send_packets(int client, std::string to_send);
+		std::string create_reply(t_data &data, Users *client, int code, std::string arg);
 
 	/* SERVER SETUP */
 
-		int server_setup(t_data &data); //AUTHOR: jabenjam
-		int addrinfo_setup(t_data &data, char **av); //AUTHOR: jabenjam
+		int server_setup(t_data &data);
+		int addrinfo_setup(t_data &data, char **av);
 
 	/* SERVER LOOP */
 
-		int server_loop(t_data &data); //AUTHOR: jabenjam
-		int poll_setup(t_data &data); //AUTHOR: jabenjam
+		int server_loop(t_data &data);
+		int poll_setup(t_data &data);
 
 	/* SERVER CONTROL */
 
-		int command_loop(t_data &data); //AUTHOR: jabenjam
+		int command_loop(t_data &data);
 
 	/* SERVER DISPLAY */
 
-		void put_disconnection(int client_fd); //AUTHOR: jabenjam
-		void put_connection(int client_fd); //AUTHOR: jabenjam
-		void put_usage(); //AUTHOR: jabenjam
-		void put_error(std::string const error); //AUTHOR: jabenjam
+		void put_disconnection(int client_fd);
+		void put_connection(int client_fd);
+		void put_usage();
+		void put_error(std::string const error);
 
 	/* USER MANAGEMENT */
 
-		void registration(t_data &data, Users &client); //AUTHOR: jabenjam - thoberth
-		void disconnect_user(t_data &data, Users &client); //AUTHOR: jabenjam
-		v_Users::iterator find_uid(t_data &data, unsigned int uid); //AUTHOR: jabenjam
-		void	check_nick(t_data &data, std::string &nick); //AUTHOR: jabenjam
-		bool	authenticate_user(t_data &data, Users *client, std::string nick); //AUTHOR: jabenjam
+		void registration(t_data &data, Users *client);
+		void disconnect_user(t_data &data, Users &client);
+		v_Users::iterator find_uid(t_data &data, unsigned int uid);
+		void	check_nick(t_data &data, std::string &nick);
+		bool	authenticate_user(t_data &data, Users *client, std::string nick);
+		void	replace_user(t_data &data, Users &user);
 
 	/* ARGUMENT PARSING */
 
-		int parse_arguments(int ac, char **av, t_data &data); //AUTHOR: jabenjam
-		bool valid_port(std::string av, t_data &data); //AUTHOR: jabenjam
+		int parse_arguments(int ac, char **av, t_data &data);
+		bool valid_port(std::string av, t_data &data);
 
 	/* COMMAND PARSING */
 
-		void command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE]); //AUTHOR: jabenjam
-		void initialize_command_map(t_data &data); //AUTHOR: jabenjam
-		std::vector<std::string> parse_line(const std::string &line); //AUTHOR: jabenjam
+		void command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE]);
+		void initialize_command_map(t_data &data);
+		std::vector<std::string> parse_line(const std::string &line);
 
 	/* COMMANDS*/
 
-		void	command_nick(t_data &data, Message &cmd); //AUTHOR: jabenjam
-		void	command_user(t_data &data, Message &cmd); //AUTHOR: jabenjam
-		void	command_pass(t_data &data, Message &cmd); //AUTHOR: jabenjam
-		void	command_die(t_data &data, Message &cmd);  //AUTHOR: jabenjam
-		void	command_privmsg(t_data &data, Message &cmd); // Author: thoberth
-		void	channel_privmsg(Chan &chan, Users &user, std::string content); // Author: thoberth
-		void	join(t_data &data, Users & creator, std::string name_chan); // Author: thoberth
-		void	join_parsing(t_data &data, Message &cmd); // Author: thoberth
-		void	join_msg(Users &to_add, Chan &chan, bool isnewone); // Author: thoberth
-		void	RPL_353_366(Users &usr, Chan &chan); // Author: thoberth
-		void	part_parsing(t_data &data, Message &cmd); // Author: thoberth
-		void	who_command_parsing(t_data &data, Message &cmd); // Author: thoberth
-		void	who_parsing(t_data &data, Message &cmd); // Author: thoberth
-		void	whois_parsing(t_data &data, Message &cmd); // Author: thoberth
-		void	whowas_parsing(t_data &data, Message &cmd); // Author: thoberth
-		void	mode_parsing(t_data &data, Message &cmd); // Author: thoberth
-		void	user_mode(Users &user, std::string content); // Author: thoberth
-		void	chan_mode(Chan &chan, std::string content); // Author: thoberth
+		void	command_nick(t_data &data, Message &cmd);
+		void	command_user(t_data &data, Message &cmd);
+		void	command_pass(t_data &data, Message &cmd);
+		void	command_pong(t_data &data, Message &cmd);
+		void	command_die(t_data &data, Message &cmd);
+		void	command_privmsg(t_data &data, Message &cmd);
+		void	channel_privmsg(Chan &chan, Users &user, std::string content);
+		void	join(t_data &data, Users & creator, std::string name_chan);
+		void	join_parsing(t_data &data, Message &cmd);
+		void	join_msg(Users &to_add, Chan &chan, bool isnewone);
+		void	RPL_353_366(Users &usr, Chan &chan);
+		void	part_parsing(t_data &data, Message &cmd);
+		void	who_command_parsing(t_data &data, Message &cmd);
+		void	who_parsing(t_data &data, Message &cmd);
+		void	whois_parsing(t_data &data, Message &cmd);
+		void	whowas_parsing(t_data &data, Message &cmd);
+		void	mode_parsing(t_data &data, Message &cmd);
+		void	user_mode(Users &user, std::string content);
+		void	chan_mode(Chan &chan, std::string content);
 
 	/* UTILS */
 
-		int ft_strlen(const char *str); //AUTHOR: thoberth
-		v_Users::iterator find_client_fd(t_data &data, int fd); //AUTHOR: thoberth et slmt luuuuuuuuuuuuiiiiiii!
-		v_Users::iterator find_client_uid(t_data &data, unsigned int uid); //AUTHOR: jabenjam
-		v_Users::iterator find_client_nick(t_data &data, std::string nick); //AUTHOR: jabenjam
-		Chan*	is_chan_exist(t_data &data, std::string args); // Author: thoberth
+		int ft_strlen(const char *str);
+		v_Users::iterator find_client_fd(t_data &data, int fd);
+		v_Users::iterator find_client_uid(t_data &data, unsigned int uid);
+		v_Users::iterator find_client_nick(t_data &data, std::string nick);
+		Chan*	is_chan_exist(t_data &data, std::string args);
 
 	/* DEBUG */
 
-		void print_pollfd(t_data &data); //AUTHOR: jabenjam
-		void print_users(t_data &data); //AUTHOR: jabenjam
+		void print_pollfd(t_data &data);
+		void print_users(t_data &data);
 
 // TEMPLATES
 

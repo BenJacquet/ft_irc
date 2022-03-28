@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_setup.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 19:19:45 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 12:39:28 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void create_admin(t_data &data)
 	admin.setNick_name("admin");
 	admin.setPw(data.password);
 	admin.setReg_status(3);
+	admin.setAuthenticated(0);
 	data.users.push_back(admin);
 }
 

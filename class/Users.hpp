@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 17:50:11 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:20:00 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,14 @@ class Users
 		std::string			_pw; /* G & S */
 		int					_reg_status; /* G & S */
 		bool				_in_use; /* G & S */
+		int					_authenticated; /* G & S */
 		struct sockaddr_in6	_socket_addr; /* G & S */
 		std::vector<Users>	_ignore_blacklist; /* G & S */
 
 	public:
 		/*		METHODS		*/
 		void			disconnect();
-		void			connect(Users &unreg);
+		void			connect(Users &to_replace);
 		/*		GETTERS		*/
 		unsigned int	getUid() const;
 		int				getFd() const;
@@ -73,6 +74,7 @@ class Users
 		std::string		getPw() const;
 		int				getReg_status() const;
 		bool			getIn_use() const;
+		int				getAuthenticated() const;
 		sockaddr_in6	getSocket_addr() const;
 		bool			is_ignored(Users is_in_blacklist);
 		/*		SETTERS		*/
@@ -88,11 +90,13 @@ class Users
 		void			setPw(std::string new_pw);
 		void			setReg_status(int new_status);
 		void			setIn_use(bool in_use);
+		void			setAuthenticated(int authenticated);
 		void			setSocket_addr(sockaddr_in6 new_sock_add);
 		void			add_blacklist(Users to_add);
 };
 
 bool operator==(Users & a, Users & b);
 bool operator!=(Users & a, Users & b);
+std::ostream &operator<<(std::ostream &COUT, Users &user);
 
 #endif /* *********************************************************** USERS_H */

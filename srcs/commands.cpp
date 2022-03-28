@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/25 17:37:00 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/28 14:43:37 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ bool	authenticate_user(t_data &data, Users *client, std::string nick)
 	v_Users::iterator found_reg = find_client_nick(data, nick);
 	v_Users::iterator found_unreg = find_client_fd(data, client->getFd());
 
+	COUT(WHITE, "REG=" << &(*found_reg));
+	COUT(WHITE, "UNREG=" << &(*found_unreg));
 	if (found_reg != data.users.end())
 	{
 		if (found_reg == found_unreg)
 			return (true);
-		else if (found_reg->getPw() == client->getPw() && found_reg->getOnline() == false)
+		if (found_reg->getPw() == client->getPw() && found_reg->getOnline() == false)
 		{
-			found_reg->connect(*found_unreg);
-			data.users.erase(found_unreg);
+			COUT(WHITE, "UNREG REAL NAME EMPTY=" << found_unreg->getReal_name().empty());
+			found_unreg->setAuthenticated(found_reg->getUid());
 			return (true);
 		}
 		throw std::exception();
@@ -49,16 +51,19 @@ void	command_nick(t_data &data, Message &cmd)
 
 	try
 	{
-		authenticate_user(data, sender, nick);
 		sender->setNick_name(nick);
+		authenticate_user(data, sender, nick);
+		COUT(WHITE, "NICK --->client address=" << sender);
+		COUT(WHITE, "NICK AFTER UPDATE --->client address=" << sender);
 		sender->setIn_use(false);
 		if (sender->getReal_name().empty() == false)
 		{
-			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
-			COUT(RED, "UPDATED FULLID");
 			send_packets(sender->getFd(), UPDATE_NICK(sender->getFull_id(), nick));
+			COUT(RED, "UPDATED FULLID");
+			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
 			COUT(GREEN, "REGISTERED IN NICK");
-			registration(data, *sender);
+			if (sender->getOnline() == false)
+				registration(data, sender);
 		}
 	}
 	catch (const std::exception &e)
@@ -77,62 +82,17 @@ void	command_user(t_data &data, Message &cmd)
 
 	if (args.size() < 5)
 		return;
+	COUT(WHITE, "USER --->client address=" << sender);
 	sender->setReg_status((sender->getUser_name().empty() == true ? 2 : sender->getReg_status()));
 	sender->setReg_status((sender->getPw().empty() == true ? sender->getReg_status() : 3));
 	sender->setUser_name(args[2]);
 	sender->setHostname(args[3]);
 	sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
 	sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
-	if (sender->getIn_use() == false)
-	{
-		COUT(GREEN, "REGISTERED IN USER");
-		registration(data, *sender);
-	}
+	if (sender->getOnline() == false && sender->getIn_use() == false)
+		registration(data, sender);
 	// edit real_name of sender;
 }
-
-// void	command_nick(t_data &data, Message &cmd)
-// {
-// 	(void)data;
-// 	Users	*sender = cmd.getSender();
-// 	std::vector<std::string> args = parse_line(cmd.getPayload());
-// 	std::string nick = args[1];
-
-// 	sender->setNick_name(nick);
-// 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
-// 	// edit nick of sender
-// }
-
-// void	command_user(t_data &data, Message &cmd)
-// {
-// 	Users	*sender = cmd.getSender();
-// 	std::vector<std::string> args = parse_line(cmd.getPayload());
-
-// 	if (args.size() < 5)
-// 		return;
-// 	sender->setReg_status((sender->getUser_name().empty() == true ? 2 : sender->getReg_status()));
-// 	sender->setReg_status((sender->getPw().empty() == true ? sender->getReg_status() : 3));
-// 	sender->setUser_name(args[2]);
-// 	sender->setHostname(args[3]);
-// 	sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
-// 	sender->setFull_id(sender->getNick_name() + "!" + sender->getUser_name() + "@" + sender->getHost_name());
-// 	try
-// 	{
-// 		authenticate_user(data, sender, sender->getNick_name());
-// 		sender->setIn_use(false);
-// 		sender->setFull_id(sender->getNick_name() + "!" + sender->getUser_name() + "@" + sender->getHost_name());
-// 		COUT(RED, "UPDATED FULLID");
-// 		send_packets(sender->getFd(), UPDATE_NICK(sender->getFull_id(), sender->getNick_name()));
-// 		COUT(GREEN, "REGISTERED AFTER AUTHENTICATION");
-// 		registration(data, *sender);
-// 	}
-// 	catch (const std::exception &e)
-// 	{
-// 		send_packets(sender->getFd(), create_reply(data, sender, 433, sender->getNick_name()));
-// 		sender->setIn_use(true);
-// 	}
-// 	// edit real_name of sender;
-// }
 
 void	command_pass(t_data &data, Message &cmd)
 {
@@ -145,10 +105,12 @@ void	command_pass(t_data &data, Message &cmd)
 	// check user password and authenticate if valid
 }
 
-void	command_ping(t_data &data, Message &cmd)
+void	command_pong(t_data &data, Message &cmd)
 {
 	(void)data;
-	send_packets(cmd.getSender()->getFd(), "localhost");
+
+	std::string pong = cmd.getPayload().replace(0, 4, "PONG");
+	send_packets(cmd.getSender()->getFd(), pong);
 	// check user password and authenticate if valid
 }
 
@@ -166,7 +128,7 @@ void	initialize_command_map(t_data &data)
 	data.commands.insert(p_Command("NICK", &command_nick));
 	data.commands.insert(p_Command("USER", &command_user));
 	data.commands.insert(p_Command("PASS", &command_pass));
-	data.commands.insert(p_Command("PING", &command_ping));
+	data.commands.insert(p_Command("PING", &command_pong));
 	data.commands.insert(p_Command("PRIVMSG", &command_privmsg));
 	data.commands.insert(p_Command("die", &command_die));
 	data.commands.insert(p_Command("JOIN", &join_parsing));
