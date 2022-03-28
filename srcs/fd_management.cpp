@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 14:23:20 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:03:55 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void add_fd(t_data &data, int fd)
 
 void	registration(t_data &data, Users *client)
 {
-	(void)data;
 	send_packets(client->getFd(), create_reply(data, client, 001 , ""));
 	client->setOnline(true);
 }

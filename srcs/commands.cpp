@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 14:43:37 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:08:36 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,12 @@ bool	authenticate_user(t_data &data, Users *client, std::string nick)
 	v_Users::iterator found_reg = find_client_nick(data, nick);
 	v_Users::iterator found_unreg = find_client_fd(data, client->getFd());
 
-	COUT(WHITE, "REG=" << &(*found_reg));
-	COUT(WHITE, "UNREG=" << &(*found_unreg));
 	if (found_reg != data.users.end())
 	{
 		if (found_reg == found_unreg)
 			return (true);
 		if (found_reg->getPw() == client->getPw() && found_reg->getOnline() == false)
 		{
-			COUT(WHITE, "UNREG REAL NAME EMPTY=" << found_unreg->getReal_name().empty());
 			found_unreg->setAuthenticated(found_reg->getUid());
 			return (true);
 		}
@@ -53,17 +50,13 @@ void	command_nick(t_data &data, Message &cmd)
 	{
 		sender->setNick_name(nick);
 		authenticate_user(data, sender, nick);
-		COUT(WHITE, "NICK --->client address=" << sender);
-		COUT(WHITE, "NICK AFTER UPDATE --->client address=" << sender);
 		sender->setIn_use(false);
 		if (sender->getReal_name().empty() == false)
 		{
-			send_packets(sender->getFd(), UPDATE_NICK(sender->getFull_id(), nick));
-			COUT(RED, "UPDATED FULLID");
 			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
-			COUT(GREEN, "REGISTERED IN NICK");
 			if (sender->getOnline() == false)
 				registration(data, sender);
+			send_packets(sender->getFd(), UPDATE_NICK(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name(), nick));
 		}
 	}
 	catch (const std::exception &e)
@@ -77,12 +70,12 @@ void	command_nick(t_data &data, Message &cmd)
 
 void	command_user(t_data &data, Message &cmd)
 {
+	(void)data;
 	Users	*sender = cmd.getSender();
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 
 	if (args.size() < 5)
 		return;
-	COUT(WHITE, "USER --->client address=" << sender);
 	sender->setReg_status((sender->getUser_name().empty() == true ? 2 : sender->getReg_status()));
 	sender->setReg_status((sender->getPw().empty() == true ? sender->getReg_status() : 3));
 	sender->setUser_name(args[2]);
@@ -91,6 +84,7 @@ void	command_user(t_data &data, Message &cmd)
 	sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
 	if (sender->getOnline() == false && sender->getIn_use() == false)
 		registration(data, sender);
+	// registration(data, sender);
 	// edit real_name of sender;
 }
 
@@ -105,13 +99,31 @@ void	command_pass(t_data &data, Message &cmd)
 	// check user password and authenticate if valid
 }
 
+void	command_ping(t_data &data, Message &cmd)
+{
+	(void)data;
+	Users	*sender = cmd.getSender();
+
+	std::string pong = cmd.getPayload().replace(0, 4, "PONG");
+	send_packets(sender->getFd(), pong);
+	// replies to ping messages from clients
+}
+
 void	command_pong(t_data &data, Message &cmd)
 {
 	(void)data;
+	Users	*sender = cmd.getSender();
+	std::vector<std::string> args = parse_line(cmd.getPayload());
 
-	std::string pong = cmd.getPayload().replace(0, 4, "PONG");
-	send_packets(cmd.getSender()->getFd(), pong);
-	// check user password and authenticate if valid
+
+	if (args.size() >= 2 && args[1].compare(sender->getHost_name()) == 0)
+	{
+		COUT(GREEN, "good PONG");
+		// reset le timer pour cette connexion;
+	}
+	else
+		COUT(RED, "bad PONG");
+	// checks pong messages from clients
 }
 
 void	command_die(t_data &data, Message &cmd)
@@ -128,7 +140,8 @@ void	initialize_command_map(t_data &data)
 	data.commands.insert(p_Command("NICK", &command_nick));
 	data.commands.insert(p_Command("USER", &command_user));
 	data.commands.insert(p_Command("PASS", &command_pass));
-	data.commands.insert(p_Command("PING", &command_pong));
+	data.commands.insert(p_Command("PING", &command_ping));
+	data.commands.insert(p_Command("PONG", &command_pong));
 	data.commands.insert(p_Command("PRIVMSG", &command_privmsg));
 	data.commands.insert(p_Command("die", &command_die));
 	data.commands.insert(p_Command("JOIN", &join_parsing));
