@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 16:58:40 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/29 20:58:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cstdio>
+#include <cmath>
 #include <cstring>
 #include <algorithm>
 #include <sstream>
