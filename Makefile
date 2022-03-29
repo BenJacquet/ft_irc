@@ -19,7 +19,8 @@ SRCS = srcs/main.cpp\
 		srcs/part.cpp\
 		srcs/privmsg.cpp\
 		srcs/who.cpp\
-		srcs/mode.cpp
+		srcs/mode.cpp\
+		srcs/crypto.cpp
 
 INCS = incs/ft_irc.hpp\
 		class/Message.hpp\
