@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 17:41:34 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 06:03:49 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,6 @@ Chan &				Chan::operator=( Chan const & rhs )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-/**
- * @brief member function to Change the nickname of the users in the Chan
- * 
- * @param to_Change -> user to Change nickname
- * @param new_nick_name -> the new nickname of the user
- */
-void Chan::nick(Users to_Change, std::string new_nick_name)
-{
-	std::vector<Users>::iterator it = _users.begin();
-	while(it != _users.end())
-		it++;
-	if (it != this->_users.end() && to_Change.getNick_name() != new_nick_name)
-	{
-		COUT(BLUE, to_Change.getNick_name() << " has a new nick name : " \
-			<< new_nick_name << std::endl);
-		to_Change.setNick_name(new_nick_name);
-	}
-}
-
 bool	Chan::addusers(Users to_add)
 {
 	for(std::vector<Users>::iterator it = this->_users.begin(),
@@ -118,6 +99,11 @@ bool	Chan::rmusers(Users to_rm)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
+std::string		Chan::getMode(void) const
+{
+	return this->_mode;
+}
+
 std::string		Chan::getTopic(void) const
 {
 	return this->_topic;
@@ -126,6 +112,11 @@ std::string		Chan::getTopic(void) const
 std::vector<Users>	Chan::getUsers(void) const
 {
 	return (this->_users);
+}
+
+void	Chan::setMode(std::string new_mode)
+{
+	this->_mode = new_mode;
 }
 
 /* ************************************************************************** */

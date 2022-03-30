@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/29 20:58:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/30 06:46:34 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ typedef struct			s_data
 		void	mode_parsing(t_data &data, Message &cmd);
 		void	user_mode(Users &user, std::string content);
 		void	chan_mode(Chan &chan, std::string content);
+		void	away_parsing(t_data &data, Message &cmd);
 
 	/* UTILS */
 

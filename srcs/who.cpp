@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 17:09:34 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 17:06:08 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/29 23:15:32 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 void	who_command_parsing(t_data &data, Message &cmd)
 {
 	std::vector<std::string> args = parse_line(cmd.getPayload());
-	if (args[1] == "WHO")
-		who_parsing(data, cmd);
-	else if (args[1] == "WHOIS")
+	if (args[0].compare(0, 5, "WHOIS") == 0)
 		whois_parsing(data, cmd);
-	else
+	else if (args[0].compare(0, 6, "WHOWAS") == 0)
 		whowas_parsing(data, cmd);
+	else
+		who_parsing(data, cmd);
 }
 /**
  * @brief 

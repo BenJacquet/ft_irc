@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 17:40:53 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 06:03:58 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ class Chan
 
 	public:
 	/*		METHOD		*/
-		void nick(Users to_Change, std::string new_nick_name);
 	/*		GETTERS		*/
+		std::string			getMode(void) const;
 		std::string			getTopic(void) const;
 		std::vector<Users>	getUsers(void) const;
 	/*		SETTERS		*/
+		void setMode(std::string neW_mode);
 		bool addusers(Users to_add);
 		bool rmusers(Users to_rm);
 };

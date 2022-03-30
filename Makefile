@@ -20,7 +20,8 @@ SRCS = srcs/main.cpp\
 		srcs/privmsg.cpp\
 		srcs/who.cpp\
 		srcs/mode.cpp\
-		srcs/crypto.cpp
+		srcs/crypto.cpp\
+		srcs/away.cpp
 
 INCS = incs/ft_irc.hpp\
 		class/Message.hpp\

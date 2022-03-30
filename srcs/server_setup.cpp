@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_setup.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 16:58:56 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/29 23:07:52 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void create_admin(t_data &data)
 
 	admin.setFd(-1);
 	admin.setUid(1);
-	admin.setMode(admin.getMode() + "0");
+	admin.setMode(admin.getMode() + "o");
 	admin.setOnline(false);
 	admin.setNick_name("admin");
 	admin.setPw(encrypt_data(data.salt, data.password));
