@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/23 14:07:27 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:54:45 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ v_Users::iterator find_client_nick(t_data &data, std::string nick)
 	return (it);
 }
 
+std::string get_ip_string(sockaddr_in6 address)
+{
+	char buffer[46];
+	inet_ntop(address.sin6_family, &address.sin6_addr, buffer, 46);
+	return (std::string(buffer));
+}
+
 Chan*		is_chan_exist(t_data &data, std::string args)
 {
 	v_Chan::iterator ite = data.chans.end();
@@ -78,4 +85,17 @@ Chan*		is_chan_exist(t_data &data, std::string args)
 			return &(*it);
 	}
 	return NULL;
+}
+
+bool	check_timeout(t_data &data, Users &user)
+{
+	time_t time_now = time(NULL);
+
+	if ((time_now - user.getLast_ping()) > TIMEOUT)
+	{
+		send_packets(user, "QUIT\r\n");
+		disconnect_user(data, user);
+		return (true);
+	}
+	return (false);
 }

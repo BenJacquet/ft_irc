@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:11:20 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:46:23 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ void	command_nick(t_data &data, Message &cmd)
 			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
 			if (sender->getOnline() == false)
 				registration(data, sender);
-			send_packets(sender->getFd(), UPDATE_NICK(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name(), nick));
+			send_packets(*sender, UPDATE_NICK(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name(), nick));
 		}
 	}
 	catch (const std::exception &e)
 	{
-		send_packets(sender->getFd(), create_reply(data, sender, 433, nick));
+		send_packets(*sender, create_reply(data, sender, 433, nick));
 		sender->setIn_use(true);
 	}
 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
@@ -84,7 +84,6 @@ void	command_user(t_data &data, Message &cmd)
 	sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
 	if (sender->getOnline() == false && sender->getIn_use() == false)
 		registration(data, sender);
-	// registration(data, sender);
 	// edit real_name of sender;
 }
 
@@ -98,7 +97,6 @@ void	command_pass(t_data &data, Message &cmd)
 	if (args.size() > 1 && args[1].empty() == false)
 	{
 		sender->setPw(encrypt_data(data.salt, args[1]));
-		// sender->setPw(args[1]);
 	}
 	// check user password and authenticate if valid
 }
@@ -109,7 +107,7 @@ void	command_ping(t_data &data, Message &cmd)
 	Users	*sender = cmd.getSender();
 
 	std::string pong = cmd.getPayload().replace(0, 4, "PONG");
-	send_packets(sender->getFd(), pong);
+	send_packets(*sender, pong);
 	// replies to ping messages from clients
 }
 
@@ -123,6 +121,7 @@ void	command_pong(t_data &data, Message &cmd)
 	if (args.size() >= 2 && args[1].compare(sender->getHost_name()) == 0)
 	{
 		COUT(GREEN, "good PONG");
+		sender->setLast_ping(time(NULL));
 		// reset le timer pour cette connexion;
 	}
 	else

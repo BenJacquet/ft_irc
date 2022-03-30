@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_management.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 00:28:59 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:53:42 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param fd fd to find
  * @return iterator to found occurence or iterator to end if not found
  */
-v_pollfds::iterator find_fd(t_data &data, int fd)
+v_pollfds::iterator find_pollfd_fd(t_data &data, int fd)
 {
 	v_pollfds::iterator it = data.poll_fds.begin();
 	v_pollfds::iterator end = data.poll_fds.end();
@@ -31,20 +31,6 @@ v_pollfds::iterator find_fd(t_data &data, int fd)
 	}
 	return (end);
 }
-
-v_Users::iterator find_uid(t_data &data, unsigned int uid)
-{
-	v_Users::iterator it = data.users.begin();
-	v_Users::iterator end = data.users.end();
-
-	for (; it != end; it++)
-	{
-		if (it->getUid() == uid)
-			return (it);
-	}
-	return (end);
-}
-
 /**
  * @brief removed the fd from the pollfd vector
  * 
@@ -54,7 +40,7 @@ v_Users::iterator find_uid(t_data &data, unsigned int uid)
 void remove_fd(t_data &data, int fd)
 {
 	v_pollfds::iterator end = data.poll_fds.end();
-	v_pollfds::iterator found = find_fd(data, fd);
+	v_pollfds::iterator found = find_pollfd_fd(data, fd);
 
 	if (found == end)
 		return;
@@ -72,11 +58,11 @@ void remove_fd(t_data &data, int fd)
 void add_fd(t_data &data, int fd)
 {
 	v_pollfds::iterator end = data.poll_fds.end();
-	v_pollfds::iterator found = find_fd(data, fd);
+	v_pollfds::iterator found = find_pollfd_fd(data, fd);
 	struct pollfd poll;
 
 	poll.fd = fd;
-	poll.events = (POLLIN /* | POLLOUT | POLLHUP | POLLNVAL*/);
+	poll.events = (POLLIN);
 	poll.revents = 0;
 	if (found != end)
 		return;
@@ -87,8 +73,9 @@ void add_fd(t_data &data, int fd)
 
 void	registration(t_data &data, Users *client)
 {
-	send_packets(client->getFd(), create_reply(data, client, 001 , ""));
+	send_packets(*client, create_reply(data, client, 001 , ""));
 	client->setOnline(true);
+	
 }
 
 void	replace_user(t_data &data, Users &user)
@@ -100,10 +87,10 @@ void	replace_user(t_data &data, Users &user)
 		v_Users::iterator authentified = find_client_uid(data, to_replace);
 		if (authentified != data.users.end())
 		{
-			user.connect(*authentified);
 			data.users.erase(authentified);
 		}
 	}
+	user.connect(user);
 }
 
 void	disconnect_user(t_data &data, Users &client)
@@ -112,6 +99,7 @@ void	disconnect_user(t_data &data, Users &client)
 	v_Users::iterator end = data.users.end();
 
 	put_disconnection(client.getFd());
+	client.disconnect();
 	remove_fd(data, client.getFd());
 	if (client.getReg_status() != 3)
 	{
@@ -125,8 +113,6 @@ void	disconnect_user(t_data &data, Users &client)
 			}
 		}
 	}
-	else
-		client.disconnect();
 }
 
 /**

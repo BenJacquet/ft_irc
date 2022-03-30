@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:45:28 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/28 13:04:39 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:46:48 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,5 @@ void	print_users(t_data &data)
 	COUT(YELLOW, "Begin is (" << &(*it) << ") - " << "End is (" << &(*end) << ")");
 	for (int z = 0; it != end; it++, z++)
 		COUT(YELLOW, "(" << &(*it) << ") - " << z
-		<< std::endl << "- Nick:" << it->getNick_name()
-		<< std::endl << "- Real Name:" << it->getReal_name()
-		<< std::endl << "- Hostname:" << it->getHost_name()
-		<< std::endl << "- Full id:" << it->getFull_id()
-		<< std::endl << "- Password:" << it->getPw()
-		<< std::endl << "- Fd:" << it->getFd()
-		<< std::endl << "- Online:" << it->getOnline()
-		<< std::endl << "- Reg Status:" << it->getReg_status()
-		<< std::endl << "- Authenticated:" << it->getAuthenticated()
-		<< std::endl << "- Uid:" << it->getUid()
-		<< std::endl << "-------------");
+		<< *it);
 }

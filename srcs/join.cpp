@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 15:16:25 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:50:16 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ void		join_msg(Users &to_add, Chan &chan, bool isnewone)
 			it != ite; it++)
 		{
 			s = ":" + to_add.getFull_id() + " JOIN :" + chan.getTopic();
-			send_packets(it->getFd(), s);
+			send_packets(*it, s);
 		}
 	}
 	else
 	{
 		RPL_353_366(to_add, chan);
 		std::string full_msg = ":" + to_add.getFull_id() + " JOIN :" + chan.getTopic();
-		send_packets(to_add.getFd(), full_msg);
+		send_packets(to_add, full_msg);
 	}
 }
 
@@ -88,7 +88,7 @@ void		RPL_353_366(Users &usr, Chan &chan)
 	for (v_Users::iterator it = vect.begin(), ite = vect.end();
 		it != ite; it++)
 		rpl_353 += it->getNick_name() + " ";
-	send_packets(usr.getFd(), rpl_353);
+	send_packets(usr, rpl_353);
 	std::string rpl_366 = ":" + usr.getFull_id() + " 366 " + usr.getNick_name() + " " + chan.getTopic() + " :End of /NAMES list";
-	send_packets(usr.getFd(), rpl_366);
+	send_packets(usr, rpl_366);
 }

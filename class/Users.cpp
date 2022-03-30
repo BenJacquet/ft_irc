@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/28 14:22:39 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:53:56 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ Users::Users(int fd, sockaddr_in6 sock_addr, struct s_data &data)
 		uid = static_cast<unsigned int>(random() % __INT_MAX__);
 	this->_uid = uid;
 	this->_authenticated = 0;
+	this->_ip = get_ip_string(sock_addr);
 	this->_mode = "+wi";
 }
 
@@ -73,7 +74,7 @@ Users &				Users::operator=( Users const & rhs )
 		this->_socket_addr = rhs._socket_addr;
 		this->_ignore_blacklist = rhs._ignore_blacklist;
 		this->_authenticated = rhs._authenticated;
-		
+		this->_ip = rhs._ip;
 	}
 	return *this;
 }
@@ -111,6 +112,7 @@ std::ostream &operator<<(std::ostream &COUT, Users &user)
 		<< std::endl << "- Reg Status:" << user.getReg_status()
 		<< std::endl << "- Authenticated:" << user.getAuthenticated()
 		<< std::endl << "- Uid:" << user.getUid()
+		<< std::endl << "- IP:" << user.getIp()
 		<< std::endl << "-------------";
 	return (COUT);
 }
@@ -124,13 +126,18 @@ void			Users::disconnect()
 	this->setOnline(false);
 	this->setAuthenticated(0);
 	this->setFd(-1);
+
+	COUT(RED, "Lost connection with " << this->getIp());
 }
 
 void			Users::connect(Users &user)
 {
-	this->setOnline(true);
 	this->setUid(user.getUid());
+	this->setOnline(true);
 	this->setAuthenticated(0);
+
+	COUT(GREEN, "Received connection from " << this->getIp());
+	//send_packets(user, PING(user.getHost_name()));
 }
 
 /*
@@ -149,6 +156,11 @@ unsigned int	Users::getUid() const
 int				Users::getFd() const
 {
 	return this->_fd;
+}
+
+bool			Users::getOnline() const
+{
+	return this->_online;
 }
 
 std::string		Users::getMode() const
@@ -206,9 +218,14 @@ sockaddr_in6	Users::getSocket_addr() const
 	return this->_socket_addr;
 }
 
-bool			Users::getOnline() const
+std::string		Users::getIp() const
 {
-	return this->_online;
+	return this->_ip;
+}
+
+time_t			Users::getLast_ping() const
+{
+	return this->_last_ping;
 }
 
 bool Users::is_ignored(Users is_in_blacklist)
@@ -296,6 +313,16 @@ void			Users::setAuthenticated(int authenticated)
 void			Users::setSocket_addr(sockaddr_in6 new_sock_add)
 {
 	this->_socket_addr = new_sock_add;
+}
+
+void			Users::setIp(std::string ip)
+{
+	this->_ip = ip;
+}
+
+void			Users::setLast_ping(time_t timeval)
+{
+	this->_last_ping = timeval;
 }
 
 void			Users::add_blacklist(Users to_add)

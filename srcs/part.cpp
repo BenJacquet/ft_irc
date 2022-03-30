@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:50:06 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 15:16:35 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:50:40 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	part_parsing(t_data &data, Message &cmd)
 		v_Users vect = it->getUsers();
 		for (v_Users::iterator it2 = vect.begin(),
 			ite2 = vect.end(); it2 != ite2; it2++)
-			send_packets(it2->getFd(), to_send);
+			send_packets(*it2, to_send);
 		it->rmusers(*(cmd.getSender()));
 	}
 }

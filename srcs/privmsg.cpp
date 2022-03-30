@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/25 14:46:33 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:50:57 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 		{
 			content = ":" + cmd.getSender()->getFull_id() + " PRIVMSG " +\
 				find_client_nick(data, args[1])->getNick_name() + " " + content;
-			send_packets(new_usr->getFd(), content);
+			send_packets(*new_usr, content);
 		}
 	}
 	else
@@ -44,7 +44,7 @@ void	channel_privmsg(Chan &chan, Users &sender, std::string content)
 	{
 		if (it->getFd() != sender.getFd())
 		{
-			send_packets(it->getFd(), to_send);
+			send_packets(*it, to_send);
 		}
 	}
 }

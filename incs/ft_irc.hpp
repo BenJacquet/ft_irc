@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 06:46:34 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:49:05 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <ctime>
 #include <cstdio>
@@ -20,6 +21,7 @@
 #include <cstring>
 #include <algorithm>
 #include <sstream>
+#include <fstream>
 #include <map>
 #include <vector>
 #include <list>
@@ -47,6 +49,8 @@ class Chan;
 // DEFINES
 
 #define BUFFERSIZE 4096
+
+#define TIMEOUT 120
 
 #define BACKLOG 10
 
@@ -90,8 +94,9 @@ typedef struct			s_data
 
 		void io_loop(t_data &data, Users &client);
 		int receive_packets(t_data &data, Users &client);
-		int send_packets(int client, std::string to_send);
+		int send_packets(Users &client, std::string to_send);
 		std::string create_reply(t_data &data, Users *client, int code, std::string arg);
+		void log_coms(Users &client, std::string &to_log, bool out);
 
 	/* SERVER SETUP */
 
@@ -118,10 +123,10 @@ typedef struct			s_data
 
 		void registration(t_data &data, Users *client);
 		void disconnect_user(t_data &data, Users &client);
-		v_Users::iterator find_uid(t_data &data, unsigned int uid);
 		void	check_nick(t_data &data, std::string &nick);
 		bool	authenticate_user(t_data &data, Users *client, std::string nick);
 		void	replace_user(t_data &data, Users &user);
+		bool	check_timeout(t_data &data, Users &user);
 
 	/* ARGUMENT PARSING */
 
@@ -165,6 +170,7 @@ typedef struct			s_data
 		v_Users::iterator find_client_nick(t_data &data, std::string nick);
 		Chan*	is_chan_exist(t_data &data, std::string args);
 		std::string	encrypt_data(long salt, std::string to_encrypt);
+		std::string get_ip_string(sockaddr_in6 address);
 
 	/* DEBUG */
 
@@ -176,6 +182,7 @@ typedef struct			s_data
 // DEFINES NUMERIC REPLIES
 
 #define UPDATE_NICK(FULL, NICK) (":" + FULL + " NICK " + NICK)
+#define PING(HOST) ("PING " + HOST)
 
 #define RPL_WELCOME(FULL) (":Welcome to the Internet Relay Network " + FULL) // 001
 

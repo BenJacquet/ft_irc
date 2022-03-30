@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/28 13:20:00 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/03/30 07:42:48 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ class Users
 		bool				_in_use; /* G & S */
 		int					_authenticated; /* G & S */
 		struct sockaddr_in6	_socket_addr; /* G & S */
+		std::string			_ip; /* G & S */
+		time_t				_last_ping; /* G & S */
 		std::vector<Users>	_ignore_blacklist; /* G & S */
 
 	public:
@@ -76,6 +78,8 @@ class Users
 		bool			getIn_use() const;
 		int				getAuthenticated() const;
 		sockaddr_in6	getSocket_addr() const;
+		std::string		getIp() const;
+		time_t			getLast_ping() const;
 		bool			is_ignored(Users is_in_blacklist);
 		/*		SETTERS		*/
 		void			setUid(unsigned int new_uid);
@@ -92,6 +96,8 @@ class Users
 		void			setIn_use(bool in_use);
 		void			setAuthenticated(int authenticated);
 		void			setSocket_addr(sockaddr_in6 new_sock_add);
+		void			setIp(std::string ip);
+		void			setLast_ping(time_t timeval);
 		void			add_blacklist(Users to_add);
 };
 
