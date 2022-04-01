@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/30 07:53:56 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 12:56:08 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ std::ostream &operator<<(std::ostream &COUT, Users &user)
 		<< std::endl << "- Authenticated:" << user.getAuthenticated()
 		<< std::endl << "- Uid:" << user.getUid()
 		<< std::endl << "- IP:" << user.getIp()
+		<< std::endl << "- Mode:" << user.getMode()
 		<< std::endl << "-------------";
 	return (COUT);
 }
@@ -137,7 +138,6 @@ void			Users::connect(Users &user)
 	this->setAuthenticated(0);
 
 	COUT(GREEN, "Received connection from " << this->getIp());
-	//send_packets(user, PING(user.getHost_name()));
 }
 
 /*
@@ -221,11 +221,6 @@ sockaddr_in6	Users::getSocket_addr() const
 std::string		Users::getIp() const
 {
 	return this->_ip;
-}
-
-time_t			Users::getLast_ping() const
-{
-	return this->_last_ping;
 }
 
 bool Users::is_ignored(Users is_in_blacklist)
@@ -318,11 +313,6 @@ void			Users::setSocket_addr(sockaddr_in6 new_sock_add)
 void			Users::setIp(std::string ip)
 {
 	this->_ip = ip;
-}
-
-void			Users::setLast_ping(time_t timeval)
-{
-	this->_last_ping = timeval;
 }
 
 void			Users::add_blacklist(Users to_add)

@@ -6,38 +6,11 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:46:23 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 13:03:07 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
-
-void	check_nick(t_data &data, std::string &nick)
-{
-	(void)data;
-	(void)nick;
-	// Verifier si nick < 9 chars
-	// Verifier si chars interdits
-}
-
-bool	authenticate_user(t_data &data, Users *client, std::string nick)
-{
-	v_Users::iterator found_reg = find_client_nick(data, nick);
-	v_Users::iterator found_unreg = find_client_fd(data, client->getFd());
-
-	if (found_reg != data.users.end())
-	{
-		if (found_reg == found_unreg)
-			return (true);
-		if (found_reg->getPw() == client->getPw() && found_reg->getOnline() == false)
-		{
-			found_unreg->setAuthenticated(found_reg->getUid());
-			return (true);
-		}
-		throw std::exception();
-	}
-	return (false);
-}
 
 void	command_nick(t_data &data, Message &cmd)
 {
@@ -111,29 +84,14 @@ void	command_ping(t_data &data, Message &cmd)
 	// replies to ping messages from clients
 }
 
-void	command_pong(t_data &data, Message &cmd)
-{
-	(void)data;
-	Users	*sender = cmd.getSender();
-	std::vector<std::string> args = parse_line(cmd.getPayload());
-
-
-	if (args.size() >= 2 && args[1].compare(sender->getHost_name()) == 0)
-	{
-		COUT(GREEN, "good PONG");
-		sender->setLast_ping(time(NULL));
-		// reset le timer pour cette connexion;
-	}
-	else
-		COUT(RED, "bad PONG");
-	// checks pong messages from clients
-}
-
-void	command_die(t_data &data, Message &cmd)
+void	command_die(t_data &data, Message &cmd) // AJOUTER CHECK DES MODES
 {
 	(void)data;
 	(void)cmd;
-	exit(1);
+	Users *sender = cmd.getSender();
+
+	if (sender->getMode().find_first_of("o", 0) != std::string::npos)
+		server_shutdown();
 	// checks for privileges and kills server
 }
 
@@ -144,7 +102,6 @@ void	initialize_command_map(t_data &data)
 	data.commands.insert(p_Command("USER", &command_user));
 	data.commands.insert(p_Command("PASS", &command_pass));
 	data.commands.insert(p_Command("PING", &command_ping));
-	data.commands.insert(p_Command("PONG", &command_pong));
 	data.commands.insert(p_Command("PRIVMSG", &command_privmsg));
 	data.commands.insert(p_Command("die", &command_die));
 	data.commands.insert(p_Command("JOIN", &join_parsing));

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:53:42 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 13:20:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void remove_fd(t_data &data, int fd)
 	v_pollfds::iterator end = data.poll_fds.end();
 	v_pollfds::iterator found = find_pollfd_fd(data, fd);
 
-	if (found == end)
-		return;
+	COUT(MAGENTA, "end=" << &(*end) << "found=" << &(*found));
 	COUT(RED, "removed descriptor " << fd << " from pollfd vector ");
 	close(fd); // check si interdit ou non
 	data.poll_fds.erase(found);
@@ -69,50 +68,6 @@ void add_fd(t_data &data, int fd)
 	fcntl(fd, F_SETFL, O_NONBLOCK);
 	data.poll_fds.push_back(poll);
 	//COUT(CYAN, "added descriptor " << poll.fd << " to pollfd vector ");
-}
-
-void	registration(t_data &data, Users *client)
-{
-	send_packets(*client, create_reply(data, client, 001 , ""));
-	client->setOnline(true);
-	
-}
-
-void	replace_user(t_data &data, Users &user)
-{
-	int	to_replace = user.getAuthenticated();
-
-	if (to_replace != 0)
-	{
-		v_Users::iterator authentified = find_client_uid(data, to_replace);
-		if (authentified != data.users.end())
-		{
-			data.users.erase(authentified);
-		}
-	}
-	user.connect(user);
-}
-
-void	disconnect_user(t_data &data, Users &client)
-{
-	v_Users::iterator it = data.users.begin();
-	v_Users::iterator end = data.users.end();
-
-	put_disconnection(client.getFd());
-	client.disconnect();
-	remove_fd(data, client.getFd());
-	if (client.getReg_status() != 3)
-	{
-		for (; it != end; it++)
-		{
-			if (*it == client)
-			{
-				data.users.erase(it);
-				COUT(RED, "removed client (" << &(*it) << ")");
-				break;
-			}
-		}
-	}
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:49:05 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 12:54:19 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class Chan;
 
 #define BUFFERSIZE 4096
 
-#define TIMEOUT 120
+#define TIMEOUT 300
 
 #define BACKLOG 10
 
@@ -76,7 +76,6 @@ typedef struct			s_data
 	v_Users				users;			// vector des utilisateurs connectés
 	v_Chan				chans;			// vector de Chan existantes
 	m_Commands			commands;		// map qui contient en key->string de la commande et value->fonction pointeur
-	int					timeout;		// ms avant de timeout
 	std::string			password;		// password admin
 	long				salt;			// sel pour les mdp
 }						t_data;
@@ -118,15 +117,15 @@ typedef struct			s_data
 		void put_connection(int client_fd);
 		void put_usage();
 		void put_error(std::string const error);
+		void server_shutdown();
 
 	/* USER MANAGEMENT */
 
-		void registration(t_data &data, Users *client);
-		void disconnect_user(t_data &data, Users &client);
+		void	registration(t_data &data, Users *client);
+		void	disconnect_user(t_data &data, Users &client);
 		void	check_nick(t_data &data, std::string &nick);
 		bool	authenticate_user(t_data &data, Users *client, std::string nick);
 		void	replace_user(t_data &data, Users &user);
-		bool	check_timeout(t_data &data, Users &user);
 
 	/* ARGUMENT PARSING */
 
@@ -144,7 +143,6 @@ typedef struct			s_data
 		void	command_nick(t_data &data, Message &cmd);
 		void	command_user(t_data &data, Message &cmd);
 		void	command_pass(t_data &data, Message &cmd);
-		void	command_pong(t_data &data, Message &cmd);
 		void	command_die(t_data &data, Message &cmd);
 		void	command_privmsg(t_data &data, Message &cmd);
 		void	channel_privmsg(Chan &chan, Users &user, std::string content);
@@ -176,6 +174,11 @@ typedef struct			s_data
 
 		void print_pollfd(t_data &data);
 		void print_users(t_data &data);
+
+// EXTERN GLOBALS
+
+extern time_t			g_start;
+extern std::ofstream	g_log;
 
 // TEMPLATES
 

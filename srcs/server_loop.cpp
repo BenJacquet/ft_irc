@@ -6,14 +6,14 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:51:40 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 13:21:16 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-struct addrinfo	*listen_socket;
-int 			listen_fd;
+struct addrinfo	*g_listen_socket;
+int 			g_listen_fd;
 
 /**
  * @brief polls all fds to check if one had any expected event
@@ -24,7 +24,7 @@ int 			listen_fd;
  */
 int poll_setup(t_data &data)
 {
-	int poll_r = poll(reinterpret_cast<struct pollfd *>(&data.poll_fds[0]), data.poll_fds.size(), data.timeout);
+	int poll_r = poll(reinterpret_cast<struct pollfd *>(&data.poll_fds[0]), data.poll_fds.size(), (TIMEOUT * 60 * 1000));
 	v_pollfds::iterator it = data.poll_fds.begin();
 	v_pollfds::iterator end = data.poll_fds.end();
 
@@ -64,7 +64,6 @@ int poll_setup(t_data &data)
 				if (found != data.users.end())
 				{
 					io_loop(data, *found);
-					//check_timeout(data, *found);
 					if (it == (data.poll_fds.end()))
 						break;
 				}
@@ -73,8 +72,8 @@ int poll_setup(t_data &data)
 			}
 		}
 	}
-	// print_pollfd(data);
-	// print_users(data);
+	print_pollfd(data);
+	print_users(data);
 	return (0);
 }
 
@@ -86,9 +85,9 @@ void	handle_signals(int signal)
 			COUT(WHITE, "\b\bprogram terminated by ctrl-\\");
 		else
 			COUT(WHITE, "\b\bprogram interrupted by ctrl-c");
-		freeaddrinfo(listen_socket);
-		close(listen_fd);
-		exit(1);
+		freeaddrinfo(g_listen_socket);
+		close(g_listen_fd);
+		server_shutdown();
 	}
 }
 
@@ -106,14 +105,18 @@ void	signal_manager()
  */
 int server_loop(t_data &data)
 {
-	listen_socket = data.bind_addr;
-	listen_fd = data.sock_fd;
+	g_listen_socket = data.bind_addr;
+	g_listen_fd = data.sock_fd;
 	initialize_command_map(data);
+	// int rescue = 0;
 	while (1)
 	{
+		// if (rescue > 20)
+		// 	return (0);
 		signal_manager();
 		if (poll_setup(data) == 1)
 			return (1);
+		// rescue++;
 	}
 	freeaddrinfo(data.bind_addr);
 	close(data.sock_fd);

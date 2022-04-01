@@ -10,21 +10,24 @@
 
 -Definir un client de reference pour la correction OK (IRSSI)
 
--Le client doit pouvoir se connecter au serveur sans rencontrer d'erreur
+-Le client doit pouvoir se connecter au serveur sans rencontrer d'erreur OK
 
 -Aucun crash meme si plus de memoire
 
 -Connexions via TCP/IP (v4 ou v6) OK
 
--Fonctionnalités a implémenter :
-	-authentication
-	-definition de : nickname, username
-	-join d'un channel
-	-envoi et reception de messages depuis le client de reference
-	-transfert des messages vers tous les clients connectés
-	-operateurs et utilisateurs
-	-commandes des operateurs
+BEN :
+- Ajouter Numeric Replies des commandes en cas d'erreur
+- creer bot pour : (/msg BOTNAME cmd)
+	- changer mdp (/msg BOTNAME newpassword, oldpassword)
+	- changer realname (/msg BOTNAME realname)
+	- demander nombre d'utilisateurs connectés (/msg BOTNAME online)
+	- demander la date (/msg BOTNAME date)
+	- 
+- 
 
+THOMAS :
+- Implementer classes (Channel, User)
 
 Commandes:
 /nick <nickname>					--	change <nickname>
@@ -39,7 +42,6 @@ Commandes:
 /quit <[message]>					--	disconnect from irc
 /invite <friendnickname> <#chan>	--	invite <nickname> to <#chan>
 
-
 ORDRE :
 - Creation du serveur
 - Accepter et renvoyer les requetes
@@ -50,23 +52,6 @@ ORDRE :
 - Implementer les commandes (pour les operateurs uniquement les changements de mode, kick, kill etc)
 - Implementer les codes (RFC 2812) (uniquement ceux des commandes implementees)
 - Modifier les droits des utilisateurs
-
-THOMAS :
-- Implementer classes (Channel, User)
-
-Channel :
-Users		users;
-(inconnu)	mode;
-std::string	topic;
-Users		blacklist;
-
-Users :
-(addrinfo?)	socket;
-bool		protocol (ipv4/ipv6);
-(inconnu)	mode (flags operateur, ban);
-
-FIXES :
-- generer un nickname si deja pris
 
 USERS WORKFLOW :
 - Utilisateur qui se connecte mais pas encore authentifié stocké dans data.users (RFC 2812 - 3.1)
@@ -87,23 +72,3 @@ RESSOURCES UTILES :
  - (channel modes) https://wiki.zandronum.com/IRC:Channel_Modes
  - (commands) https://www.techbull.com/techbull/guide/internet/irccommande.html
  - (address reuse) https://hea-www.harvard.edu/~fine/Tech/addrinuse.html
-
-
-
-Connexions
-
-	- User se connecte, trois cas possibles :
-		- User connu et deja authentifié :
-			REG = 3
-			Recuperer les infos depuis le USER
-
-		- User connu et non authentifié :
-			REG = 2
-
-		- User inconnu :
-			REG = 0
-			Recuperer les infos depuis le USER
-			REG = 1
-			Update le nickname depuis le nouveau NICK
-			REG = 2
-			Update le fullid

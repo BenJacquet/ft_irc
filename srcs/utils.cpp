@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:54:45 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 12:37:51 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,4 @@ Chan*		is_chan_exist(t_data &data, std::string args)
 			return &(*it);
 	}
 	return NULL;
-}
-
-bool	check_timeout(t_data &data, Users &user)
-{
-	time_t time_now = time(NULL);
-
-	if ((time_now - user.getLast_ping()) > TIMEOUT)
-	{
-		send_packets(user, "QUIT\r\n");
-		disconnect_user(data, user);
-		return (true);
-	}
-	return (false);
 }

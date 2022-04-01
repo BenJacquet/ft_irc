@@ -6,13 +6,11 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:49:08 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 12:37:14 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
-
-std::ofstream	g_log("log.txt");
 
 std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 {

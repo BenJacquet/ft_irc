@@ -3,6 +3,7 @@ NAME = ircserv
 SRCS = srcs/main.cpp\
 		srcs/utils.cpp\
 		srcs/fd_management.cpp\
+		srcs/user_management.cpp\
 		srcs/io_operations.cpp\
 		srcs/server_setup.cpp\
 		srcs/server_loop.cpp\
