@@ -27,7 +27,6 @@ BEN :
 
 THOMAS :
 - Ajouter Numeric Replies des commandes en cas d'erreur
-- Implementer classes (Channel, User)
 
 PEU IMPORTE :
 - Implementer kick

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:17:11 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:46:46 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ typedef struct			s_data
 
 	/* SERVER DISPLAY */
 
-		void put_disconnection(int client_fd);
-		void put_connection(int client_fd);
 		void put_usage();
 		void put_error(std::string const error);
 		void server_shutdown();

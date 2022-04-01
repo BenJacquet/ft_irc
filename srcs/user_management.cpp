@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:05:16 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:47:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	disconnect_user(t_data &data, Users &client)
 {
 	v_Users::iterator it = data.users.begin();
 	v_Users::iterator end = data.users.end();
+	int	fd = client.getFd();
 
-	put_disconnection(client.getFd());
-	remove_fd(data, client.getFd());
 	client.disconnect();
+	remove_fd(data, fd);
 	if (client.getReg_status() != 3)
 	{
 		for (; it != end; it++)
