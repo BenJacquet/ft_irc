@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 13:21:16 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:36:25 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int poll_setup(t_data &data)
 			}
 		}
 	}
-	print_pollfd(data);
-	print_users(data);
+	// print_pollfd(data);
+	// print_users(data);
 	return (0);
 }
 

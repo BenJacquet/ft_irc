@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 12:54:19 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:17:11 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ typedef struct			s_data
 
 		void	registration(t_data &data, Users *client);
 		void	disconnect_user(t_data &data, Users &client);
-		void	check_nick(t_data &data, std::string &nick);
+		void	check_nick(t_data &data, Users &user, std::string nick);
 		bool	authenticate_user(t_data &data, Users *client, std::string nick);
 		void	replace_user(t_data &data, Users &user);
 
@@ -144,6 +144,8 @@ typedef struct			s_data
 		void	command_user(t_data &data, Message &cmd);
 		void	command_pass(t_data &data, Message &cmd);
 		void	command_die(t_data &data, Message &cmd);
+		void	command_oper(t_data &data, Message &cmd);
+		void	command_ping(t_data &data, Message &cmd);
 		void	command_privmsg(t_data &data, Message &cmd);
 		void	channel_privmsg(Chan &chan, Users &user, std::string content);
 		void	join(t_data &data, Users & creator, std::string name_chan);
@@ -188,8 +190,20 @@ extern std::ofstream	g_log;
 #define PING(HOST) ("PING " + HOST)
 
 #define RPL_WELCOME(FULL) (":Welcome to the Internet Relay Network " + FULL) // 001
+#define RPL_UMODEIS(MODE) ("MODE") // 221
+#define RPL_YOUREOPER() (":You are now an IRC operator") // 381
 
+#define ERR_NONICKNAMEGIVEM() (":No nickname given") // 431
+#define ERR_ERRONEUSNICKNAME(NICK) (NICK + " :Erroneous nickname") // 432
 #define ERR_NICKNAMEINUSE(NICK) (NICK + " :Nickname is already in use") // 433
+#define ERR_NEEDMOREPARAMS(CMD) (CMD + " :Not enough parameters") // 461
+#define ERR_ALREADYREGISTERED() (":Unauthorized command (already registered)") // 462
+#define ERR_PASSWDMISMATCH() (":Password incorrect") // 464
+#define ERR_NOPRIVILEGE() (":Permission Denied- You're not an IRC operator") // 481
+#define ERR_UMODEUNKNOWNFLAG() (":Unknown MODE flag") // 501
+#define ERR_USERMISMATCH() (":Cannot change mode for other users") // 502
+
+#define NICK_CHARSET() ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_[]{}\\`|")
 
 #define RESET		"\033[0m"			/* Reset*/
 #define BLACK		"\033[30m"			/* Black */

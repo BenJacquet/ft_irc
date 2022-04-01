@@ -16,13 +16,19 @@ SRCS = srcs/main.cpp\
 		class/Message.cpp\
 		class/Users.cpp\
 		class/Chan.cpp\
-		srcs/join.cpp\
-		srcs/part.cpp\
-		srcs/privmsg.cpp\
-		srcs/who.cpp\
-		srcs/mode.cpp\
 		srcs/crypto.cpp\
-		srcs/away.cpp
+		srcs/commands/privmsg.cpp\
+		srcs/commands/join.cpp\
+		srcs/commands/part.cpp\
+		srcs/commands/mode.cpp\
+		srcs/commands/who.cpp\
+		srcs/commands/away.cpp\
+		srcs/commands/nick.cpp\
+		srcs/commands/pass.cpp\
+		srcs/commands/user.cpp\
+		srcs/commands/oper.cpp\
+		srcs/commands/ping.cpp\
+		srcs/commands/die.cpp
 
 INCS = incs/ft_irc.hpp\
 		class/Message.hpp\

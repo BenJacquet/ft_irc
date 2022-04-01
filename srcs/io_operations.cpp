@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 12:37:14 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:13:33 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,28 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 	{
 		case (001):
 			return (reply + RPL_WELCOME(client->getFull_id()));
+		case (221):
+			return (reply + RPL_UMODEIS(client->getMode()));
+		case (381):
+			return (reply + RPL_YOUREOPER());
+		case (431):
+			return (reply + ERR_NONICKNAMEGIVEM());
+		case (432):
+			return (reply + ERR_ERRONEUSNICKNAME(arg));
 		case (433):
 			return (reply + ERR_NICKNAMEINUSE(arg));
+		case (461):
+			return (reply + ERR_NEEDMOREPARAMS(arg));
+		case (462):
+			return (reply + ERR_ALREADYREGISTERED());
+		case (464):
+			return (reply + ERR_PASSWDMISMATCH());
+		case (481):
+			return (reply + ERR_NOPRIVILEGE());
+		case (501):
+			return (reply + ERR_UMODEUNKNOWNFLAG());
+		case (502):
+			return (reply + ERR_USERMISMATCH());
 		default:
 			break;
 	}
