@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/30 06:05:56 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:29:15 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	mode_parsing(t_data &data, Message &cmd)
 
 	for(size_t i=2; i <= args.size() - 1; i++)
 		content += args[i] + " " ;
-	CERR(L_BLUE, "content is |" << content << '|');
 	if (((new_chan = is_chan_exist(data, args[1])) != NULL) ||
 		(new_usr = find_client_nick(data, args[1])) != data.users.end())
 	{
@@ -45,7 +44,7 @@ void	mode_parsing(t_data &data, Message &cmd)
 		}
 	}
 	else
-		CERR(RED, "User or Channel " << args[1] << "not found\n");
+		CERR(RED, "User or Channel " << args[1] << " not found\n");
 }
 
 /**
@@ -143,4 +142,3 @@ void	chan_mode(Chan &chan, std::string content)
 		}
 	}
 }
-
