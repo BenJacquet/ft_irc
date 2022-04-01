@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:13:33 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:59:34 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 	std::stringstream code_str;
 	code_str << code;
 	(void)data;
-	(void)arg;
 
 	if (client->getNick_name().empty() == true)
 		reply = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " * ";
@@ -71,6 +70,7 @@ void	log_coms(Users &client, std::string &to_log, bool out)
 		<< " - "
 		<< ctime(&my_time)
 		<< std::endl
+		<< "\t"
 		<< to_log
 		<< std::endl;
 }
