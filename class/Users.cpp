@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/01 12:56:08 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:47:08 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,9 @@ void			Users::disconnect()
 {
 	this->setOnline(false);
 	this->setAuthenticated(0);
-	this->setFd(-1);
 
-	COUT(RED, "Lost connection with " << this->getIp());
+	COUT(RED, "Lost connection with " << this->getIp() << " (" << this->getFd() << ")");
+	this->setFd(-1);
 }
 
 void			Users::connect(Users &user)
@@ -137,7 +137,7 @@ void			Users::connect(Users &user)
 	this->setOnline(true);
 	this->setAuthenticated(0);
 
-	COUT(GREEN, "Received connection from " << this->getIp());
+	COUT(GREEN, "Received connection from " << this->getIp() << " (" << this->getFd() << ")");
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 13:20:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:47:26 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int new_connection(t_data &data)
 		return (-1);
 	}
 	data.users.push_back(Users(client_fd, client_sock, data));
-	put_connection(client_fd);
 	add_fd(data, client_fd);
 	return (client_fd);
 }

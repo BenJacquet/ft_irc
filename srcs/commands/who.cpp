@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   who.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 17:09:34 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/29 23:15:32 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:06:29 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/ft_irc.hpp"
-
+#include "../../incs/ft_irc.hpp"
 
 void	who_command_parsing(t_data &data, Message &cmd)
 {

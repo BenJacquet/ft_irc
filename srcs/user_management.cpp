@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 13:20:49 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:47:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	disconnect_user(t_data &data, Users &client)
 {
 	v_Users::iterator it = data.users.begin();
 	v_Users::iterator end = data.users.end();
+	int	fd = client.getFd();
 
-	put_disconnection(client.getFd());
-	remove_fd(data, client.getFd());
 	client.disconnect();
+	remove_fd(data, fd);
 	if (client.getReg_status() != 3)
 	{
 		for (; it != end; it++)
@@ -53,31 +53,4 @@ void	disconnect_user(t_data &data, Users &client)
 			}
 		}
 	}
-}
-
-void	check_nick(t_data &data, std::string &nick)
-{
-	(void)data;
-	(void)nick;
-	// Verifier si nick < 9 chars
-	// Verifier si chars interdits
-}
-
-bool	authenticate_user(t_data &data, Users *client, std::string nick)
-{
-	v_Users::iterator found_reg = find_client_nick(data, nick);
-	v_Users::iterator found_unreg = find_client_fd(data, client->getFd());
-
-	if (found_reg != data.users.end())
-	{
-		if (found_reg == found_unreg)
-			return (true);
-		if (found_reg->getPw() == client->getPw() && found_reg->getOnline() == false)
-		{
-			found_unreg->setAuthenticated(found_reg->getUid());
-			return (true);
-		}
-		throw std::exception();
-	}
-	return (false);
 }

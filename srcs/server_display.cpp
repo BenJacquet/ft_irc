@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:41:22 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 12:40:31 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:46:33 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,6 @@ void put_usage()
 	COUT(CYAN, "the port number on which your IRC server will be listening to for incoming IRC connections.") << std::endl;
 	COUT(CYAN, "password :");
 	COUT(CYAN, "the connection password. It will be needed by any IRC client that tries to connect to your server.");
-}
-
-/**
- * @brief displays a new connection
- * 
- * @param client_fd self-explanatory
- */
-void put_connection(int client_fd)
-{
-	(void)client_fd;
-	// COUT(GREEN, "Successfully connected with " << client_fd);
-}
-
-/**
- * @brief displays a disconnection
- * 
- * @param client_fd self-explanatory
- */
-void put_disconnection(int client_fd)
-{
-	COUT(YELLOW, "Lost connection with " << client_fd);
 }
 
 void server_shutdown()

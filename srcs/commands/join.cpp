@@ -6,11 +6,11 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/30 07:50:16 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:05:36 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/ft_irc.hpp"
+#include "../../incs/ft_irc.hpp"
 
 void		join_parsing(t_data &data, Message &cmd)
 {

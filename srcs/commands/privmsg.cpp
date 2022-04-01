@@ -6,11 +6,11 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/30 07:50:57 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 17:06:18 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/ft_irc.hpp"
+#include "../../incs/ft_irc.hpp"
 
 void	command_privmsg(t_data &data, Message &cmd)
 {

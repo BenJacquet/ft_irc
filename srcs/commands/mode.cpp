@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
+<<<<<<< HEAD:srcs/mode.cpp
 /*   Updated: 2022/04/01 17:29:15 by thoberth         ###   ########.fr       */
+=======
+/*   Updated: 2022/04/01 17:05:42 by jabenjam         ###   ########.fr       */
+>>>>>>> 815f1a8c4dde2c44bc1ba6ea47398df4bf899751:srcs/commands/mode.cpp
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/ft_irc.hpp"
+#include "../../incs/ft_irc.hpp"
 
 /**
  * @brief 

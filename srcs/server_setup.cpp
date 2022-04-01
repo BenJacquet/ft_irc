@@ -6,26 +6,11 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 12:50:29 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/01 16:52:37 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
-
-void create_admin(t_data &data)
-{
-	Users admin;
-
-	admin.setFd(-1);
-	admin.setUid(1);
-	admin.setMode(admin.getMode() + "o");
-	admin.setOnline(false);
-	admin.setNick_name("admin");
-	admin.setPw(encrypt_data(data.salt, data.password));
-	admin.setReg_status(3);
-	admin.setAuthenticated(0);
-	data.users.push_back(admin);
-}
 
 /**
  * @brief setup of out listening socket from the hints provided
@@ -63,6 +48,7 @@ int server_setup(t_data &data)
 {
 	srand(time(NULL));
 	data.salt = random();
+	data.password = encrypt_data(data.salt, data.password);
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
 								data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
 	{
@@ -87,6 +73,5 @@ int server_setup(t_data &data)
 		put_error("listen()");
 		return (1);
 	}
-	create_admin(data);
 	return (0);
 }
