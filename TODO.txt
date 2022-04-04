@@ -28,6 +28,11 @@ PEU IMPORTE :
 - Implementer kick
 - Implementer 
 
+CRASH :
+- MODE sans argument
+- AWAY sans argument
+- PRIVMSG sans argument
+
 Commandes:
 /nick <nickname>					--	change <nickname>
 /msg <nickname> <message>			--	private <message> without window
