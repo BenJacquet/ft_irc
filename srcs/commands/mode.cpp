@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/04 11:29:44 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 16:58:06 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	mode_parsing(t_data &data, Message &cmd)
 	Chan	*new_chan;
 	v_Users::iterator	new_usr;
 	std::vector<std::string> args = parse_line(cmd.getPayload());
+	if (args.size() == 1)
+		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
 	std::string content;
 
 	replace_user(data, *cmd.getSender());
