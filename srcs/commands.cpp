@@ -6,12 +6,17 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:14:13 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:39:11 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+/**
+ * @brief Initializes the command map with strings and function pointers to corresponding commands
+ * 
+ * @param data 
+ */
 void	initialize_command_map(t_data &data)
 {
 	data.commands.clear();

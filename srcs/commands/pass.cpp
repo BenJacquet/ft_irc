@@ -6,12 +6,18 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:24 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:06:11 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:34:59 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/ft_irc.hpp"
 
+/**
+ * @brief Parses the PASS command received
+ * 
+ * @param data 
+ * @param cmd 
+ */
 void	command_pass(t_data &data, Message &cmd)
 {
 	(void)data;

@@ -6,12 +6,18 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:13 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:06:20 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:35:46 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/ft_irc.hpp"
 
+/**
+ * @brief Parses the USER command received and connects the user
+ * 
+ * @param data 
+ * @param cmd 
+ */
 void	command_user(t_data &data, Message &cmd)
 {
 	(void)data;

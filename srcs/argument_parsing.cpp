@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:31:12 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/16 16:39:58 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:55:34 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ bool valid_port(std::string av, t_data &data)
 	return (false);
 }
 
+/**
+ * @brief Parses the arguments provided at execution and stores them
+ * 
+ * @param ac 
+ * @param av 
+ * @param data 
+ * @return int 
+ */
 int parse_arguments(int ac, char **av, t_data &data)
 {
 	if (ac != 3)
@@ -48,6 +56,8 @@ int parse_arguments(int ac, char **av, t_data &data)
 		put_error("ircserv: invalid port, valid port range is 1025-65535.");
 		return (1);
 	}
-	data.password = av[2];
+	srand(time(NULL));
+	data.salt = random();
+	data.password = encrypt_data(data.salt, av[2]);
 	return (0);
 }

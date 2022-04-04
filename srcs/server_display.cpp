@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:41:22 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:46:33 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:49:36 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ void put_usage()
 	COUT(CYAN, "the connection password. It will be needed by any IRC client that tries to connect to your server.");
 }
 
+/**
+ * @brief Displays a p
+ * 
+ */
 void server_shutdown()
 {
-	g_log << "SERVER SHUTDOWN AFTER " << time(NULL) - g_start << "seconds";
+	time_t end = (time(NULL) - g_start);
+	g_log << "SERVER SHUTDOWN AFTER " << end << "seconds";
+	COUT(WHITE, "SERVER SHUTDOWN AFTER " << ends << "seconds");
 	exit(1);
 }

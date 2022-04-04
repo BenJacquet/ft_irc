@@ -6,12 +6,18 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:41 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:06:43 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:34:43 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/ft_irc.hpp"
 
+/**
+ * @brief Gives the operator privileges to the user if the password is correct
+ * 
+ * @param data 
+ * @param cmd 
+ */
 void	command_oper(t_data &data, Message &cmd) // ajouter un message MODE renvoyé a l'utilisateur
 {
 	Users		*sender = cmd.getSender();

@@ -6,12 +6,17 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:45:28 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/30 07:46:48 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:43:51 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+/**
+ * @brief prints all the pollfd contained into the vector used by the server
+ * 
+ * @param data 
+ */
 void	print_pollfd(t_data &data)
 {
 	v_pollfds::iterator it = data.poll_fds.begin();
@@ -24,6 +29,12 @@ void	print_pollfd(t_data &data)
 		COUT(MAGENTA, "(" << &(*it) << ") - " << it->fd);
 }
 
+
+/**
+ * @brief prints all the users contained stored into the server database
+ * 
+ * @param data 
+ */
 void	print_users(t_data &data)
 {
 	v_Users::iterator it = data.users.begin();

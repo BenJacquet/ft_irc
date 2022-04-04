@@ -6,22 +6,36 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:05:54 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:34:13 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/ft_irc.hpp"
 
+/**
+ * @brief checks if nick contains illegal characters or is too long
+ * 
+ * @param data 
+ * @param user 
+ * @param nick 
+ */
 void	check_nick(t_data &data, Users &user, std::string nick)
 {
 	(void)data;
 	(void)nick;
-	// Verifier si nick < 9 chars
 	if (nick.length() >= 9 || nick.find_first_not_of(NICK_CHARSET(), 0) != std::string::npos)
 		send_packets(user, create_reply(data, &user, 432, nick));
-	// Verifier si chars interdits
 }
 
+/**
+ * @brief authenticates the user sets a variable containing the old connection to replace
+ * 
+ * @param data 
+ * @param client 
+ * @param nick 
+ * @return true 
+ * @return false 
+ */
 bool	authenticate_user(t_data &data, Users *client, std::string nick)
 {
 	v_Users::iterator found_reg = find_client_nick(data, nick);
@@ -41,6 +55,12 @@ bool	authenticate_user(t_data &data, Users *client, std::string nick)
 	return (false);
 }
 
+/**
+ * @brief Parses the NICK command received, checks and authenticates the user
+ * 
+ * @param data 
+ * @param cmd 
+ */
 void	command_nick(t_data &data, Message &cmd)
 {
 	(void)data;

@@ -49,7 +49,7 @@ ORDRE :
 - Creation du serveur
 - Accepter et renvoyer les requetes
 - Handshake avec le serveur
-- Stocker les credentials encryptés (SHA 256)
+- Stocker les credentials encryptés (SHA 256 ou custom)
 - Creation les objets (channel, users)
 - Ajouter des nouveaux utilisateurs
 - Implementer les commandes (pour les operateurs uniquement les changements de mode, kick, kill etc)
@@ -96,7 +96,7 @@ NUMERIC REPLIES A TRIER:
 		ERR_PASSWDMISMATCH OK
 
 	DIE
-		ERR_NOPRIVILEGES
+		ERR_NOPRIVILEGES OK
 
 	USER MODE
 		ERR_NEEDMOREPARAMS O

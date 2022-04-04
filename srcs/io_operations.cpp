@@ -6,12 +6,22 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:59:34 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:48:09 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+/**
+ * @brief Creates a reply containing the full_id of the client
+ * and the numeric reply corresponding to the code received as argument
+ * 
+ * @param data 
+ * @param client 
+ * @param code the code of the numeric reply
+ * @param arg argument sent to client if needed
+ * @return std::string 
+ */
 std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 {
 	std::string reply;
@@ -55,6 +65,13 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 	return ("");
 }
 
+/**
+ * @brief Logs all communications inside a file whose name is specified in the ft_irc.hpp
+ * 
+ * @param client 
+ * @param to_log data to log
+ * @param out true = data sent | false = data received
+ */
 void	log_coms(Users &client, std::string &to_log, bool out)
 {
 	time_t my_time = time(NULL);

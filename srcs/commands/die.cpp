@@ -6,13 +6,19 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:05:11 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:11:06 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:31:09 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/ft_irc.hpp"
 
-void	command_die(t_data &data, Message &cmd) // AJOUTER CHECK DES MODES
+/**
+ * @brief Kills the server if the sender has operator privileges
+ * 
+ * @param data 
+ * @param cmd 
+ */
+void	command_die(t_data &data, Message &cmd)
 {
 	(void)data;
 	(void)cmd;

@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:47:12 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:52:07 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void	replace_user(t_data &data, Users &user)
 	user.connect(user);
 }
 
+/**
+ * @brief Disconnects a user, removes it from the pollfd vector
+ * and removed it from database if not authentified
+ * 
+ * @param data 
+ * @param client 
+ */
 void	disconnect_user(t_data &data, Users &client)
 {
 	v_Users::iterator it = data.users.begin();
@@ -53,4 +60,62 @@ void	disconnect_user(t_data &data, Users &client)
 			}
 		}
 	}
+}
+
+/**
+ * @brief Finds a client inside the std::vector<Users> by fd
+ * 
+ * @param data 
+ * @param fd 
+ * @return v_Users::iterator 
+ */
+v_Users::iterator find_client_fd(t_data &data, int fd)
+{
+	v_Users::iterator it = data.users.begin();
+	v_Users::iterator ite = data.users.end();
+	for(; it != ite; it++)
+	{
+		if (it->getFd() == fd)
+			return (it);
+	}
+	//COUT(WHITE, "end(" << &(*ite) << ") - " << "(" << &(*it) << ") - " << "FIND CLIENT fd to look for=" << fd << " ||| it->fd=" << it->getFd() << " ||| size of user=" << data.users.size());
+	return (it);
+}
+
+/**
+ * @brief Finds a client inside the std::vector<Users> by uid
+ * 
+ * @param data 
+ * @param fd 
+ * @return v_Users::iterator 
+ */
+v_Users::iterator find_client_uid(t_data &data, unsigned int uid)
+{
+	v_Users::iterator it = data.users.begin();
+	v_Users::iterator ite = data.users.end();
+	for(; it != ite; it++)
+	{
+		if (it->getUid() == uid)
+			return (it);
+	}
+	return (it);
+}
+
+/**
+ * @brief Finds a client inside the std::vector<Users> by nick
+ * 
+ * @param data 
+ * @param fd 
+ * @return v_Users::iterator 
+ */
+v_Users::iterator find_client_nick(t_data &data, std::string nick)
+{
+	v_Users::iterator it = data.users.begin();
+	v_Users::iterator ite = data.users.end();
+	for(; it != ite; it++)
+	{
+		if (it->getNick_name().compare(nick) == 0)
+			return (it);
+	}
+	return (it);
 }

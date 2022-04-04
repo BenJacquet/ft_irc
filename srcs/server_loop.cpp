@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 19:40:46 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:50:08 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ int poll_setup(t_data &data)
 	return (0);
 }
 
+/**
+ * @brief Signal handler
+ * 
+ * @param signal 
+ */
 void	handle_signals(int signal)
 {
 	if (signal == SIGQUIT || signal == SIGINT)
@@ -91,6 +96,10 @@ void	handle_signals(int signal)
 	}
 }
 
+/**
+ * @brief Basic signal manager
+ * 
+ */
 void	signal_manager()
 {
 	signal(SIGQUIT, &handle_signals);
@@ -108,15 +117,11 @@ int server_loop(t_data &data)
 	g_listen_socket = data.bind_addr;
 	g_listen_fd = data.sock_fd;
 	initialize_command_map(data);
-	// int rescue = 0;
 	while (1)
 	{
-		// if (rescue > 20)
-		// 	return (0);
 		signal_manager();
 		if (poll_setup(data) == 1)
 			return (1);
-		// rescue++;
 	}
 	freeaddrinfo(data.bind_addr);
 	close(data.sock_fd);

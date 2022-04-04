@@ -6,12 +6,18 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 12:51:40 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:38:03 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
+/**
+ * @brief Splits a line into a vector of arguments
+ * 
+ * @param line 
+ * @return std::vector<std::string> 
+ */
 std::vector<std::string>	parse_line(const std::string &line)
 {
 	std::istringstream	line_stream(line);
@@ -29,6 +35,13 @@ std::vector<std::string>	parse_line(const std::string &line)
 	return (words);
 }
 
+/**
+ * @brief Parses the commands received into a TCP/IP packet
+ * 
+ * @param data 
+ * @param client 
+ * @param buffer 
+ */
 void	command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE])
 {
 	std::string line;

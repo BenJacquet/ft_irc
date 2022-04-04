@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 16:52:37 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:54:22 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ int addrinfo_setup(t_data &data, char **av)
  */
 int server_setup(t_data &data)
 {
-	srand(time(NULL));
-	data.salt = random();
-	data.password = encrypt_data(data.salt, data.password);
 	if ((data.sock_fd = socket(data.bind_addr->ai_family,
 								data.bind_addr->ai_socktype, data.bind_addr->ai_protocol)) == -1)
 	{
