@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:53:31 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:47:53 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,17 @@ Chan*		is_chan_exist(t_data &data, std::string args)
 			return &(*it);
 	}
 	return NULL;
+}
+
+void		remove_carriage(std::string &data)
+{
+	size_t found = 0;
+
+	while (1)
+	{
+		found = data.find('\r');
+		if (found == std::string::npos)
+			return;
+		data.erase(found, 1);
+	}
 }

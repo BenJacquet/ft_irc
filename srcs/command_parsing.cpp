@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:38:03 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:51:03 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ std::vector<std::string>	parse_line(const std::string &line)
 	for (; std::getline(line_stream, buffer, ' '); z++)
 	{
 		words.push_back(buffer);
-		//COUT(CYAN, "words[" << z << "] - " << words[z]);
 		buffer.clear();
 	}
-	words[z - 1].erase(words[z - 1].end() - 1);
 	return (words);
 }
 
@@ -42,7 +40,7 @@ std::vector<std::string>	parse_line(const std::string &line)
  * @param client 
  * @param buffer 
  */
-void	command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE])
+void	command_parsing(t_data &data, Users &client, std::string buffer)
 {
 	std::string line;
 	std::istringstream buffer_stream(buffer);

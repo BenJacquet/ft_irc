@@ -8,7 +8,7 @@
 
 -Interdit d'utiliser read/recv sans utiliser poll() OK
 
--Definir un client de reference pour la correction OK (IRSSI)
+-Definir un client de reference pour la correction OK (IRSSI) OK
 
 -Le client doit pouvoir se connecter au serveur sans rencontrer d'erreur OK
 
@@ -19,11 +19,7 @@
 BEN :
 - Ajouter Numeric Replies des commandes en cas d'erreur
 - Envoyer MODE dans Oper au lieu de hardcode le mode
-- creer bot pour : (/msg BOTNAME cmd)
-	- changer mdp (/msg BOTNAME newpassword, oldpassword)
-	- changer realname (/msg BOTNAME realname)
-	- demander nombre d'utilisateurs connectés (/msg BOTNAME online)
-	- demander la date (/msg BOTNAME date)
+- fix le crash avec nc 127.0.0.1 6667 puis PASS
 
 THOMAS :
 - Ajouter Numeric Replies des commandes en cas d'erreur

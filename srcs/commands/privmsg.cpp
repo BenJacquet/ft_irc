@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/01 17:06:18 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 12:27:15 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 {
 	Chan	*new_chan;
 	v_Users::iterator	new_usr;
-	std::vector<std::string> args = parse_line(cmd.getPayload());
+	std::vector<std::string> args = parse_line(std::string(cmd.getPayload()));
 	std::string content;
 	for(size_t i=2; i < args.size(); i++)
 		content += args[i] + " " ;

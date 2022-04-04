@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:46:46 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:47:58 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ typedef struct			s_data
 
 	/* COMMAND PARSING */
 
-		void command_parsing(t_data &data, Users &client, char buffer[BUFFERSIZE]);
+		void command_parsing(t_data &data, Users &client, std::string buffer);
 		void initialize_command_map(t_data &data);
 		std::vector<std::string> parse_line(const std::string &line);
 
@@ -169,6 +169,7 @@ typedef struct			s_data
 		Chan*	is_chan_exist(t_data &data, std::string args);
 		std::string	encrypt_data(long salt, std::string to_encrypt);
 		std::string get_ip_string(sockaddr_in6 address);
+		void remove_carriage(std::string &data);
 
 	/* DEBUG */
 

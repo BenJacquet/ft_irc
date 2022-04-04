@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:24 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:34:59 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:53:08 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	command_pass(t_data &data, Message &cmd)
 		send_packets(*sender, create_reply(data, sender, 462, ""));
 	if (args.size() == 1 || args[1].empty() == true)
 		send_packets(*sender, create_reply(data, sender, 461, args[0]));
-	sender->setPw(encrypt_data(data.salt, args[1]));
+	else
+		sender->setPw(encrypt_data(data.salt, args[1]));
 	// check user password and authenticate if valid
 }

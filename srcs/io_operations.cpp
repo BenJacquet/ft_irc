@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:48:09 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:59:18 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,21 +126,32 @@ int send_packets(Users &client, std::string to_send)
  */
 int receive_packets(t_data &data, Users &client)
 {
-	char buffer[BUFFERSIZE]; // peut etre passer sur std::string et append
-	//std::istringstream buffer;
-	int received = 0;
+	char buffer[BUFFERSIZE];
+	std::string buffer_str;
+	ssize_t received = 0;
+	ssize_t sum = 0;
 
-	std::memset(buffer, 0, BUFFERSIZE);
-	received = recv(client.getFd(), buffer, BUFFERSIZE, 0);
-	if (received == 0)
-		disconnect_user(data, client);
-	else if (received != -1)
+	buffer_str.clear();
+
+	while (1)
 	{
-		std::string log_buffer(buffer);
+		received = recv(client.getFd(), buffer, BUFFERSIZE, 0);
+		if (received <= 0)
+			break;
+		sum += received;
+		buffer_str += buffer;
+		std::memset(buffer, 0, BUFFERSIZE);
+	}
+	if (sum == 0)
+		disconnect_user(data, client);
+	else if (sum != -1)
+	{
+		remove_carriage(buffer_str);
+		std::string log_buffer(buffer_str.c_str());
 		log_coms(client, log_buffer, false);
-		COUT(L_GREEN, "<---- received " << received << " bytes from " << client.getFd() << ":");
-		COUT(L_GREEN, buffer);
-		command_parsing(data, client, buffer);
+		COUT(L_GREEN, "<---- received " << sum << " bytes from " << client.getFd() << ":");
+		COUT(L_GREEN, buffer_str.c_str());
+		command_parsing(data, client, buffer_str.c_str());
 	}
 	return (received);
 }

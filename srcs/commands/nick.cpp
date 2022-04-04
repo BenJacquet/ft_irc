@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:34:13 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:43:14 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
  */
 void	check_nick(t_data &data, Users &user, std::string nick)
 {
-	(void)data;
-	(void)nick;
-	if (nick.length() >= 9 || nick.find_first_not_of(NICK_CHARSET(), 0) != std::string::npos)
+	size_t found = nick.find_first_not_of(NICK_CHARSET(), 0);
+	if (nick.length() >= 9 || found != std::string::npos)
+	{
 		send_packets(user, create_reply(data, &user, 432, nick));
+		COUT(RED, "character is not allowed=[" << static_cast<int>(nick[found]) << "]");
+	}
 }
 
 /**
