@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 13:59:18 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/05 16:31:01 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 	std::string reply;
 	std::stringstream code_str;
 	code_str << code;
-	(void)data;
+	(void)data; // a degager
 
 	if (client->getNick_name().empty() == true)
 		reply = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " * ";
@@ -39,6 +39,8 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + RPL_WELCOME(client->getFull_id()));
 		case (221):
 			return (reply + RPL_UMODEIS(client->getMode()));
+		case (324):
+			return (reply + RPL_CHANNELMODEIS(arg));
 		case (381):
 			return (reply + RPL_YOUREOPER());
 		case (431):

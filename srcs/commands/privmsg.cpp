@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/04 12:27:15 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:25:33 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	command_privmsg(t_data &data, Message &cmd)
 	Chan	*new_chan;
 	v_Users::iterator	new_usr;
 	std::vector<std::string> args = parse_line(std::string(cmd.getPayload()));
+	if (args.size() == 1)
+	{
+		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
+		return ;
+	}
 	std::string content;
 	for(size_t i=2; i < args.size(); i++)
 		content += args[i] + " " ;
@@ -38,7 +43,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 
 void	channel_privmsg(Chan &chan, Users &sender, std::string content)
 {
-	std::string to_send = ":" + sender.getFull_id() + " PRIVMSG " + chan.getTopic() + " " + content;
+	std::string to_send = ":" + sender.getFull_id() + " PRIVMSG " + chan.getName() + " " + content;
 	v_Users vect = chan.getUsers();
 	for (v_Users::iterator it = vect.begin(), ite = vect.end(); it != ite; it++)
 	{

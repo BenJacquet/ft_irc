@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 13:47:58 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/05 16:56:16 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,8 @@ typedef struct			s_data
 		void	whois_parsing(t_data &data, Message &cmd);
 		void	whowas_parsing(t_data &data, Message &cmd);
 		void	mode_parsing(t_data &data, Message &cmd);
-		void	user_mode(Users &user, std::string content);
-		void	chan_mode(Chan &chan, std::string content);
+		void	user_mode(t_data &data, Users &client, std::string content);
+		void	chan_mode(t_data &data, Chan &chan,Users &client, std::string content);
 		void	away_parsing(t_data &data, Message &cmd);
 
 	/* UTILS */
@@ -189,7 +189,8 @@ extern std::ofstream	g_log;
 #define PING(HOST) ("PING " + HOST)
 
 #define RPL_WELCOME(FULL) (":Welcome to the Internet Relay Network " + FULL) // 001
-#define RPL_UMODEIS(MODE) ("MODE") // 221
+#define RPL_UMODEIS(MODE) (":" + MODE) // 221
+#define RPL_CHANNELMODEIS(MODE) (MODE) //324
 #define RPL_YOUREOPER() (":You are now an IRC operator") // 381
 
 #define ERR_NONICKNAMEGIVEM() (":No nickname given") // 431

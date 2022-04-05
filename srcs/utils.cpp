@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 13:47:53 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:25:12 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ Chan*		is_chan_exist(t_data &data, std::string args)
 	v_Chan::iterator ite = data.chans.end();
 	for (v_Chan::iterator it = data.chans.begin(); it != ite ; it++)
 	{
-		if (it->getTopic() == args)
+		if (it->getName() == args)
 			return &(*it);
 	}
 	return NULL;

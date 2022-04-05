@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:50:06 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/01 17:06:08 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:26:33 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	part_parsing(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	v_Chan::iterator it = data.chans.begin();
 	for (v_Chan::iterator ite = data.chans.end();
-		it != ite && it->getTopic() != args[1]; it++)
+		it != ite && it->getName() != args[1]; it++)
 		;
 	if (it == data.chans.end())
 		CERR(RED, args[1] << "cannot be quit! (not find this channel)");

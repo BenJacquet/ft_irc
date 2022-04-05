@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/03/30 06:03:49 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:24:49 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-Chan::Chan() : _users(), _mode(), _topic(), _blacklist_users()
+Chan::Chan() : _users(), _mode(), _name(), _blacklist_users()
 {
 }
 /**
@@ -25,10 +25,12 @@ Chan::Chan() : _users(), _mode(), _topic(), _blacklist_users()
  * @param usr_operator users create the Chan
  * @param topic_name name of the Chan/topic
  */
-Chan::Chan( Users & usr_operator , std::string topic_name)
+Chan::Chan( Users & usr_operator , std::string name)
 {
 	this->addusers(usr_operator);
-	this->_topic = topic_name;
+	this->_name = name;
+	this->_mode = "+l";
+	this->_limit_user = 25;
 
 }
 
@@ -57,7 +59,7 @@ Chan &				Chan::operator=( Chan const & rhs )
 	{
 		this->_users = rhs._users;
 		this->_mode = rhs._mode;
-		this->_topic = rhs._topic;
+		this->_name = rhs._name;
 		this->_blacklist_users = rhs._blacklist_users;
 	}
 	return *this;
@@ -104,9 +106,19 @@ std::string		Chan::getMode(void) const
 	return this->_mode;
 }
 
-std::string		Chan::getTopic(void) const
+unsigned int	Chan::getLimit_user(void) const
 {
-	return this->_topic;
+	return this->_limit_user;
+}
+
+std::string		Chan::getPw(void) const
+{
+	return this->_mdp_to_join;
+}
+
+std::string		Chan::getName(void) const
+{
+	return this->_name;
 }
 
 std::vector<Users>	Chan::getUsers(void) const
@@ -117,6 +129,16 @@ std::vector<Users>	Chan::getUsers(void) const
 void	Chan::setMode(std::string new_mode)
 {
 	this->_mode = new_mode;
+}
+
+void	Chan::setLimit_user(unsigned int nbr)
+{
+	this->_limit_user = nbr;
+}
+
+void	Chan::setPw(std::string new_pw)
+{
+	this->_mdp_to_join = new_pw;
 }
 
 /* ************************************************************************** */

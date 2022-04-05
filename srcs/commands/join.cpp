@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/04 15:42:59 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:26:13 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,26 @@ void		join_msg(Users &to_add, Chan &chan, bool isnewone)
 		for (v_Users::iterator it = vect.begin(), ite = vect.end();
 			it != ite; it++)
 		{
-			s = ":" + to_add.getFull_id() + " JOIN :" + chan.getTopic();
+			s = ":" + to_add.getFull_id() + " JOIN :" + chan.getName();
 			send_packets(*it, s);
 		}
 	}
 	else
 	{
 		RPL_353_366(to_add, chan);
-		std::string full_msg = ":" + to_add.getFull_id() + " JOIN :" + chan.getTopic();
+		std::string full_msg = ":" + to_add.getFull_id() + " JOIN :" + chan.getName();
 		send_packets(to_add, full_msg);
 	}
 }
 
 void		RPL_353_366(Users &usr, Chan &chan)
 {
-	std::string rpl_353 =  ":" + usr.getFull_id() + " 353 " + usr.getNick_name() + " = " + chan.getTopic() + " :@";
+	std::string rpl_353 =  ":" + usr.getFull_id() + " 353 " + usr.getNick_name() + " = " + chan.getName() + " :@";
 	v_Users vect = chan.getUsers();
 	for (v_Users::iterator it = vect.begin(), ite = vect.end();
 		it != ite; it++)
 		rpl_353 += it->getNick_name() + " ";
 	send_packets(usr, rpl_353);
-	std::string rpl_366 = ":" + usr.getFull_id() + " 366 " + usr.getNick_name() + " " + chan.getTopic() + " :End of /NAMES list";
+	std::string rpl_366 = ":" + usr.getFull_id() + " 366 " + usr.getNick_name() + " " + chan.getName() + " :End of /NAMES list";
 	send_packets(usr, rpl_366);
 }
