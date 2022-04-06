@@ -6,11 +6,39 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/05 17:26:13 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/06 17:33:16 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/ft_irc.hpp"
+
+int	verif_join(t_data &data, Message &cmd, Chan &new_chan, std::vector<std::string> &args)
+{
+	std::string pw;
+	size_t pos;
+	if (new_chan.getMode().find("k") != std::string::npos)
+	{
+		if (args.size() >= 3 && (pos = args[2].find(',')) != std::string::npos)
+		{
+			pw.assign(args[2], 0, pos);
+			args[2].erase(0, pos + 1);
+		}
+		else if (args.size() >= 3)
+			pw = args[2];
+		if (args.size() < 3 || pw != new_chan.getPw())
+		{
+			send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 475, new_chan.getName()));
+			return 0;
+		}
+	}
+	if (new_chan.getMode().find("l") != std::string::npos &&
+		std::atoi(new_chan.getLimit_user().c_str()) <= static_cast<int>(new_chan.getUsers().size()))
+	{
+		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 471, new_chan.getName()));
+		return 0;
+	}
+	return 1;
+}
 
 void		join_parsing(t_data &data, Message &cmd)
 {
@@ -20,14 +48,13 @@ void		join_parsing(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	while ((pos = args[1].find(',')) != std::string::npos)
 	{
+		CERR(RED, "args 1 = " << args[1] << " args 2 = " << args[2]);
 		chan.assign(args[1], 0, pos);
 		args[1].erase(0, pos + 1);
 		if ((new_chan = is_chan_exist(data, chan)) != NULL)
 		{
-			if (new_chan->addusers(*(cmd.getSender())))
+			if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
 				join_msg(*(cmd.getSender()), *new_chan, false);
-			else
-				CERR(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
 		}
 		else
 			join(data, *(cmd.getSender()), chan);
@@ -35,10 +62,8 @@ void		join_parsing(t_data &data, Message &cmd)
 	chan = args[1];
 	if ((new_chan = is_chan_exist(data, chan)) != NULL)
 	{
-		if (new_chan->addusers(*(cmd.getSender())))
+		if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
 			join_msg(*(cmd.getSender()), *new_chan, false);
-		else
-			CERR(L_BLUE, cmd.getSender()->getNick_name() << " cannot be add to " << chan);
 	}
 	else
 		join(data, *(cmd.getSender()), chan);

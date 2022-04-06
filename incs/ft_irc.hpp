@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/05 16:56:16 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/06 16:41:36 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ typedef struct			s_data
 		void	whowas_parsing(t_data &data, Message &cmd);
 		void	mode_parsing(t_data &data, Message &cmd);
 		void	user_mode(t_data &data, Users &client, std::string content);
-		void	chan_mode(t_data &data, Chan &chan,Users &client, std::string content);
+		void	chan_mode(t_data &data, Chan &chan,Users &client, std::vector<std::string> args);
 		void	away_parsing(t_data &data, Message &cmd);
 
 	/* UTILS */
@@ -199,6 +199,8 @@ extern std::ofstream	g_log;
 #define ERR_NEEDMOREPARAMS(CMD) (CMD + " :Not enough parameters") // 461
 #define ERR_ALREADYREGISTERED() (":Unauthorized command (already registered)") // 462
 #define ERR_PASSWDMISMATCH() (":Password incorrect") // 464
+#define ERR_CHANNELISFULL(CHANNEL) (CHANNEL + " :Cannot join channel (+l)") // 471
+#define ERR_BADCHANNELKEY(CHANNEL) (CHANNEL + " :Cannot join channel (+k)") // 475
 #define ERR_NOPRIVILEGE() (":Permission Denied- You're not an IRC operator") // 481
 #define ERR_UMODEUNKNOWNFLAG() (":Unknown MODE flag") // 501
 #define ERR_USERMISMATCH() (":Cannot change mode for other users") // 502

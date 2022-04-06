@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 13:43:14 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/06 14:32:38 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 void	check_nick(t_data &data, Users &user, std::string nick)
 {
 	size_t found = nick.find_first_not_of(NICK_CHARSET(), 0);
-	if (nick.length() >= 9 || found != std::string::npos)
+	if (nick.length() > 9 || found != std::string::npos)
 	{
 		send_packets(user, create_reply(data, &user, 432, nick));
 		COUT(RED, "character is not allowed=[" << static_cast<int>(nick[found]) << "]");

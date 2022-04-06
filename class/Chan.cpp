@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/05 17:24:49 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/06 12:22:59 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ Chan::Chan( Users & usr_operator , std::string name)
 	this->addusers(usr_operator);
 	this->_name = name;
 	this->_mode = "+l";
-	this->_limit_user = 25;
+	this->_limit_user = "25";
 
 }
 
@@ -59,6 +59,8 @@ Chan &				Chan::operator=( Chan const & rhs )
 	{
 		this->_users = rhs._users;
 		this->_mode = rhs._mode;
+		this->_limit_user = rhs._limit_user;
+		this->_mdp_to_join= rhs._mdp_to_join;
 		this->_name = rhs._name;
 		this->_blacklist_users = rhs._blacklist_users;
 	}
@@ -106,7 +108,7 @@ std::string		Chan::getMode(void) const
 	return this->_mode;
 }
 
-unsigned int	Chan::getLimit_user(void) const
+std::string		Chan::getLimit_user(void) const
 {
 	return this->_limit_user;
 }
@@ -131,7 +133,7 @@ void	Chan::setMode(std::string new_mode)
 	this->_mode = new_mode;
 }
 
-void	Chan::setLimit_user(unsigned int nbr)
+void	Chan::setLimit_user(std::string nbr)
 {
 	this->_limit_user = nbr;
 }

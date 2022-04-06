@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/05 17:46:32 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/06 14:02:49 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ std::string		chan_modeis_arg(Chan &chan)
 	unsigned long pos2 = -1;
 	pos = chan.getMode().find("l");
 	pos2 = chan.getMode().find("k");
-	if (pos > pos2)
+	if (pos < pos2)
 	{
 		if (pos != std::string::npos)
 			ret += " " + chan.getLimit_user();
@@ -137,28 +137,59 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 {
 	bool	to_add_or_rm = true;
 	unsigned long	pos;
-	if (args[1].find('-') == 0)
+	if (args.size() <= 2)
+	{
+		send_packets(sender, create_reply(data, &sender, 324, chan_modeis_arg(chan)));
+		return ;
+	}
+	if (args[2].find('-') == 0)
 		to_add_or_rm = false;
-	if ((pos = args[1].find("k")) != std::string::npos || \
-		(pos = args[1].find("l")) != std::string::npos || \
-		(pos = args[1].find("O")) != std::string::npos || \
-		(pos = args[1].find("o")) != std::string::npos || \
-		(pos = args[1].find("b")) != std::string::npos)
+	if ((pos = args[2].find("k")) != std::string::npos || \
+		(pos = args[2].find("l")) != std::string::npos || \
+		(pos = args[2].find("O")) != std::string::npos || \
+		(pos = args[2].find("o")) != std::string::npos || \
+		(pos = args[2].find("b")) != std::string::npos)
 	{
 		if (to_add_or_rm)
 		{
-			if (chan.getMode().find(args[1][pos]) == std::string::npos)
-				chan.setMode(chan.getMode() + args[1][pos]);
-			args[1].erase(pos, 1);
+			if (args[2][pos] == 'k')
+			{
+				if (args.size() <= 3)
+				{
+					send_packets(sender, create_reply(data, &sender, 461, args[0]));
+					return ;
+				}
+				else
+				{
+					chan.setPw(args[3]);
+					args.erase(args.begin() + 3);
+				}
+			}
+			if (args[2][pos] == 'l')
+			{
+				if (args.size() <= 3)
+				{
+					send_packets(sender, create_reply(data, &sender, 461, args[0]));
+					return ;
+				}
+				else
+				{
+					chan.setLimit_user(args[3]);
+					args.erase(args.begin() + 3);
+				}
+			}
+			if (chan.getMode().find(args[2][pos]) == std::string::npos)
+				chan.setMode(chan.getMode() + args[2][pos]);
+			args[2].erase(pos, 1);
 			chan_mode(data, chan, sender, args);
 		}
 		else
 		{
-			if ((pos = chan.getMode().find(args[1][pos])) != std::string::npos)
+			if ((pos = chan.getMode().find(args[2][pos])) != std::string::npos)
 			{
 				std::string tmp = chan.getMode();
 				chan.setMode(tmp.erase(pos, 1));
-				args[1].erase(pos, 1);
+				args[2].erase(pos, 1);
 				chan_mode(data, chan, sender, args);
 			}
 		}
