@@ -26,12 +26,12 @@ THOMAS :
 
 PEU IMPORTE :
 - Implementer kick
-- Implementer 
+- Implementer /mode #channel +b
+- Implementer /away pour que les users de #channel ne recoivent plus les msgs
+- Implementer les operateurs de channel et rajouter la cmd /mode <nick> -o
 
 CRASH :
-- MODE sans argument
-- AWAY sans argument
-- PRIVMSG sans argument
+- NONE
 
 Commandes:
 /nick <nickname>					--	change <nickname>
