@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/06 16:43:22 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/07 15:27:02 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + ERR_UMODEUNKNOWNFLAG());
 		case (502):
 			return (reply + ERR_USERMISMATCH());
+		case (900):
+			return (reply + RPL_MODE(client->getNick_name(), arg));
 		default:
 			break;
 	}

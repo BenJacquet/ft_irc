@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/06 16:41:36 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/07 15:31:29 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ extern std::ofstream	g_log;
 #define RPL_UMODEIS(MODE) (":" + MODE) // 221
 #define RPL_CHANNELMODEIS(MODE) (MODE) //324
 #define RPL_YOUREOPER() (":You are now an IRC operator") // 381
+#define	RPL_MODE(NICK, MODE) ("MODE " + NICK + " " + MODE) // 900
 
 #define ERR_NONICKNAMEGIVEM() (":No nickname given") // 431
 #define ERR_ERRONEUSNICKNAME(NICK) (NICK + " :Erroneous nickname") // 432
