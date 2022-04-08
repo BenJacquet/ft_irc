@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/07 15:51:25 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/08 15:01:39 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ void	user_mode(t_data &data, Users &client, std::string content)
 		{
 			if (client.getMode().find(content[pos]) == std::string::npos)
 				client.setMode(client.getMode() + content[pos]);
-			if (content[0] == '+')
-				user_mode(data, client, content.erase(pos, 1));
-			else
-				user_mode(data, client, content.erase(pos, 1));
+			user_mode(data, client, content.erase(pos, 1));
 		}
 		else
 		{

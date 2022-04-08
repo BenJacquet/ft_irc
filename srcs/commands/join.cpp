@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/06 17:33:16 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/08 15:38:32 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ void		join_parsing(t_data &data, Message &cmd)
 		if ((new_chan = is_chan_exist(data, chan)) != NULL)
 		{
 			if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
+			{
 				join_msg(*(cmd.getSender()), *new_chan, false);
+				send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
+			}
 		}
 		else
 			join(data, *(cmd.getSender()), chan);
@@ -63,7 +66,10 @@ void		join_parsing(t_data &data, Message &cmd)
 	if ((new_chan = is_chan_exist(data, chan)) != NULL)
 	{
 		if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
+		{
 			join_msg(*(cmd.getSender()), *new_chan, false);
+			send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
+		}
 	}
 	else
 		join(data, *(cmd.getSender()), chan);
@@ -82,6 +88,7 @@ void		join(t_data &data, Users & creator, std::string name_chan)
 {
 	data.chans.push_back(Chan(creator, name_chan));
 	join_msg(creator, data.chans.back(), true);
+	send_packets(creator, RPL_MODE(creator.getNick_name(), creator.getMode()));
 }
 
 void		join_msg(Users &to_add, Chan &chan, bool isnewone)
