@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/01 17:47:08 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/08 14:22:54 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void			Users::connect(Users &user)
 	this->setUid(user.getUid());
 	this->setOnline(true);
 	this->setAuthenticated(0);
+	this->setMode(user.getMode());
 
 	COUT(GREEN, "Received connection from " << this->getIp() << " (" << this->getFd() << ")");
 }
