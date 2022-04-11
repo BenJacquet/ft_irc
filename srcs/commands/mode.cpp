@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/08 15:01:39 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/11 17:07:40 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	user_mode(t_data &data, Users &client, std::string content)
 	{
 		if (to_add_or_rm)
 		{
-			if (client.getMode().find(content[pos]) == std::string::npos)
+			if (client.getMode().find(content[pos]) == std::string::npos && \
+				content[pos] != 'o' && content[pos] != 'O')
 				client.setMode(client.getMode() + content[pos]);
 			user_mode(data, client, content.erase(pos, 1));
 		}
@@ -92,7 +93,10 @@ void	user_mode(t_data &data, Users &client, std::string content)
 		}
 	}
 	else
+	{
 		send_packets(client, create_reply(data, &client, 221, ""));
+		send_packets(client, create_reply(data, &client, 900, client.getMode()));
+	}
 }
 
 std::string		chan_modeis_arg(Chan &chan)

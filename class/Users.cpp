@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/08 14:22:54 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/11 14:24:17 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,11 @@ std::string		Users::getPw() const
 	return this->_pw;
 }
 
+std::string		Users::getAway_mode() const
+{
+	return this->_away_mode;
+}
+
 int				Users::getReg_status() const
 {
 	return this->_reg_status;
@@ -289,6 +294,11 @@ void			Users::setNick_name(std::string new_nick_name)
 void			Users::setPw(std::string new_pw)
 {
 	this->_pw = new_pw;
+}
+
+void			Users::setAway_mode(std::string new_away_mode)
+{
+	this->_away_mode = new_away_mode;
 }
 
 void			Users::setReg_status(int new_status)

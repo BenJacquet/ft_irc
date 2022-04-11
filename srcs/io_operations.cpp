@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/07 15:27:02 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/11 14:53:56 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + RPL_WELCOME(client->getFull_id()));
 		case (221):
 			return (reply + RPL_UMODEIS(client->getMode()));
+		case (301):
+			return (reply + RPL_AWAY(arg));
+		case (305):
+			return (reply + RPL_UNAWAY());
+		case (306):
+			return (reply + RPL_NOAWAY());
 		case (324):
 			return (reply + RPL_CHANNELMODEIS(arg));
 		case (381):

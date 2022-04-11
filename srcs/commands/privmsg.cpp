@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/05 17:25:33 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/11 16:20:26 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@ void	command_privmsg(t_data &data, Message &cmd)
 			channel_privmsg(*new_chan, *cmd.getSender(), content);
 		else
 		{
-			content = ":" + cmd.getSender()->getFull_id() + " PRIVMSG " +\
-				find_client_nick(data, args[1])->getNick_name() + " " + content;
-			send_packets(*new_usr, content);
+			if (new_usr->getMode().find("a") != std::string::npos)
+				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 301, \
+					new_usr->getNick_name() + " :" + new_usr->getAway_mode()));
+			else {
+				content = ":" + cmd.getSender()->getFull_id() + " PRIVMSG " +\
+				new_usr->getNick_name() + " " + content;
+				send_packets(*new_usr, content);
+			}
 		}
 	}
 	else

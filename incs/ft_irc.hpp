@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/07 15:31:29 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/11 16:19:36 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ extern std::ofstream	g_log;
 
 #define RPL_WELCOME(FULL) (":Welcome to the Internet Relay Network " + FULL) // 001
 #define RPL_UMODEIS(MODE) (":" + MODE) // 221
+#define RPL_AWAY(MSG) (MSG) // 301
+#define RPL_UNAWAY() (":You are no longer marked as being away") // 305
+#define RPL_NOAWAY() (":You have been marked as being away") // 306
 #define RPL_CHANNELMODEIS(MODE) (MODE) //324
 #define RPL_YOUREOPER() (":You are now an IRC operator") // 381
 #define	RPL_MODE(NICK, MODE) ("MODE " + NICK + " " + MODE) // 900

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/01 12:51:27 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/11 14:22:56 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ class Users
 		std::string			_real_name; /* G & S */
 		std::string			_nick_name; /* G & S */
 		std::string			_pw; /* G & S */
+		std::string			_away_mode; /* G & S */
 		int					_reg_status; /* G & S */
 		bool				_in_use; /* G & S */
 		int					_authenticated; /* G & S */
@@ -73,6 +74,7 @@ class Users
 		std::string		getReal_name() const;
 		std::string		getNick_name() const;
 		std::string		getPw() const;
+		std::string		getAway_mode() const;
 		int				getReg_status() const;
 		bool			getIn_use() const;
 		int				getAuthenticated() const;
@@ -90,6 +92,7 @@ class Users
 		void			setReal_name(std::string new_real_name);
 		void			setNick_name(std::string new_nick_name);
 		void			setPw(std::string new_pw);
+		void			setAway_mode(std::string new_away_mode);
 		void			setReg_status(int new_status);
 		void			setIn_use(bool in_use);
 		void			setAuthenticated(int authenticated);
