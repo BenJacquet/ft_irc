@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/11 16:19:36 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/12 16:13:15 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,8 @@ extern std::ofstream	g_log;
 #define RPL_UNAWAY() (":You are no longer marked as being away") // 305
 #define RPL_NOAWAY() (":You have been marked as being away") // 306
 #define RPL_CHANNELMODEIS(MODE) (MODE) //324
+#define RPL_BANLIST(CHANNEL, BANLIST) (CHANNEL + " :" + BANLIST) // 367
+#define RPL_ENDOFBANLIST(CHANNEL) (CHANNEL + " :End of channel ban list") // 368
 #define RPL_YOUREOPER() (":You are now an IRC operator") // 381
 #define	RPL_MODE(NICK, MODE) ("MODE " + NICK + " " + MODE) // 900
 
