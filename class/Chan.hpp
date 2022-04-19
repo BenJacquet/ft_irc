@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/06 12:07:59 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:36:50 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Chan
 
 	private:
 		std::vector<Users> _users;
+		Users	*_creator;
 		std::string _mode;
 		std::string _limit_user;
 		std::string	_mdp_to_join;
@@ -41,12 +42,16 @@ class Chan
 	/*		METHOD		*/
 		bool addusers(Users to_add);
 		bool rmusers(Users to_rm);
+		bool add_toBlacklist(Users to_add);
+		bool rm_toBlacklist(Users to_rm);
 	/*		GETTERS		*/
+		Users			&	getCreator(void) const;
 		std::string			getMode(void) const;
 		std::string			getLimit_user(void) const;
 		std::string			getPw(void) const;
 		std::string			getName(void) const;
 		std::vector<Users>	getUsers(void) const;
+		std::vector<Users>	getBlacklist(void) const;
 	/*		SETTERS		*/
 		void setMode(std::string new_mode);
 		void setLimit_user(std::string nbr);

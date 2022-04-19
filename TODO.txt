@@ -25,8 +25,8 @@ THOMAS :
 - Ajouter Numeric Replies des commandes en cas d'erreur
 
 PEU IMPORTE :
-- Implementer kick
-- Implementer /mode #channel +b et /mode <nick> +i -> /who /whois 
+- Implementer /mode #channel +b (to ban mode <chan> +b <nick> // to unban * * -b *)
+- /mode <nick> +i -> /who /whois 
 
 CRASH :
 - NONE

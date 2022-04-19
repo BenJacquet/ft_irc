@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/12 16:14:28 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:43:41 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,111 @@ std::string		chan_modeis_arg(Chan &chan)
 	return ret;
 }
 
+bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args, int pos)
+{
+	if (args.size() <= 3)
+	{
+		send_packets(sender, create_reply(data, &sender, 461, args[0]));
+		return false;
+	}
+	else
+	{
+		if (args[2][pos] == 'l')
+			chan.setLimit_user(args[3]);
+		else
+			chan.setPw(args[3]);
+		args.erase(args.begin() + 3);
+	}
+	return true;
+}
+
+bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args)
+{
+	size_t pos;
+	if (args.size() > 3)
+	{
+		std::string target_nick;
+		Users *target;
+		if ((pos = args[3].find(",")) != std::string::npos)
+		{
+			target_nick.assign(args[3], 0, pos);
+			args[3].erase(0, pos + 1);
+		}
+		else
+			target_nick = args[3];
+		target = &(*find_client_nick(data, target_nick));
+		v_Users vectu = chan.getUsers();
+		v_Users::iterator it = vectu.begin();
+		for (v_Users::iterator ite = vectu.end();
+			 it != ite && *it != *target; it++)
+			;
+		if (it == vectu.end())
+		{
+			send_packets(sender, create_reply(data, &sender, 441, target_nick + " " + chan.getName()));
+			return false;
+		}
+		chan.add_toBlacklist(*target);
+		/**
+		 * @brief ajouter un RPL pour dire que le user est ban
+		 *
+		 */
+	}
+	else
+	{
+		v_Users vect = chan.getBlacklist();
+		if (vect.size() > 0)
+		{
+			std::string content = chan.getName() + " :";
+			for (v_Users::iterator it = vect.begin(),
+								   ite = vect.end();
+				 it != ite; it++)
+				content += " " + it->getNick_name();
+			send_packets(sender, create_reply(data, &sender, 367, content));
+		}
+		send_packets(sender, create_reply(data, &sender, 368, chan.getName()));
+	}
+	return true;
+}
+
+bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args)
+{
+	size_t pos;
+	if (args.size() > 3)
+	{
+		std::string target_nick;
+		Users *target;
+		if ((pos = args[3].find(",")) != std::string::npos)
+		{
+			target_nick.assign(args[3], 0, pos);
+			args[3].erase(0, pos + 1);
+		}
+		else
+			target_nick = args[3];
+		target = &(*find_client_nick(data, target_nick));
+		v_Users vectu = chan.getUsers();
+		v_Users::iterator it = vectu.begin();
+		for (v_Users::iterator ite = vectu.end();
+			 it != ite && *it != *target; it++)
+			;
+		if (it == vectu.end())
+		{
+			send_packets(sender, create_reply(data, &sender, 441, target_nick + " " + chan.getName()));
+			return false;
+		}
+		chan.rm_toBlacklist(*target);
+		/**
+		 * @brief ajouter un RPL pour dire que le user n'est plus ban
+		 *
+		 */
+	}
+	else
+	{
+		send_packets(sender, create_reply(data, &sender, 461, args[0]));
+		return false;
+	}
+	return true;
+}
+
 /**
  * @brief 
  * * <channel> *( ( "-" / "+" ) *<modes> *<modeparams> )
@@ -158,40 +263,37 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 		{
 			if (args[2][pos] == 'k' || args[2][pos] == 'l')
 			{
-				if (args.size() <= 3)
-				{
-					send_packets(sender, create_reply(data, &sender, 461, args[0]));
+				if (!(lk_parsing(data, chan, sender, args, pos)))
 					return ;
-				}
-				else
-				{
-					if (args[2][pos] == 'l')
-						chan.setLimit_user(args[3]);
-					else
-						chan.setPw(args[3]);
-					args.erase(args.begin() + 3);
-				}
 			}
 			if (args[2][pos] == 'b')
 			{
-				/**
-				 * @brief ajouter les reglages de option b
-				 * 
-				 */
+				if (!(ban_mode(data, chan, sender, args)))
+					return ;
 			}
-			if (chan.getMode().find(args[2][pos]) == std::string::npos)
+			if (chan.getMode().find(args[2][pos]) == std::string::npos && args[2][pos] != 'b')
+			{
 				chan.setMode(chan.getMode() + args[2][pos]);
-			args[2].erase(pos, 1);
-			chan_mode(data, chan, sender, args);
+				args[2].erase(pos, 1);
+				chan_mode(data, chan, sender, args);
+			}
 		}
 		else
 		{
-			if ((pos = chan.getMode().find(args[2][pos])) != std::string::npos && args[2][pos] != 'b')
+			if ((pos = chan.getMode().find(args[2][pos])) != std::string::npos)
 			{
-				std::string tmp = chan.getMode();
-				chan.setMode(tmp.erase(pos, 1));
-				args[2].erase(pos, 1);
-				chan_mode(data, chan, sender, args);
+				if (args[2][pos] == 'b')
+				{
+					if (!(unban_mode(data, chan, sender, args)))
+						return ;
+				}
+				else
+				{
+					std::string tmp = chan.getMode();
+					chan.setMode(tmp.erase(pos, 1));
+					args[2].erase(pos, 1);
+					chan_mode(data, chan, sender, args);
+				}
 			}
 		}
 	}

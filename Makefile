@@ -28,7 +28,8 @@ SRCS = srcs/main.cpp\
 		srcs/commands/user.cpp\
 		srcs/commands/oper.cpp\
 		srcs/commands/ping.cpp\
-		srcs/commands/die.cpp
+		srcs/commands/die.cpp\
+		srcs/commands/kick.cpp
 
 INCS = incs/ft_irc.hpp\
 		class/Message.hpp\

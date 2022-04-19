@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/08 14:15:03 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:52:37 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ std::string get_ip_string(sockaddr_in6 address)
  * 
  * @param data 
  * @param args 
- * @return Chan* 
+ * @return Chan* if args found else NULL
  */
 Chan*		is_chan_exist(t_data &data, std::string args)
 {

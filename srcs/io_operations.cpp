@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/11 14:53:56 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:31:54 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,24 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + RPL_NOAWAY());
 		case (324):
 			return (reply + RPL_CHANNELMODEIS(arg));
+		case (367):
+			return (reply + RPL_BANLIST(arg));
+		case(368):
+			return (reply + RPL_ENDOFBANLIST(arg));
 		case (381):
 			return (reply + RPL_YOUREOPER());
+		case (403):
+			return (reply + ERR_NOSUCHCHANNEL(arg));
 		case (431):
 			return (reply + ERR_NONICKNAMEGIVEM());
 		case (432):
 			return (reply + ERR_ERRONEUSNICKNAME(arg));
 		case (433):
 			return (reply + ERR_NICKNAMEINUSE(arg));
+		case (441):
+			return (reply + ERR_USERNOTINCHANNEL(arg));
+		case (442):
+			return (reply + ERR_NOTONCHANNEL(arg));
 		case (461):
 			return (reply + ERR_NEEDMOREPARAMS(arg));
 		case (462):
@@ -67,6 +77,8 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + ERR_BADCHANNELKEY(arg));
 		case (481):
 			return (reply + ERR_NOPRIVILEGE());
+		case (482):
+			return (reply + ERR_CHANOPRIVSNEEDED(arg));
 		case (501):
 			return (reply + ERR_UMODEUNKNOWNFLAG());
 		case (502):

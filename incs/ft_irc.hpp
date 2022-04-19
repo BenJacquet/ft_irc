@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/12 16:13:15 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:40:13 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,11 @@ typedef struct			s_data
 		void	mode_parsing(t_data &data, Message &cmd);
 		void	user_mode(t_data &data, Users &client, std::string content);
 		void	chan_mode(t_data &data, Chan &chan,Users &client, std::vector<std::string> args);
+		bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args, int pos);
+		bool	unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args);
+		bool	unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args);
 		void	away_parsing(t_data &data, Message &cmd);
+		void	kick_parsing(t_data &data, Message &cmd);
 
 	/* UTILS */
 
@@ -194,20 +198,24 @@ extern std::ofstream	g_log;
 #define RPL_UNAWAY() (":You are no longer marked as being away") // 305
 #define RPL_NOAWAY() (":You have been marked as being away") // 306
 #define RPL_CHANNELMODEIS(MODE) (MODE) //324
-#define RPL_BANLIST(CHANNEL, BANLIST) (CHANNEL + " :" + BANLIST) // 367
+#define RPL_BANLIST(MSG) (MSG) // 367
 #define RPL_ENDOFBANLIST(CHANNEL) (CHANNEL + " :End of channel ban list") // 368
 #define RPL_YOUREOPER() (":You are now an IRC operator") // 381
 #define	RPL_MODE(NICK, MODE) ("MODE " + NICK + " " + MODE) // 900
 
+#define ERR_NOSUCHCHANNEL(CHANNEL) (CHANNEL + " :No such channel") // 403
 #define ERR_NONICKNAMEGIVEM() (":No nickname given") // 431
 #define ERR_ERRONEUSNICKNAME(NICK) (NICK + " :Erroneous nickname") // 432
 #define ERR_NICKNAMEINUSE(NICK) (NICK + " :Nickname is already in use") // 433
+#define ERR_USERNOTINCHANNEL(MSG) (MSG + " :They aren't on that channel") // 441
+#define ERR_NOTONCHANNEL(CHANNEL) (CHANNEL + " :You're not on that channel") // 442
 #define ERR_NEEDMOREPARAMS(CMD) (CMD + " :Not enough parameters") // 461
 #define ERR_ALREADYREGISTERED() (":Unauthorized command (already registered)") // 462
 #define ERR_PASSWDMISMATCH() (":Password incorrect") // 464
 #define ERR_CHANNELISFULL(CHANNEL) (CHANNEL + " :Cannot join channel (+l)") // 471
 #define ERR_BADCHANNELKEY(CHANNEL) (CHANNEL + " :Cannot join channel (+k)") // 475
 #define ERR_NOPRIVILEGE() (":Permission Denied- You're not an IRC operator") // 481
+#define ERR_CHANOPRIVSNEEDED(CHANNEL) (CHANNEL + " :You're not channel operator") // 482
 #define ERR_UMODEUNKNOWNFLAG() (":Unknown MODE flag") // 501
 #define ERR_USERMISMATCH() (":Cannot change mode for other users") // 502
 
