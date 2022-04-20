@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/19 12:31:54 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:11:09 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ int receive_packets(t_data &data, Users &client)
 		if (received <= 0)
 			break;
 		sum += received;
+		buffer[received] = '\0';
 		buffer_str += buffer;
 		std::memset(buffer, 0, BUFFERSIZE);
 	}
@@ -172,7 +173,6 @@ int receive_packets(t_data &data, Users &client)
 		disconnect_user(data, client);
 	else if (sum != -1)
 	{
-		remove_carriage(buffer_str);
 		std::string log_buffer(buffer_str.c_str());
 		log_coms(client, log_buffer, false);
 		COUT(L_GREEN, "<---- received " << sum << " bytes from " << client.getFd() << ":");

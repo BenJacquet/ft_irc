@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:36:03 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/19 14:52:37 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:11:55 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,8 @@ void		remove_carriage(std::string &data)
 {
 	size_t found = 0;
 
-	while (1)
-	{
-		found = data.find('\r');
-		if (found == std::string::npos)
-			return;
-		data.replace(found, 1, "\0");
-	}
+	found = data.find('\r');
+	if (found == std::string::npos)
+		return;
+	data.replace(found, 1, "\0");
 }

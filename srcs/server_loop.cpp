@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:50:08 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:23:08 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int 			g_listen_fd;
  */
 int poll_setup(t_data &data)
 {
-	int poll_r = poll(reinterpret_cast<struct pollfd *>(&data.poll_fds[0]), data.poll_fds.size(), (TIMEOUT * 60 * 1000));
+	int poll_r = poll(reinterpret_cast<struct pollfd *>(&data.poll_fds[0]), data.poll_fds.size(), (TIMEOUT * 1000));
 	v_pollfds::iterator it = data.poll_fds.begin();
 	v_pollfds::iterator end = data.poll_fds.end();
 

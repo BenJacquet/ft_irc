@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/19 16:40:13 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:26:00 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class Chan;
 
 #define BUFFERSIZE 4096
 
-#define TIMEOUT 300
+#define TIMEOUT 600
 
 #define BACKLOG 10
 
@@ -256,4 +256,4 @@ extern std::ofstream	g_log;
  ##:::::::::: ##::::::::::::: ##:: ##::. ##:: ##::: ##::::...... ##:: ##::::::::\n\
  ##:::::::::: ##::'#######::'####: ##:::. ##:. ######::::::::::: ##:: #########:\n\
 ..:::::::::::..::::.......::....::..:::::..:::......::::::::::::..:::.........::\n\
-\n\nIRC SERVER FOR 42 CURSUS CODED BY : JABENJAM THOBERTH\n"
+\nIRC SERVER FOR 42 CURSUS CODED BY : JABENJAM AND THOBERTH\n"

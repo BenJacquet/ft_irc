@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:38:16 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 13:51:03 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:11:12 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ std::vector<std::string>	parse_line(const std::string &line)
 	int	z = 0;
 	for (; std::getline(line_stream, buffer, ' '); z++)
 	{
+		remove_carriage(buffer);
 		words.push_back(buffer);
 		buffer.clear();
 	}
@@ -51,16 +52,9 @@ void	command_parsing(t_data &data, Users &client, std::string buffer)
 		std::getline(buffer_stream, line, '\n');
 		Message	cmd(&client, line);
 		if (line.empty() == true)
-		{
-			// COUT(YELLOW, "Line is empty");
 			break;
-		}
-		// COUT(MAGENTA, "Line extracted = " << line);
 		if (line.find("CAP LS", 0) == 0)
-		{
-			// COUT(BLUE, "Found CAP LS");
 			continue;
-		}
 		for (it = data.commands.begin(); it != end; it++)
 		{
 			if (line.find(it->first, 0) == 0)

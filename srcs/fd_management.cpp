@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/01 17:47:26 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:13:31 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ v_pollfds::iterator find_pollfd_fd(t_data &data, int fd)
  */
 void remove_fd(t_data &data, int fd)
 {
-	v_pollfds::iterator end = data.poll_fds.end();
+	// v_pollfds::iterator end = data.poll_fds.end();
 	v_pollfds::iterator found = find_pollfd_fd(data, fd);
 
-	COUT(MAGENTA, "end=" << &(*end) << "found=" << &(*found));
+	// COUT(MAGENTA, "end=" << &(*end) << "found=" << &(*found));
 	COUT(RED, "removed descriptor " << fd << " from pollfd vector ");
 	close(fd); // check si interdit ou non
 	data.poll_fds.erase(found);

@@ -17,9 +17,6 @@
 -Connexions via TCP/IP (v4 ou v6) OK
 
 BEN :
-- Ajouter Numeric Replies des commandes en cas d'erreur
-- Envoyer MODE dans Oper au lieu de hardcode le mode
-- fix le crash avec nc 127.0.0.1 6667 puis PASS
 
 THOMAS :
 - Ajouter Numeric Replies des commandes en cas d'erreur
@@ -30,6 +27,11 @@ PEU IMPORTE :
 
 CRASH :
 - NONE
+
+PROBLEMES :
+- /mode -w, le mode ne se met pas a jour dans irssi
+- le @ dans la liste des utilisateurs
+- le who et whois ne retournent rien ?
 
 Commandes:
 /nick <nickname>					--	change <nickname>

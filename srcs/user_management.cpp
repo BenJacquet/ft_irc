@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:52:07 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:35:18 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	registration(t_data &data, Users *client)
 {
 	send_packets(*client, create_reply(data, client, 001 , ""));
+	send_packets(*client, ASCII_HEADER);
 	client->setOnline(true);
 }
 
@@ -78,7 +79,6 @@ v_Users::iterator find_client_fd(t_data &data, int fd)
 		if (it->getFd() == fd)
 			return (it);
 	}
-	//COUT(WHITE, "end(" << &(*ite) << ") - " << "(" << &(*it) << ") - " << "FIND CLIENT fd to look for=" << fd << " ||| it->fd=" << it->getFd() << " ||| size of user=" << data.users.size());
 	return (it);
 }
 
