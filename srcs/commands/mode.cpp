@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/19 16:43:41 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/21 21:57:25 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	mode_parsing(t_data &data, Message &cmd)
  * r - restricted user connection;
  * o - operator flag;
  * O - local operator flag;
- * s - marks a user for receipt of server notices.
  * 
  * The flag 'a' SHALL NOT be toggled by the user using the MODE command,
  * instead use of the AWAY command is REQUIRED

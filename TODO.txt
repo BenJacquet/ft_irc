@@ -19,11 +19,8 @@
 BEN :
 
 THOMAS :
-- Ajouter Numeric Replies des commandes en cas d'erreur
-
-PEU IMPORTE :
 - Implementer /mode #channel +b (to ban mode <chan> +b <nick> // to unban * * -b *)
-- /mode <nick> +i -> /who /whois 
+- /mode <nick> +i -> /who /whois
 
 CRASH :
 - NONE
