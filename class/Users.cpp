@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/13 17:18:56 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:00:57 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ Users::Users(int fd, sockaddr_in6 sock_addr, struct s_data &data)
 	this->_uid = uid;
 	this->_authenticated = 0;
 	this->_ip = get_ip_string(sock_addr);
-	this->_mode = "+wi";
+	this->_mode = "+";
 }
 
 Users::Users( const Users & src )

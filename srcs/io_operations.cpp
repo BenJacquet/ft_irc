@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/20 12:11:09 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:11:50 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,10 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + ERR_USERMISMATCH());
 		case (900):
 			return (reply + RPL_MODE(client->getNick_name(), arg));
+		case (901):
+			return (reply + RPL_BAN(client->getNick_name(), arg));
+		case (902):
+			return (reply + RPL_UNBAN(client->getNick_name(), arg));
 		default:
 			break;
 	}

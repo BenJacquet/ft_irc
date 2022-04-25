@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/21 21:57:25 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:43:46 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	mode_parsing(t_data &data, Message &cmd)
  * The flag 'a' SHALL NOT be toggled by the user using the MODE command,
  * instead use of the AWAY command is REQUIRED
  * 
- * user cannot make themselves an operator but they can use -o -0
+ * user cannot make themselves an operator but they can use -o -O
  * 
  * @param user 
  * @param content 
@@ -66,41 +66,38 @@ void	user_mode(t_data &data, Users &client, std::string content)
 {
 	bool	to_add_or_rm = true;
 	unsigned long	pos;
+	unsigned long	pos2;
 	if (content.find('-') == 0)
 		to_add_or_rm = false;
-	if ((pos = content.find("r")) != std::string::npos || \
-		(pos = content.find("O")) != std::string::npos || \
+	if ((pos = content.find("O")) != std::string::npos || \
 		(pos = content.find("o")) != std::string::npos || \
 		(pos = content.find("w")) != std::string::npos || \
 		(pos = content.find("i")) != std::string::npos)
 	{
-		if (to_add_or_rm)
+		if (to_add_or_rm && (client.getMode().find(&content[pos]) == std::string::npos))
 		{
 			if (client.getMode().find(content[pos]) == std::string::npos && \
 				content[pos] != 'o' && content[pos] != 'O')
 				client.setMode(client.getMode() + content[pos]);
+			send_packets(client, RPL_MODE(client.getNick_name(), "+" + content[pos]));
 			user_mode(data, client, content.erase(pos, 1));
 		}
 		else
 		{
-			if ((pos = client.getMode().find(content[pos])) != std::string::npos)
+			if ((pos2 = client.getMode().find(content[pos])) != std::string::npos)
 			{
-				send_packets(client, RPL_MODE(client.getNick_name(), "-" + content[pos - 1]));
+				send_packets(client, RPL_MODE(client.getNick_name(), "-" + content[pos]));
 				std::string tmp = client.getMode();
-				client.setMode(tmp.erase(pos, 1));
-				user_mode(data, client, content.erase(pos, 1));
+				content.erase(pos, 1);
+				client.setMode(tmp.erase(pos2, 1));
+				user_mode(data, client, content);
 			}
 			else
-			{
 				send_packets(client, create_reply(data, &client, 221, ""));
-			}
 		}
 	}
 	else
-	{
 		send_packets(client, create_reply(data, &client, 221, ""));
-		send_packets(client, RPL_MODE(client.getNick_name(), client.getMode()));
-	}
 }
 
 std::string		chan_modeis_arg(Chan &chan)
@@ -147,6 +144,7 @@ bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 
 bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args)
 {
+	CERR(RED, "TEST");
 	size_t pos;
 	if (args.size() > 3)
 	{
@@ -171,10 +169,9 @@ bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> 
 			return false;
 		}
 		chan.add_toBlacklist(*target);
-		/**
-		 * @brief ajouter un RPL pour dire que le user est ban
-		 *
-		 */
+		it = vectu.begin();
+		for (v_Users::iterator ite = vectu.end(); it != ite; it++)
+			send_packets(*it, ":" + it->getFull_id() + " " + RPL_BAN(target->getNick_name(), chan.getName()));
 	}
 	else
 	{
@@ -219,10 +216,9 @@ bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 			return false;
 		}
 		chan.rm_toBlacklist(*target);
-		/**
-		 * @brief ajouter un RPL pour dire que le user n'est plus ban
-		 *
-		 */
+		it = vectu.begin();
+		for (v_Users::iterator ite = vectu.end(); it != ite; it++)
+			send_packets(*it, ":" + it->getFull_id() + " " + RPL_UNBAN(target->getNick_name(), chan.getName()));
 	}
 	else
 	{

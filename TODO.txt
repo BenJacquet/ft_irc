@@ -26,7 +26,6 @@ CRASH :
 - NONE
 
 PROBLEMES :
-- /mode -w, le mode ne se met pas a jour dans irssi
 - le @ dans la liste des utilisateurs
 - le who et whois ne retournent rien ?
 

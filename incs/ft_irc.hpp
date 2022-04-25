@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/20 11:26:00 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:10:09 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,8 @@ extern std::ofstream	g_log;
 #define RPL_ENDOFBANLIST(CHANNEL) (CHANNEL + " :End of channel ban list") // 368
 #define RPL_YOUREOPER() (":You are now an IRC operator") // 381
 #define	RPL_MODE(NICK, MODE) ("MODE " + NICK + " " + MODE) // 900
+#define RPL_BAN(NICK, CHANNEL) (CHANNEL + " " + NICK + " is now banned!") // 901
+#define RPL_UNBAN(NICK, CHANNEL) (CHANNEL + " " + NICK + " is now unbanned!") // 902
 
 #define ERR_NOSUCHCHANNEL(CHANNEL) (CHANNEL + " :No such channel") // 403
 #define ERR_NONICKNAMEGIVEM() (":No nickname given") // 431
