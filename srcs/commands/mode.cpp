@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/25 17:43:46 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:45:41 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 
 bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args)
 {
-	CERR(RED, "TEST");
 	size_t pos;
 	if (args.size() > 3)
 	{
@@ -275,20 +274,17 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 		}
 		else
 		{
+			if (args[2][pos] == 'b')
+			{
+				if (!(unban_mode(data, chan, sender, args)))
+					return ;
+			}
 			if ((pos = chan.getMode().find(args[2][pos])) != std::string::npos)
 			{
-				if (args[2][pos] == 'b')
-				{
-					if (!(unban_mode(data, chan, sender, args)))
-						return ;
-				}
-				else
-				{
-					std::string tmp = chan.getMode();
-					chan.setMode(tmp.erase(pos, 1));
-					args[2].erase(pos, 1);
-					chan_mode(data, chan, sender, args);
-				}
+				std::string tmp = chan.getMode();
+				chan.setMode(tmp.erase(pos, 1));
+				args[2].erase(pos, 1);
+				chan_mode(data, chan, sender, args);
 			}
 		}
 	}

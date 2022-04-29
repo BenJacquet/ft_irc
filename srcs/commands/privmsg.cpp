@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/11 16:20:26 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:47:41 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ void	command_privmsg(t_data &data, Message &cmd)
 		(new_usr = find_client_nick(data, args[1])) != data.users.end())
 	{
 		if (new_chan != NULL)
+		{
+			if (new_chan->is_banned(*cmd.getSender()))
+			{
+				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 404, new_chan->getName()));
+				return ;
+			}
 			channel_privmsg(*new_chan, *cmd.getSender(), content);
+		}
 		else
 		{
 			if (new_usr->getMode().find("a") != std::string::npos)
@@ -43,7 +50,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 		}
 	}
 	else
-		CERR(RED, "User or Channel " << args[1] << "not found\n");
+		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 401, args[1]));
 }
 
 void	channel_privmsg(Chan &chan, Users &sender, std::string content)

@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/08 15:38:32 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/29 18:05:52 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void		join_parsing(t_data &data, Message &cmd)
 		args[1].erase(0, pos + 1);
 		if ((new_chan = is_chan_exist(data, chan)) != NULL)
 		{
+			if (new_chan->is_banned(*cmd.getSender()))
+			{
+				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 474, new_chan->getName()));
+				return ;
+			}
 			if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
 			{
 				join_msg(*(cmd.getSender()), *new_chan, false);
@@ -65,6 +70,11 @@ void		join_parsing(t_data &data, Message &cmd)
 	chan = args[1];
 	if ((new_chan = is_chan_exist(data, chan)) != NULL)
 	{
+		if (new_chan->is_banned(*cmd.getSender()))
+		{
+			send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 474, new_chan->getName()));
+			return ;
+		}
 		if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
 		{
 			join_msg(*(cmd.getSender()), *new_chan, false);
@@ -115,11 +125,15 @@ void		join_msg(Users &to_add, Chan &chan, bool isnewone)
 
 void		RPL_353_366(Users &usr, Chan &chan)
 {
-	std::string rpl_353 =  ":" + usr.getFull_id() + " 353 " + usr.getNick_name() + " = " + chan.getName() + " :@";
+	std::string rpl_353 =  ":" + usr.getFull_id() + " 353 " + usr.getNick_name() + " = " + chan.getName() + " :";
 	v_Users vect = chan.getUsers();
 	for (v_Users::iterator it = vect.begin(), ite = vect.end();
 		it != ite; it++)
+	{
+		if (*it == chan.getCreator() || it->getMode().find_first_of("oO") != std::string::npos)
+			rpl_353 += "@";
 		rpl_353 += it->getNick_name() + " ";
+	}
 	send_packets(usr, rpl_353);
 	std::string rpl_366 = ":" + usr.getFull_id() + " 366 " + usr.getNick_name() + " " + chan.getName() + " :End of /NAMES list";
 	send_packets(usr, rpl_366);

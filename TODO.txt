@@ -19,15 +19,14 @@
 BEN :
 
 THOMAS :
-- Implementer /mode #channel +b (to ban mode <chan> +b <nick> // to unban * * -b *)
-- /mode <nick> +i -> /who /whois
+- faire les verification de operateur/creator pour les channel
+- comprendre pourquoi la verification de is creator pour le @ de la rpl ne fonctionnent pas toujours
 
 CRASH :
 - NONE
 
 PROBLEMES :
 - le @ dans la liste des utilisateurs
-- le who et whois ne retournent rien ?
 
 Commandes:
 /nick <nickname>					--	change <nickname>

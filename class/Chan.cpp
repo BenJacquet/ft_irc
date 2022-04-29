@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/19 16:37:41 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:59:15 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,17 @@ bool	Chan::rm_toBlacklist(Users to_rm)
 			this->_blacklist_users.erase(it);
 			return true;
 		}
+	}
+	return false;
+}
+
+bool	Chan::is_banned(Users &is_ban)
+{
+	for (v_Users::iterator it = this->_blacklist_users.begin(), ite = this->_blacklist_users.end();\
+		it != ite; it++)
+	{
+		if (*it == is_ban)
+			return true;
 	}
 	return false;
 }

@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/25 17:11:50 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:48:27 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,12 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + RPL_ENDOFBANLIST(arg));
 		case (381):
 			return (reply + RPL_YOUREOPER());
+		case (401):
+			return (reply + ERR_NOSUCHNICK(arg));
 		case (403):
 			return (reply + ERR_NOSUCHCHANNEL(arg));
+		case (404):
+			return (reply + ERR_CANNOTSENDTOCHAN(arg));
 		case (431):
 			return (reply + ERR_NONICKNAMEGIVEM());
 		case (432):
@@ -73,6 +77,8 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + ERR_PASSWDMISMATCH());
 		case (471):
 			return (reply + ERR_CHANNELISFULL(arg));
+		case (474):
+			return (reply + ERR_BANNEDFROMCHANNEL(arg));
 		case (475):
 			return (reply + ERR_BADCHANNELKEY(arg));
 		case (481):

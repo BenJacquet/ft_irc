@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/25 17:10:09 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:47:24 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,9 @@ extern std::ofstream	g_log;
 #define RPL_BAN(NICK, CHANNEL) (CHANNEL + " " + NICK + " is now banned!") // 901
 #define RPL_UNBAN(NICK, CHANNEL) (CHANNEL + " " + NICK + " is now unbanned!") // 902
 
+#define ERR_NOSUCHNICK(NICKNAME) (NICKNAME + " :No such nick/channel") // 401
 #define ERR_NOSUCHCHANNEL(CHANNEL) (CHANNEL + " :No such channel") // 403
+#define ERR_CANNOTSENDTOCHAN(CHANNEL) (CHANNEL + " :Cannot send to channel") // 404
 #define ERR_NONICKNAMEGIVEM() (":No nickname given") // 431
 #define ERR_ERRONEUSNICKNAME(NICK) (NICK + " :Erroneous nickname") // 432
 #define ERR_NICKNAMEINUSE(NICK) (NICK + " :Nickname is already in use") // 433
@@ -215,6 +217,7 @@ extern std::ofstream	g_log;
 #define ERR_ALREADYREGISTERED() (":Unauthorized command (already registered)") // 462
 #define ERR_PASSWDMISMATCH() (":Password incorrect") // 464
 #define ERR_CHANNELISFULL(CHANNEL) (CHANNEL + " :Cannot join channel (+l)") // 471
+#define ERR_BANNEDFROMCHANNEL(CHANNEL) (CHANNEL + " :Cannot join channel (+b -> You're banned)") // 474
 #define ERR_BADCHANNELKEY(CHANNEL) (CHANNEL + " :Cannot join channel (+k)") // 475
 #define ERR_NOPRIVILEGE() (":Permission Denied- You're not an IRC operator") // 481
 #define ERR_CHANOPRIVSNEEDED(CHANNEL) (CHANNEL + " :You're not channel operator") // 482
