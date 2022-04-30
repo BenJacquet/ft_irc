@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/29 17:48:27 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/30 15:48:42 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ std::string create_reply(t_data &data, Users *client, int code, std::string arg)
 			return (reply + ERR_ALREADYREGISTERED());
 		case (464):
 			return (reply + ERR_PASSWDMISMATCH());
+		case (467):
+			return (reply + ERR_KEYSET(arg));
 		case (471):
 			return (reply + ERR_CHANNELISFULL(arg));
 		case (474):

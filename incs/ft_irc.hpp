@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/29 17:47:24 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/30 15:48:45 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ extern std::ofstream	g_log;
 #define ERR_NEEDMOREPARAMS(CMD) (CMD + " :Not enough parameters") // 461
 #define ERR_ALREADYREGISTERED() (":Unauthorized command (already registered)") // 462
 #define ERR_PASSWDMISMATCH() (":Password incorrect") // 464
+#define ERR_KEYSET(CHANNEL) (CHANNEL + " :Channel key already set") // 467
 #define ERR_CHANNELISFULL(CHANNEL) (CHANNEL + " :Cannot join channel (+l)") // 471
 #define ERR_BANNEDFROMCHANNEL(CHANNEL) (CHANNEL + " :Cannot join channel (+b -> You're banned)") // 474
 #define ERR_BADCHANNELKEY(CHANNEL) (CHANNEL + " :Cannot join channel (+k)") // 475

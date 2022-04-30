@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/29 16:45:41 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:10:44 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,11 @@ bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 		send_packets(sender, create_reply(data, &sender, 461, args[0]));
 		return false;
 	}
+	else if (args[2][pos] == 'k' && chan.getMode().find("k") != std::string::npos)
+	{
+		send_packets(sender, create_reply(data, &sender, 467, chan.getName()));
+		return false;
+	}
 	else
 	{
 		if (args[2][pos] == 'l')
@@ -245,6 +250,11 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 	if (args.size() <= 2)
 	{
 		send_packets(sender, create_reply(data, &sender, 324, chan_modeis_arg(chan)));
+		return ;
+	}
+	if (sender != chan.getCreator() && sender.getMode().find_first_of("oO") == std::string::npos)
+	{
+		send_packets(sender, create_reply(data, &sender, 482, chan.getName()));
 		return ;
 	}
 	if (args[2].find('-') == 0)
