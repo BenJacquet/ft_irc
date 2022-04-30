@@ -19,7 +19,6 @@
 BEN :
 
 THOMAS :
-- faire les verification de operateur/creator pour les channel
 - comprendre pourquoi la verification de is creator pour le @ de la rpl ne fonctionnent pas toujours
 
 CRASH :
