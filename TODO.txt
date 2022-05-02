@@ -19,13 +19,11 @@
 BEN :
 
 THOMAS :
-- comprendre pourquoi la verification de is creator pour le @ de la rpl ne fonctionnent pas toujours
 
 CRASH :
 - NONE
 
 PROBLEMES :
-- le @ dans la liste des utilisateurs
 
 Commandes:
 /nick <nickname>					--	change <nickname>

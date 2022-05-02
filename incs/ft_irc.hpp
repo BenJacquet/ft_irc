@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/30 15:48:45 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/02 11:42:47 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ typedef struct			s_data
 		void	channel_privmsg(Chan &chan, Users &user, std::string content);
 		void	join(t_data &data, Users & creator, std::string name_chan);
 		void	join_parsing(t_data &data, Message &cmd);
-		void	join_msg(Users &to_add, Chan &chan, bool isnewone);
-		void	RPL_353_366(Users &usr, Chan &chan);
+		void	join_msg(t_data &data, Users &to_add, Chan &chan, bool isnewone);
+		void	RPL_353_366(t_data &data, Users &usr, Chan &chan);
 		void	part_parsing(t_data &data, Message &cmd);
 		void	who_command_parsing(t_data &data, Message &cmd);
 		void	who_parsing(t_data &data, Message &cmd);

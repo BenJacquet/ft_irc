@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/30 17:00:02 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/02 11:43:10 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		join_parsing(t_data &data, Message &cmd)
 			}
 			if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
 			{
-				join_msg(*(cmd.getSender()), *new_chan, false);
+				join_msg(data, *(cmd.getSender()), *new_chan, false);
 				send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
 			}
 		}
@@ -77,7 +77,7 @@ void		join_parsing(t_data &data, Message &cmd)
 		}
 		if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
 		{
-			join_msg(*(cmd.getSender()), *new_chan, false);
+			join_msg(data, *(cmd.getSender()), *new_chan, false);
 			send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
 		}
 	}
@@ -97,17 +97,17 @@ void		join_parsing(t_data &data, Message &cmd)
 void		join(t_data &data, Users & creator, std::string name_chan)
 {
 	data.chans.push_back(Chan(creator, name_chan));
-	join_msg(creator, data.chans.back(), true);
+	join_msg(data, creator, data.chans.back(), true);
 	send_packets(creator, RPL_MODE(creator.getNick_name(), creator.getMode()));
 }
 
-void		join_msg(Users &to_add, Chan &chan, bool isnewone)
+void		join_msg(t_data &data, Users &to_add, Chan &chan, bool isnewone)
 {
 	if (!isnewone)
 	{
 		std::string s;
 		v_Users vect = chan.getUsers();
-		RPL_353_366(to_add, chan);
+		RPL_353_366(data, to_add, chan);
 		for (v_Users::iterator it = vect.begin(), ite = vect.end();
 			it != ite; it++)
 		{
@@ -117,20 +117,20 @@ void		join_msg(Users &to_add, Chan &chan, bool isnewone)
 	}
 	else
 	{
-		RPL_353_366(to_add, chan);
+		RPL_353_366(data, to_add, chan);
 		std::string full_msg = ":" + to_add.getFull_id() + " JOIN :" + chan.getName();
 		send_packets(to_add, full_msg);
 	}
 }
 
-void		RPL_353_366(Users &usr, Chan &chan)
+void		RPL_353_366(t_data &data, Users &usr, Chan &chan)
 {
 	std::string rpl_353 =  ":" + usr.getFull_id() + " 353 " + usr.getNick_name() + " = " + chan.getName() + " :";
 	v_Users vect = chan.getUsers();
 	for (v_Users::iterator it = vect.begin(), ite = vect.end();
 		it != ite; it++)
 	{
-		if (*it == chan.getCreator() || it->getMode().find_first_of("oO") != std::string::npos)
+		if (*it == chan.getCreator() || find_client_nick(data, it->getNick_name())->getMode().find_first_of("oO") != std::string::npos)
 			rpl_353 += "@";
 		rpl_353 += it->getNick_name() + " ";
 	}
