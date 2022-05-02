@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/02 12:21:57 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/02 13:03:46 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,4 @@ void	command_nick(t_data &data, Message &cmd)
 		sender->setIn_use(true);
 	}
 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));
-	// edit nick of sender
 }

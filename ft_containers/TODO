@@ -1,0 +1,7 @@
+Ne pas utiliser new pour l'allocation d'une nouvelle paire dans tree
+
+Vector:
+- https://www.cplusplus.com/reference/vector/vector/
+
+TESTEUR :
+https://github.com/mli42/containers_test

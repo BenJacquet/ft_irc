@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:13 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 13:56:00 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/02 13:03:28 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,4 @@ void	command_user(t_data &data, Message &cmd)
 		if (sender->getOnline() == false && sender->getIn_use() == false)
 			registration(data, sender);
 	}
-	// edit real_name of sender;
 }
