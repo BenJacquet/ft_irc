@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/06 14:32:38 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/02 12:21:57 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	command_nick(t_data &data, Message &cmd)
 	check_nick(data, *sender, nick);
 	try
 	{
+		std::string old_nick(sender->getNick_name());
 		sender->setNick_name(nick);
 		authenticate_user(data, sender, nick);
 		sender->setIn_use(false);
@@ -88,7 +89,7 @@ void	command_nick(t_data &data, Message &cmd)
 			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
 			if (sender->getOnline() == false)
 				registration(data, sender);
-			send_packets(*sender, UPDATE_NICK(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name(), nick));
+			send_packets(*sender, UPDATE_NICK(old_nick + "!" + sender->getUser_name() + "@" + sender->getHost_name(), nick));
 		}
 	}
 	catch (const std::exception &e)

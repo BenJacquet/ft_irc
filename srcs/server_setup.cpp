@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:25:04 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:54:22 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/02 12:41:01 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int addrinfo_setup(t_data &data, char **av)
 		put_error("getaddrinfo()");
 		return (1);
 	}
-	// info_ptr->ai_family = AF_INET si IPv4 || AF_INET6 si IPv6
-	// cast en (sockaddr_in ou sockaddr_in6 selon protocole)
 	return (0);
 }
 

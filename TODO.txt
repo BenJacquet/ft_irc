@@ -24,6 +24,8 @@ CRASH :
 - NONE
 
 PROBLEMES :
+/who, je comprends pas le fonctionnement, la commande ne renvoie rien
+/kick qui ne kick pas l'user du channel, je peux toujours ecrire dedans et ne peux pas part du channel
 
 Commandes:
 /nick <nickname>					--	change <nickname>
