@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/02 11:36:15 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/03 15:41:46 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,14 @@ class Chan
 		bool add_toBlacklist(Users to_add);
 		bool rm_toBlacklist(Users to_rm);
 		bool is_banned(Users &is_ban);
+		bool is_in_channel(Users &is_here);
 	/*		GETTERS		*/
 		Users			&	getCreator(void) const;
 		std::string			getMode(void) const;
 		std::string			getLimit_user(void) const;
 		std::string			getPw(void) const;
 		std::string			getName(void) const;
-		std::vector<Users>	getUsers(void) const;
+		std::vector<Users>&	getUsers(void);
 		std::vector<Users>	getBlacklist(void) const;
 	/*		SETTERS		*/
 		void setMode(std::string new_mode);

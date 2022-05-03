@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/29 17:47:41 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/03 16:54:06 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 	{
 		if (new_chan != NULL)
 		{
-			if (new_chan->is_banned(*cmd.getSender()))
+			if (new_chan->is_banned(*cmd.getSender()) || !(new_chan->is_in_channel(*cmd.getSender())))
 			{
 				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 404, new_chan->getName()));
 				return ;

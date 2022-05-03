@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   away.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 06:44:58 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/02 13:04:02 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:28:43 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 void	away_parsing(t_data &data, Message &cmd)
 {
-	Users *client = cmd.getSender();
+
 	std::vector<std::string> args = parse_line(cmd.getPayload());
+	if (args.size() == 1)
+	{
+		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
+		return ;
+	}
+	Users *client = cmd.getSender();
 
 	if (client->getMode().find("a") != std::string::npos)
 	{
 		client->setMode(client->getMode().erase(client->getMode().find("a"), 1));
 		send_packets(*client, create_reply(data, client, 305, ""));
-		send_packets(*client, create_reply(data, client, 900, client->getMode()));
+		send_packets(*client, RPL_MODE(client->getNick_name(), "-a"));
 	}
 	else
 	{
@@ -31,6 +37,6 @@ void	away_parsing(t_data &data, Message &cmd)
 		it != ite; it++)
 			client->setAway_mode(client->getAway_mode() + " "  + *it);
 		send_packets(*client, create_reply(data, client, 306, ""));
-		send_packets(*client, create_reply(data, client, 900, client->getMode()));
+		send_packets(*client, RPL_MODE(client->getNick_name(), "+a"));
 	}
 }

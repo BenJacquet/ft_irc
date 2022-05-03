@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   die.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:05:11 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/02 13:03:58 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:13:47 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
  */
 void	command_die(t_data &data, Message &cmd)
 {
-	(void)data;
-	(void)cmd;
 	Users *sender = cmd.getSender();
 
 	if (sender->getMode().find_first_of("o", 0) != std::string::npos)

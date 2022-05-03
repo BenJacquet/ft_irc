@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:50:06 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/02 13:12:26 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:12:25 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 void	part_parsing(t_data &data, Message &cmd)
 {
 	std::vector<std::string> args = parse_line(cmd.getPayload());
+	if (args.size() == 1)
+	{
+		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
+		return ;
+	}
 	Chan *chan = is_chan_exist(data, args[1]);
 	if (chan == NULL)
 	{

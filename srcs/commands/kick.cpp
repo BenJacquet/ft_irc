@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:07:42 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/19 16:02:52 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:24:44 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	kick_parsing(t_data &data, Message &cmd)
 		return ;
 	}
 	Users &target = *find_client_nick(data, args[2]);
-	v_Users vect = new_chan->getUsers();
+	v_Users &vect = new_chan->getUsers();
 	v_Users::iterator it = vect.begin();
 	for (v_Users::iterator ite = vect.end(); it != ite && *it != target; it++)
 		;
@@ -51,5 +51,8 @@ void	kick_parsing(t_data &data, Message &cmd)
 		for (v_Users::iterator ite = vect.end(); it != ite; it++)
 			send_packets(*it, ":" + sender.getFull_id() + " KICK " + args[1] + " "\
 			+ args[2] + content);
+		send_packets(target, ":" + sender.getFull_id() + " KICK " + args[1] + " "\
+			+ args[2] + content);
+		send_packets(target, ":" + target.getFull_id() + " PART " + new_chan->getName());
 	}
 }
