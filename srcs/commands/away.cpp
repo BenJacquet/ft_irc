@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 06:44:58 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/03 17:28:43 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/03 18:01:28 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	away_parsing(t_data &data, Message &cmd)
 {
-
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	if (args.size() == 1)
 	{
@@ -23,6 +22,11 @@ void	away_parsing(t_data &data, Message &cmd)
 	}
 	Users *client = cmd.getSender();
 
+	if (client->getNick_name() != args[1].erase(0, 1))
+	{
+		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 502, ""));
+		return ;
+	}
 	if (client->getMode().find("a") != std::string::npos)
 	{
 		client->setMode(client->getMode().erase(client->getMode().find("a"), 1));
