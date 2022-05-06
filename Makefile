@@ -21,7 +21,6 @@ SRCS = srcs/main.cpp\
 		srcs/commands/join.cpp\
 		srcs/commands/part.cpp\
 		srcs/commands/mode.cpp\
-		srcs/commands/who.cpp\
 		srcs/commands/away.cpp\
 		srcs/commands/nick.cpp\
 		srcs/commands/pass.cpp\
