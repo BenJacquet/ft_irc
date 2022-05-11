@@ -24,7 +24,9 @@ CRASH :
 - NONE
 
 PROBLEMES :
-- /away avec un mauvais nom d'utilisateur ne fonctionne et ne devrais pas
+-	/join hey client 1
+	/join hey client 2
+	/kick client 2
 
 Commandes:
 /nick <nickname>					--	change <nickname>
