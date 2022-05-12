@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/12 12:55:06 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:45:31 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,20 +166,23 @@ int receive_packets(t_data &data, Users &client)
 {
 	char buffer[BUFFERSIZE];
 	std::string buffer_str;
-	ssize_t received = 0;
+	ssize_t received = 1;
 	ssize_t sum = 0;
 
 	buffer_str.clear();
 
-	while (1)
+	while (received != 0)
 	{
 		received = recv(client.getFd(), buffer, BUFFERSIZE, 0);
-		if (received <= 0 && buffer_str.find('\n') != std::string::npos)
+		if (received == -1 && buffer_str.find('\n') != std::string::npos)
 			break;
-		sum += received;
-		buffer[received] = '\0';
-		buffer_str += buffer;
-		std::memset(buffer, 0, BUFFERSIZE);
+		if (received >= 1)
+		{
+			sum += received;
+			buffer[received] = '\0';
+			buffer_str += buffer;
+			std::memset(buffer, 0, BUFFERSIZE);
+		}
 	}
 	if (sum == 0)
 		disconnect_user(data, client);
