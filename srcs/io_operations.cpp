@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_operations.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/30 15:48:42 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/12 12:55:06 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int receive_packets(t_data &data, Users &client)
 	while (1)
 	{
 		received = recv(client.getFd(), buffer, BUFFERSIZE, 0);
-		if (received <= 0)
+		if (received <= 0 && buffer_str.find('\n') != std::string::npos)
 			break;
 		sum += received;
 		buffer[received] = '\0';
