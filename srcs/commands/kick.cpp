@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:07:42 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/03 17:24:44 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:39:57 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	kick_parsing(t_data &data, Message &cmd)
 		send_packets(sender, create_reply(data, &sender, 403, args[1]));
 		return ;
 	}
-	if (sender.getMode().find("oO") == std::string::npos && sender != new_chan->getCreator())
+	if (sender.getMode().find("oO") == std::string::npos &&\
+		sender != new_chan->getCreator())
 	{
 		send_packets(sender, create_reply(data, &sender, 482, new_chan->getName()));
 		return ;
