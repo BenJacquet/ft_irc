@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 06:44:58 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/03 18:01:28 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/13 20:47:59 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,16 @@ void	away_parsing(t_data &data, Message &cmd)
 	else
 	{
 		client->setMode(client->getMode() + "a");
-		client->setAway_mode(args[1].erase(0, 1));
+		std::string Away_mode("");
 		for (std::vector<std::string>::iterator it = args.begin() + 2, ite = args.end(); \
 		it != ite; it++)
-			client->setAway_mode(client->getAway_mode() + " "  + *it);
+		{
+			if (it == args.begin() + 2)
+				Away_mode = *it;
+			else 
+				Away_mode += " " + *it;
+		}
+		client->setAway_mode(Away_mode);
 		send_packets(*client, create_reply(data, client, 306, ""));
 		send_packets(*client, RPL_MODE(client->getNick_name(), "+a"));
 	}
