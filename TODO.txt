@@ -19,6 +19,10 @@
 BEN :
 
 THOMAS :
+ - (zzzz) alors que non en fait
+ - modification d'un mod channel ne renvoie pas de RPL
+ - @ chelou
+
 
 CRASH :
 - NONE
