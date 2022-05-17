@@ -24,9 +24,7 @@ CRASH :
 - NONE
 
 PROBLEMES :
--	/join hey client 1
-	/join hey client 2
-	/kick client 2
+-
 
 Commandes:
 /nick <nickname>					--	change <nickname>
