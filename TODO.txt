@@ -20,7 +20,7 @@ BEN :
 
 THOMAS :
  - (zzzz) alors que non en fait
- - modification d'un mod channel ne renvoie pas de RPL
+ - modification d'un mod channel k ou l ne renvoie pas de RPL
  - @ chelou
 
 

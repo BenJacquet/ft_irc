@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:07:42 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/17 15:48:29 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/18 12:29:29 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,15 @@ void	kick_parsing(t_data &data, Message &cmd)
 	for (size_t i = 4; i < args.size() ; i++)
 		content += " " + args[i];
 	Chan *new_chan = is_chan_exist(data, args[1]);
-	Users &target = *find_client_nick(data, args[2]);
-	if (new_chan == NULL || target == *data.users.end())
+	v_Users::iterator target = find_client_nick(data, args[2]);
+	if (new_chan == NULL)
 	{
 		send_packets(sender, create_reply(data, &sender, 403, args[1]));
+		return ;
+	}
+	if (target == data.users.end())
+	{
+		send_packets(sender, create_reply(data, &sender, 441, args[2] + " " + new_chan->getName()));
 		return ;
 	}
 	if (sender.getMode().find("oO") == std::string::npos &&\
@@ -39,21 +44,21 @@ void	kick_parsing(t_data &data, Message &cmd)
 	}
 	v_Users &vect = new_chan->getUsers();
 	v_Users::iterator it = vect.begin();
-	for (v_Users::iterator ite = vect.end(); it != ite && *it != target; it++)
+	for (v_Users::iterator ite = vect.end(); it != ite && *it != *target; it++)
 		;
 	if (it == vect.end())
 	{
 		send_packets(sender, create_reply(data, &sender, 441, args[2] + " " + new_chan->getName()));
 		return ;
 	}
-	if (new_chan->rmusers(target))
+	if (new_chan->rmusers(*target))
 	{
 		it = vect.begin();
 		for (v_Users::iterator ite = vect.end(); it != ite; it++)
 			send_packets(*it, ":" + sender.getFull_id() + " KICK " + args[1] + " "\
 			+ args[2] + content);
-		send_packets(target, ":" + sender.getFull_id() + " KICK " + args[1] + " "\
+		send_packets(*target, ":" + sender.getFull_id() + " KICK " + args[1] + " "\
 			+ args[2] + content);
-		send_packets(target, ":" + target.getFull_id() + " PART " + new_chan->getName());
+		send_packets(*target, ":" + target->getFull_id() + " PART " + new_chan->getName());
 	}
 }
