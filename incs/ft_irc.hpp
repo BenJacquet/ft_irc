@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/12 13:02:55 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:28:50 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ typedef struct			s_data
 		void	part_parsing(t_data &data, Message &cmd);
 		void	mode_parsing(t_data &data, Message &cmd);
 		void	user_mode(t_data &data, Users &client, std::string content);
-		void	chan_mode(t_data &data, Chan &chan,Users &client, std::vector<std::string> args);
+		void	chan_mode(t_data &data, Chan &chan,Users &client, std::vector<std::string> &args);
 		bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args, int pos);
 		bool	unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args);
 		bool	unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args);

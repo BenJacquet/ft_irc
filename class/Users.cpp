@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/12 13:43:14 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:13:36 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ Users &				Users::operator=( Users const & rhs )
  */
 bool operator==(Users &a, Users &b)
 {
-	if (a.getNick_name() != b.getNick_name())
+	if (a.getUid() != b.getUid())
 		return false;
 	return true;
 }

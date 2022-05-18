@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_management.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/20 11:35:18 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:40:25 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	replace_user(t_data &data, Users &user)
 	{
 		v_Users::iterator authentified = find_client_uid(data, to_replace);
 		if (authentified != data.users.end())
-		{
 			data.users.erase(authentified);
-		}
+		user.setUid(to_replace);
 	}
 	user.connect(user);
+	
 }
 
 /**

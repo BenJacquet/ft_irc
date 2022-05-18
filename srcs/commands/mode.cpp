@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/30 16:10:44 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:06:54 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,12 @@ void	user_mode(t_data &data, Users &client, std::string content)
 		send_packets(client, create_reply(data, &client, 221, ""));
 }
 
+/**
+ * @brief 
+ * 
+ * @param chan 
+ * @return std::string 
+ */
 std::string		chan_modeis_arg(Chan &chan)
 {
 	std::string ret = chan.getName() + " " + chan.getMode();
@@ -124,6 +130,17 @@ std::string		chan_modeis_arg(Chan &chan)
 	return ret;
 }
 
+/**
+ * @brief 
+ * 
+ * @param data 
+ * @param chan 
+ * @param sender 
+ * @param args 
+ * @param pos 
+ * @return true 
+ * @return false 
+ */
 bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args, int pos)
 {
 	if (args.size() <= 3)
@@ -136,17 +153,29 @@ bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 		send_packets(sender, create_reply(data, &sender, 467, chan.getName()));
 		return false;
 	}
+	else if (args[2][pos] == 'l' && args[3].find_first_not_of("0123456789") != std::string::npos)
+		return false;
 	else
 	{
 		if (args[2][pos] == 'l')
 			chan.setLimit_user(args[3]);
 		else
 			chan.setPw(args[3]);
-		args.erase(args.begin() + 3);
 	}
+	args.erase(args.begin() + 3);
 	return true;
 }
 
+/**
+ * @brief 
+ * 
+ * @param data 
+ * @param chan 
+ * @param sender 
+ * @param args 
+ * @return true 
+ * @return false 
+ */
 bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args)
 {
 	size_t pos;
@@ -194,6 +223,16 @@ bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> 
 	return true;
 }
 
+/**
+ * @brief 
+ * 
+ * @param data 
+ * @param chan 
+ * @param sender 
+ * @param args 
+ * @return true 
+ * @return false 
+ */
 bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args)
 {
 	size_t pos;
@@ -243,7 +282,7 @@ bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string
  * @param chan 
  * @param content 
  */
-void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> args)
+void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args)
 {
 	bool	to_add_or_rm = true;
 	unsigned long	pos;
@@ -259,16 +298,16 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 	}
 	if (args[2].find('-') == 0)
 		to_add_or_rm = false;
-	if ((pos = args[2].find("k")) != std::string::npos || \
-		(pos = args[2].find("l")) != std::string::npos || \
-		(pos = args[2].find("b")) != std::string::npos)
+	if ((pos = args[2].find_first_of("klb")) != std::string::npos)
 	{
 		if (to_add_or_rm)
 		{
 			if (args[2][pos] == 'k' || args[2][pos] == 'l')
 			{
 				if (!(lk_parsing(data, chan, sender, args, pos)))
+				{
 					return ;
+				}
 			}
 			if (args[2][pos] == 'b')
 			{
@@ -297,7 +336,6 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 				chan_mode(data, chan, sender, args);
 			}
 		}
-	}
-	else
 		send_packets(sender, create_reply(data, &sender, 324, chan_modeis_arg(chan)));
+	}
 }
