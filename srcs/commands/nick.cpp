@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/02 13:03:46 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:21:28 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ bool	authenticate_user(t_data &data, Users *client, std::string nick)
  */
 void	command_nick(t_data &data, Message &cmd)
 {
-	(void)data;
 	Users	*sender = cmd.getSender();
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	std::string nick;
@@ -84,11 +83,17 @@ void	command_nick(t_data &data, Message &cmd)
 		sender->setNick_name(nick);
 		authenticate_user(data, sender, nick);
 		sender->setIn_use(false);
+		COUT(WHITE, "before name empty check");
 		if (sender->getReal_name().empty() == false)
 		{
+		COUT(WHITE, "name empty ==false ");
 			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
 			if (sender->getOnline() == false)
+			{
+				COUT(WHITE, "getOnline == false");
 				registration(data, sender);
+				replace_user(data, cmd);
+			}
 			send_packets(*sender, UPDATE_NICK(old_nick + "!" + sender->getUser_name() + "@" + sender->getHost_name(), nick));
 		}
 	}

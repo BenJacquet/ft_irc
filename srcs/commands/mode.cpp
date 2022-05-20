@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 14:48:28 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:50:48 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
  */
 void	mode_parsing(t_data &data, Message &cmd)
 {
-	
-	replace_user(data, cmd);
 	Chan	*new_chan;
 	v_Users::iterator	new_usr;
 	std::vector<std::string> args = parse_line(cmd.getPayload());

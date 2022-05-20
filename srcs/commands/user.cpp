@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:13 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/02 13:03:28 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:21:17 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
  */
 void	command_user(t_data &data, Message &cmd)
 {
-	(void)data;
 	Users	*sender = cmd.getSender();
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 
@@ -30,6 +29,7 @@ void	command_user(t_data &data, Message &cmd)
 		send_packets(*sender, create_reply(data, sender, 461, args[0]));
 	else
 	{
+		COUT(WHITE, "before inuse check");
 		sender->setReg_status((sender->getUser_name().empty() == true ? 2 : sender->getReg_status()));
 		sender->setReg_status((sender->getPw().empty() == true ? sender->getReg_status() : 3));
 		sender->setUser_name(args[2]);
@@ -37,6 +37,9 @@ void	command_user(t_data &data, Message &cmd)
 		sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
 		sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
 		if (sender->getOnline() == false && sender->getIn_use() == false)
+		{
+			COUT(WHITE, "inuse = false");
 			registration(data, sender);
+		}
 	}
 }

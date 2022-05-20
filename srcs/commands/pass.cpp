@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:24 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 11:38:29 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:21:21 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
  */
 void	command_pass(t_data &data, Message &cmd)
 {
-	(void)data;
 	Users	*sender = cmd.getSender();
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 
