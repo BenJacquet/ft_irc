@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 17:25:53 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:50:48 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	command_nick(t_data &data, Message &cmd)
 	if (args.size() == 1 || args[1].empty() == true)
 	{
 		send_packets(*sender, create_reply(data, sender, 431, ""));
-		nick = "";
+		nick.clear();
 	}
 	else
 		nick = args[1];
