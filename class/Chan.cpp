@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 16:47:13 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:25:03 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,6 @@ bool	Chan::is_in_channel(Users *is_here)
 	for (std::vector<Users*>::iterator it = this->_users.begin(), ite = this->_users.end();\
 		it != ite; it++)
 	{
-		CERR(RED, "uid =|" << (*it)->getUid() << "| uid =|" << is_here->getUid() << '|');
-		CERR(RED, "address =|" << &*(*it) << "| address =|" << &(*is_here) << '|');
 		if (*it == is_here)
 			return true;
 	}

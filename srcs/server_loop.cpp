@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 17:06:37 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:26:21 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int poll_setup(t_data &data)
 			}
 		}
 	}
-	print_pollfd(data);
-	print_users(data);
+	// print_pollfd(data);
+	// print_users(data);
 	return (0);
 }
 

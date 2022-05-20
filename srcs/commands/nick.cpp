@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 17:09:00 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:25:53 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,11 @@ void	command_nick(t_data &data, Message &cmd)
 		sender->setNick_name(nick);
 		authenticate_user(data, sender, nick);
 		sender->setIn_use(false);
-		COUT(WHITE, "before name empty check");
 		if (sender->getReal_name().empty() == false)
 		{
-		COUT(WHITE, "name empty ==false ");
 			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
 			if (sender->getOnline() == false)
 			{
-				COUT(WHITE, "getOnline == false");
 				registration(data, sender);
 				replace_user(data, cmd);
 			}
