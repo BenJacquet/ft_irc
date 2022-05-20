@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 13:55:42 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:59:04 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int poll_setup(t_data &data)
 			}
 		}
 	}
-	// print_pollfd(data);
-	// print_users(data);
+	print_pollfd(data);
+	print_users(data);
 	return (0);
 }
 

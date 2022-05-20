@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:22:10 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/03/14 17:19:43 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:03:14 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,9 @@ Users* Message::getDestination() const
 std::string Message::getPayload() const
 {
 	return (this->_payload);
+}
+
+void Message::setSender(Users *sender)
+{
+	this->_sender = sender;
 }

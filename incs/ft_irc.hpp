@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 13:17:02 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:49:15 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ typedef struct			s_data
 		void	disconnect_user(t_data &data, Users &client);
 		void	check_nick(t_data &data, Users &user, std::string nick);
 		bool	authenticate_user(t_data &data, Users *client, std::string nick);
-		void	replace_user(t_data &data, Users &user);
+		void	replace_user(t_data &data, Message &cmd);
 
 	/* ARGUMENT PARSING */
 

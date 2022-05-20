@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/18 17:13:36 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:15:52 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ Users &				Users::operator=( Users const & rhs )
 		this->_pw = rhs._pw;
 		this->_reg_status = rhs._reg_status;
 		this->_socket_addr = rhs._socket_addr;
-		this->_ignore_blacklist = rhs._ignore_blacklist;
 		this->_authenticated = rhs._authenticated;
 		this->_ip = rhs._ip;
 	}
@@ -229,19 +228,6 @@ std::string		Users::getIp() const
 	return this->_ip;
 }
 
-bool Users::is_ignored(Users is_in_blacklist)
-{
-	if (this->_ignore_blacklist.size() == 0)
-		return false;
-	std::vector<Users>::iterator it = this->_ignore_blacklist.begin();
-	for (; it != this->_ignore_blacklist.end(); it++)
-	{
-		if (*it == is_in_blacklist)
-			return true;
-	}
-	return false;
-}
-
 /*
 ** 					SETTERS					**
 */
@@ -325,23 +311,5 @@ void			Users::setIp(std::string ip)
 {
 	this->_ip = ip;
 }
-
-void			Users::add_blacklist(Users to_add)
-{
-	if (this->_ignore_blacklist.size() > 0)
-	{
-		std::vector<Users>::iterator it = this->_ignore_blacklist.begin();
-		for(; it != this->_ignore_blacklist.end(); it++)
-		{
-			if (*it == to_add)
-			{
-				CERR(RED, to_add.getReal_name() << "is already in the black list");
-				return ;
-			}
-		}
-	}
-	this->_ignore_blacklist.push_back(to_add);
-}
-
 
 /* ************************************************************************** */

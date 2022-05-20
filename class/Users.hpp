@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Users.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:28:59 by thoberth          #+#    #+#             */
-/*   Updated: 2022/04/11 14:22:56 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:16:14 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ class Users
 		int					_authenticated; /* G & S */
 		struct sockaddr_in6	_socket_addr; /* G & S */
 		std::string			_ip; /* G & S */
-		std::vector<Users>	_ignore_blacklist; /* G & S */
 
 	public:
 		/*		METHODS		*/
@@ -80,7 +79,6 @@ class Users
 		int				getAuthenticated() const;
 		sockaddr_in6	getSocket_addr() const;
 		std::string		getIp() const;
-		bool			is_ignored(Users is_in_blacklist);
 		/*		SETTERS		*/
 		void			setUid(unsigned int new_uid);
 		void			setFd(int fd);
@@ -98,7 +96,6 @@ class Users
 		void			setAuthenticated(int authenticated);
 		void			setSocket_addr(sockaddr_in6 new_sock_add);
 		void			setIp(std::string ip);
-		void			add_blacklist(Users to_add);
 };
 
 bool operator==(Users & a, Users & b);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_management.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 14:02:36 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:20:46 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,41 @@ void	registration(t_data &data, Users *client)
 	client->setOnline(true);
 }
 
-void replace_user(t_data &data, Users &user)
+void	copy_user(Users *lhs, Users *rhs)
 {
-	unsigned int to_replace = user.getAuthenticated();
+	lhs->setFd(rhs->getFd());
+	lhs->setOnline(rhs->getOnline());
+	lhs->setMode(rhs->getMode());
+	lhs->setHostname(rhs->getHost_name());
+	lhs->setUser_name(rhs->getUser_name());
+	lhs->setFull_id(rhs->getFull_id());
+	lhs->setReal_name(rhs->getReal_name());
+	lhs->setNick_name(rhs->getNick_name());
+	lhs->setPw(rhs->getPw());
+	lhs->setAway_mode(rhs->getAway_mode());
+	lhs->setReg_status(rhs->getReg_status());
+	lhs->setIn_use(rhs->getIn_use());
+	lhs->setSocket_addr(rhs->getSocket_addr());
+}
+
+void	replace_user(t_data &data, Message &cmd)
+{
+	Users			*user = cmd.getSender();
+	unsigned int	to_replace = user->getAuthenticated();
 
 	if (to_replace != 0)
 	{
 		v_Users::iterator authentified = find_client_uid(data, to_replace);
-		user.setUid(authentified->getUid());
-		user.setAuthenticated(0);
+		Users *updated = &(*authentified);
 		if (authentified != data.users.end())
-			data.users.erase(authentified);
+		{
+			copy_user(updated, user);
+			data.users.erase(find_client_uid(data, user->getUid()));
+			user = updated;
+			cmd.setSender(updated);
+		}
 	}
-	user.connect(user);
+	user->connect(*user);
 }
 
 /**
