@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/18 17:40:25 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:02:36 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ void	registration(t_data &data, Users *client)
 	client->setOnline(true);
 }
 
-void	replace_user(t_data &data, Users &user)
+void replace_user(t_data &data, Users &user)
 {
-	int	to_replace = user.getAuthenticated();
+	unsigned int to_replace = user.getAuthenticated();
 
 	if (to_replace != 0)
 	{
 		v_Users::iterator authentified = find_client_uid(data, to_replace);
+		user.setUid(authentified->getUid());
+		user.setAuthenticated(0);
 		if (authentified != data.users.end())
 			data.users.erase(authentified);
-		user.setUid(to_replace);
 	}
 	user.connect(user);
-	
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/12 13:00:51 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:22:59 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 	{
 		if (new_chan != NULL)
 		{
-			if (new_chan->is_banned(*cmd.getSender()) || !(new_chan->is_in_channel(*cmd.getSender())))
+			if (new_chan->is_banned(cmd.getSender()) || !(new_chan->is_in_channel(cmd.getSender())))
 			{
 				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 404, new_chan->getName()));
 				return ;
@@ -56,12 +56,12 @@ void	command_privmsg(t_data &data, Message &cmd)
 void	channel_privmsg(Chan &chan, Users &sender, std::string content)
 {
 	std::string to_send = ":" + sender.getFull_id() + " PRIVMSG " + chan.getName() + " " + content;
-	v_Users vect = chan.getUsers();
-	for (v_Users::iterator it = vect.begin(), ite = vect.end(); it != ite; it++)
+	v_Users_ptr vect = chan.getUsers();
+	for (v_Users_ptr::iterator it = vect.begin(), ite = vect.end(); it != ite; it++)
 	{
-		if (it->getFd() != sender.getFd())
+		if (**it != sender)
 		{
-			send_packets(*it, to_send);
+			send_packets(**it, to_send);
 		}
 	}
 }

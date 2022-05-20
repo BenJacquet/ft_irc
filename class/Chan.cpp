@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/03 16:55:11 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:13:35 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ Chan::Chan() : _users(), _creator(), _mode(), _name(), _blacklist_users()
  */
 Chan::Chan( Users & usr_operator , std::string name) : _creator(&usr_operator)
 {
-	this->addusers(usr_operator);
+	this->addusers(&usr_operator);
 	this->_name = name;
 	this->_mode = "+l";
 	this->_limit_user = "25";
@@ -72,9 +72,9 @@ Chan &				Chan::operator=( Chan const & rhs )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-bool	Chan::addusers(Users to_add)
+bool	Chan::addusers(Users *to_add)
 {
-	for(std::vector<Users>::iterator it = this->_users.begin(),
+	for(std::vector<Users*>::iterator it = this->_users.begin(),
 		ite = this->_users.end(); it != ite; it++)
 	{
 		if (*it == to_add)
@@ -84,9 +84,9 @@ bool	Chan::addusers(Users to_add)
 	return true;
 }
 
-bool	Chan::rmusers(Users to_rm)
+bool	Chan::rmusers(Users *to_rm)
 {
-	for(std::vector<Users>::iterator it = this->_users.begin(),
+	for(std::vector<Users*>::iterator it = this->_users.begin(),
 		ite = this->_users.end(); it != ite; it++)
 	{
 		if (*it == to_rm)
@@ -98,9 +98,9 @@ bool	Chan::rmusers(Users to_rm)
 	return false;
 }
 
-bool	Chan::add_toBlacklist(Users to_add)
+bool	Chan::add_toBlacklist(Users *to_add)
 {
-	for(std::vector<Users>::iterator it = this->_blacklist_users.begin(),
+	for(std::vector<Users*>::iterator it = this->_blacklist_users.begin(),
 		ite = this->_blacklist_users.end(); it != ite; it++)
 	{
 		if (*it == to_add)
@@ -110,9 +110,9 @@ bool	Chan::add_toBlacklist(Users to_add)
 	return true;
 }
 
-bool	Chan::rm_toBlacklist(Users to_rm)
+bool	Chan::rm_toBlacklist(Users *to_rm)
 {
-	for(std::vector<Users>::iterator it = this->_blacklist_users.begin(),
+	for(std::vector<Users*>::iterator it = this->_blacklist_users.begin(),
 		ite = this->_blacklist_users.end(); it != ite; it++)
 	{
 		if (*it == to_rm)
@@ -124,9 +124,9 @@ bool	Chan::rm_toBlacklist(Users to_rm)
 	return false;
 }
 
-bool	Chan::is_banned(Users &is_ban)
+bool	Chan::is_banned(Users *is_ban)
 {
-	for (v_Users::iterator it = this->_blacklist_users.begin(), ite = this->_blacklist_users.end();\
+	for (std::vector<Users*>::iterator it = this->_blacklist_users.begin(), ite = this->_blacklist_users.end();\
 		it != ite; it++)
 	{
 		if (*it == is_ban)
@@ -135,9 +135,9 @@ bool	Chan::is_banned(Users &is_ban)
 	return false;
 }
 
-bool	Chan::is_in_channel(Users &is_here)
+bool	Chan::is_in_channel(Users *is_here)
 {
-	for (v_Users::iterator it = this->_users.begin(), ite = this->_users.end();\
+	for (std::vector<Users*>::iterator it = this->_users.begin(), ite = this->_users.end();\
 		it != ite; it++)
 	{
 		if (*it == is_here)
@@ -175,12 +175,12 @@ std::string		Chan::getName(void) const
 	return this->_name;
 }
 
-std::vector<Users>&	Chan::getUsers(void)
+std::vector<Users*>&	Chan::getUsers(void)
 {
 	return (this->_users);
 }
 
-std::vector<Users>	Chan::getBlacklist(void) const
+std::vector<Users*>&	Chan::getBlacklist(void)
 {
 	return (this->_blacklist_users);
 }

@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/03 17:10:52 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:41:51 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void		join_parsing(t_data &data, Message &cmd)
 		args[1].erase(0, pos + 1);
 		if ((new_chan = is_chan_exist(data, chan)) != NULL)
 		{
-			if (new_chan->is_banned(*cmd.getSender()))
+			if (new_chan->is_banned(cmd.getSender()))
 			{
 				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 474, new_chan->getName()));
 				return ;
 			}
-			if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
+			if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(cmd.getSender()))
 			{
 				join_msg(data, *(cmd.getSender()), *new_chan, false);
 				send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
@@ -75,12 +75,12 @@ void		join_parsing(t_data &data, Message &cmd)
 	chan = args[1];
 	if ((new_chan = is_chan_exist(data, chan)) != NULL)
 	{
-		if (new_chan->is_banned(*cmd.getSender()))
+		if (new_chan->is_banned(cmd.getSender()))
 		{
 			send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 474, new_chan->getName()));
 			return ;
 		}
-		if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(*(cmd.getSender())))
+		if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(cmd.getSender()))
 		{
 			join_msg(data, *(cmd.getSender()), *new_chan, false);
 			send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
@@ -111,13 +111,13 @@ void		join_msg(t_data &data, Users &to_add, Chan &chan, bool isnewone)
 	if (!isnewone)
 	{
 		std::string s;
-		v_Users vect = chan.getUsers();
+		v_Users_ptr vect = chan.getUsers();
 		RPL_353_366(data, to_add, chan);
-		for (v_Users::iterator it = vect.begin(), ite = vect.end();
+		for (v_Users_ptr::iterator it = vect.begin(), ite = vect.end();
 			it != ite; it++)
 		{
 			s = ":" + to_add.getFull_id() + " JOIN :" + chan.getName();
-			send_packets(*it, s);
+			send_packets(**it, s);
 		}
 	}
 	else
@@ -131,13 +131,13 @@ void		join_msg(t_data &data, Users &to_add, Chan &chan, bool isnewone)
 void		RPL_353_366(t_data &data, Users &usr, Chan &chan)
 {
 	std::string rpl_353 =  ":" + usr.getFull_id() + " 353 " + usr.getNick_name() + " = " + chan.getName() + " :";
-	v_Users vect = chan.getUsers();
-	for (v_Users::iterator it = vect.begin(), ite = vect.end();
+	v_Users_ptr vect = chan.getUsers();
+	for (v_Users_ptr::iterator it = vect.begin(), ite = vect.end();
 		it != ite; it++)
 	{
-		if (*it == chan.getCreator() || find_client_nick(data, it->getNick_name())->getMode().find_first_of("oO") != std::string::npos)
+		if (**it == chan.getCreator() || find_client_nick(data,  (*it)->getNick_name())->getMode().find_first_of("oO") != std::string::npos)
 			rpl_353 += "@";
-		rpl_353 += it->getNick_name() + " ";
+		rpl_353 += (*it)->getNick_name() + " ";
 	}
 	send_packets(usr, rpl_353);
 	std::string rpl_366 = ":" + usr.getFull_id() + " 366 " + usr.getNick_name() + " " + chan.getName() + " :End of /NAMES list";

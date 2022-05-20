@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/18 17:06:54 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:45:59 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,31 +191,31 @@ bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> 
 		else
 			target_nick = args[3];
 		target = &(*find_client_nick(data, target_nick));
-		v_Users vectu = chan.getUsers();
-		v_Users::iterator it = vectu.begin();
-		for (v_Users::iterator ite = vectu.end();
-			 it != ite && *it != *target; it++)
+		v_Users_ptr vectu = chan.getUsers();
+		v_Users_ptr::iterator it = vectu.begin();
+		for (v_Users_ptr::iterator ite = vectu.end();
+			 it != ite && *it != target; it++)
 			;
 		if (it == vectu.end())
 		{
 			send_packets(sender, create_reply(data, &sender, 441, target_nick + " " + chan.getName()));
 			return false;
 		}
-		chan.add_toBlacklist(*target);
+		chan.add_toBlacklist(target);
 		it = vectu.begin();
-		for (v_Users::iterator ite = vectu.end(); it != ite; it++)
-			send_packets(*it, ":" + it->getFull_id() + " " + RPL_BAN(target->getNick_name(), chan.getName()));
+		for (v_Users_ptr::iterator ite = vectu.end(); it != ite; it++)
+			send_packets(**it, ":" + (*it)->getFull_id() + " " + RPL_BAN(target->getNick_name(), chan.getName()));
 	}
 	else
 	{
-		v_Users vect = chan.getBlacklist();
+		v_Users_ptr vect = chan.getBlacklist();
 		if (vect.size() > 0)
 		{
 			std::string content = chan.getName() + " :";
-			for (v_Users::iterator it = vect.begin(),
+			for (v_Users_ptr::iterator it = vect.begin(),
 								   ite = vect.end();
 				 it != ite; it++)
-				content += " " + it->getNick_name();
+				content += " " + (*it)->getNick_name();
 			send_packets(sender, create_reply(data, &sender, 367, content));
 		}
 		send_packets(sender, create_reply(data, &sender, 368, chan.getName()));
@@ -248,20 +248,20 @@ bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 		else
 			target_nick = args[3];
 		target = &(*find_client_nick(data, target_nick));
-		v_Users vectu = chan.getUsers();
-		v_Users::iterator it = vectu.begin();
-		for (v_Users::iterator ite = vectu.end();
-			 it != ite && *it != *target; it++)
+		v_Users_ptr vectu = chan.getUsers();
+		v_Users_ptr::iterator it = vectu.begin();
+		for (v_Users_ptr::iterator ite = vectu.end();
+			 it != ite && *it != target; it++)
 			;
 		if (it == vectu.end())
 		{
 			send_packets(sender, create_reply(data, &sender, 441, target_nick + " " + chan.getName()));
 			return false;
 		}
-		chan.rm_toBlacklist(*target);
+		chan.rm_toBlacklist(target);
 		it = vectu.begin();
-		for (v_Users::iterator ite = vectu.end(); it != ite; it++)
-			send_packets(*it, ":" + it->getFull_id() + " " + RPL_UNBAN(target->getNick_name(), chan.getName()));
+		for (v_Users_ptr::iterator ite = vectu.end(); it != ite; it++)
+			send_packets(**it, ":" + (*it)->getFull_id() + " " + RPL_UNBAN(target->getNick_name(), chan.getName()));
 	}
 	else
 	{

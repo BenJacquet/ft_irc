@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/18 15:28:50 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:17:02 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ class Chan;
 
 typedef std::vector<struct pollfd>			v_pollfds;
 typedef std::vector<Users> 					v_Users;
+typedef std::vector<Users*>					v_Users_ptr;
 typedef std::vector<Chan> 					v_Chan;
 typedef struct std::pair<std::string, void (*)(struct s_data&, Message&)>	p_Command;
 typedef std::map<std::string, void (*)(struct s_data&, Message&)>	m_Commands;
