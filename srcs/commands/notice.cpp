@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   notice.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 13:01:17 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/12 13:07:35 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:08:21 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	command_notice(t_data &data, Message &cmd)
 {
 	std::vector<std::string> args = parse_line(std::string(cmd.getPayload()));
-	v_Users::iterator	new_usr;
+	d_Users::iterator	new_usr;
 	if (args.size() == 1)
 	{
 		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));

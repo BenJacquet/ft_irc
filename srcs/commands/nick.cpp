@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 16:21:28 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:09:00 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	check_nick(t_data &data, Users &user, std::string nick)
  */
 bool	authenticate_user(t_data &data, Users *client, std::string nick)
 {
-	v_Users::iterator found_reg = find_client_nick(data, nick);
-	v_Users::iterator found_unreg = find_client_fd(data, client->getFd());
+	d_Users::iterator found_reg = find_client_nick(data, nick);
+	d_Users::iterator found_unreg = find_client_fd(data, client->getFd());
 
 	if (found_reg != data.users.end())
 	{

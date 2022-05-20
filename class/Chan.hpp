@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 13:40:26 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:18:53 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class Chan
 {
 	public:
 		Chan();
-		Chan( Users & usr_operator, std::string topic_name);
+		Chan( Users * usr_operator, std::string topic_name);
 		Chan( Chan const & src );
 		~Chan();
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 14:49:15 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:06:00 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <deque>
 #include <list>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -60,6 +61,7 @@ class Chan;
 // TYPEDEFS
 
 typedef std::vector<struct pollfd>			v_pollfds;
+typedef std::deque<Users>					d_Users;
 typedef std::vector<Users> 					v_Users;
 typedef std::vector<Users*>					v_Users_ptr;
 typedef std::vector<Chan> 					v_Chan;
@@ -74,7 +76,7 @@ typedef struct			s_data
 	int					sock_fd;		// fd du socket d'entree (SERVEUR)
 	struct addrinfo		*bind_addr;		// socket (SERVEUR)
 	v_pollfds			poll_fds;		// vector de pollfds clients (CLIENTS)
-	v_Users				users;			// vector des utilisateurs connectés
+	d_Users				users;			// vector des utilisateurs connectés
 	v_Chan				chans;			// vector de Chan existantes
 	m_Commands			commands;		// map qui contient en key->string de la commande et value->fonction pointeur
 	std::string			password;		// password admin
@@ -165,9 +167,9 @@ typedef struct			s_data
 	/* UTILS */
 
 		int ft_strlen(const char *str);
-		v_Users::iterator find_client_fd(t_data &data, int fd);
-		v_Users::iterator find_client_uid(t_data &data, unsigned int uid);
-		v_Users::iterator find_client_nick(t_data &data, std::string nick);
+		d_Users::iterator find_client_fd(t_data &data, int fd);
+		d_Users::iterator find_client_uid(t_data &data, unsigned int uid);
+		d_Users::iterator find_client_nick(t_data &data, std::string nick);
 		Chan*	is_chan_exist(t_data &data, std::string args);
 		std::string	encrypt_data(long salt, std::string to_encrypt);
 		std::string get_ip_string(sockaddr_in6 address);

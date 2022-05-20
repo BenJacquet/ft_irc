@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 11:45:28 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/04 11:43:51 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:06:59 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	print_pollfd(t_data &data)
  */
 void	print_users(t_data &data)
 {
-	v_Users::iterator it = data.users.begin();
-	v_Users::iterator end = data.users.end();
+	d_Users::iterator it = data.users.begin();
+	d_Users::iterator end = data.users.end();
 	COUT(YELLOW, "Users vector:");
 	COUT(YELLOW, "Contains " << data.users.size() << (data.users.size() <= 1 ? " user" : " users"));
 	COUT(YELLOW, "Begin is (" << &(*it) << ") - " << "End is (" << &(*end) << ")");

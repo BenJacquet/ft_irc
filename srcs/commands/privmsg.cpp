@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 13:22:59 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:08:04 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	command_privmsg(t_data &data, Message &cmd)
 {
 	Chan	*new_chan;
-	v_Users::iterator	new_usr;
+	d_Users::iterator	new_usr;
 	std::vector<std::string> args = parse_line(std::string(cmd.getPayload()));
 	if (args.size() == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:07:42 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 13:51:19 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:09:24 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	kick_parsing(t_data &data, Message &cmd)
 	for (size_t i = 4; i < args.size() ; i++)
 		content += " " + args[i];
 	Chan *new_chan = is_chan_exist(data, args[1]);
-	v_Users::iterator target = find_client_nick(data, args[2]);
+	d_Users::iterator target = find_client_nick(data, args[2]);
 	if (new_chan == NULL)
 	{
 		send_packets(sender, create_reply(data, &sender, 403, args[1]));

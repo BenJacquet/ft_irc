@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 13:41:51 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:01:20 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void		join_parsing(t_data &data, Message &cmd)
  */
 void		join(t_data &data, Users & creator, std::string name_chan)
 {
-	data.chans.push_back(Chan(creator, name_chan));
+	data.chans.push_back(Chan(&creator, name_chan));
 	join_msg(data, creator, data.chans.back(), true);
 	send_packets(creator, RPL_MODE(creator.getNick_name(), creator.getMode()));
 }
@@ -135,7 +135,7 @@ void		RPL_353_366(t_data &data, Users &usr, Chan &chan)
 	for (v_Users_ptr::iterator it = vect.begin(), ite = vect.end();
 		it != ite; it++)
 	{
-		if (**it == chan.getCreator() || find_client_nick(data,  (*it)->getNick_name())->getMode().find_first_of("oO") != std::string::npos)
+		if (**it == chan.getCreator() || find_client_nick(data, (*it)->getNick_name())->getMode().find_first_of("oO") != std::string::npos)
 			rpl_353 += "@";
 		rpl_353 += (*it)->getNick_name() + " ";
 	}

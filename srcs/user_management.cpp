@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_management.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 15:50:13 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:05:28 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	replace_user(t_data &data, Message &cmd)
 
 	if (to_replace != 0)
 	{
-		v_Users::iterator authentified = find_client_uid(data, to_replace);
+		d_Users::iterator authentified = find_client_uid(data, to_replace);
 		Users *updated = &(*authentified);
 		if (authentified != data.users.end())
 		{
@@ -65,8 +65,8 @@ void	replace_user(t_data &data, Message &cmd)
  */
 void	disconnect_user(t_data &data, Users &client)
 {
-	v_Users::iterator it = data.users.begin();
-	v_Users::iterator end = data.users.end();
+	d_Users::iterator it = data.users.begin();
+	d_Users::iterator end = data.users.end();
 	int	fd = client.getFd();
 
 	client.disconnect();
@@ -90,12 +90,12 @@ void	disconnect_user(t_data &data, Users &client)
  * 
  * @param data 
  * @param fd 
- * @return v_Users::iterator 
+ * @return d_Users::iterator 
  */
-v_Users::iterator find_client_fd(t_data &data, int fd)
+d_Users::iterator find_client_fd(t_data &data, int fd)
 {
-	v_Users::iterator it = data.users.begin();
-	v_Users::iterator ite = data.users.end();
+	d_Users::iterator it = data.users.begin();
+	d_Users::iterator ite = data.users.end();
 	for(; it != ite; it++)
 	{
 		if (it->getFd() == fd)
@@ -109,12 +109,12 @@ v_Users::iterator find_client_fd(t_data &data, int fd)
  * 
  * @param data 
  * @param fd 
- * @return v_Users::iterator 
+ * @return d_Users::iterator 
  */
-v_Users::iterator find_client_uid(t_data &data, unsigned int uid)
+d_Users::iterator find_client_uid(t_data &data, unsigned int uid)
 {
-	v_Users::iterator it = data.users.begin();
-	v_Users::iterator ite = data.users.end();
+	d_Users::iterator it = data.users.begin();
+	d_Users::iterator ite = data.users.end();
 	for(; it != ite; it++)
 	{
 		if (it->getUid() == uid)
@@ -128,12 +128,12 @@ v_Users::iterator find_client_uid(t_data &data, unsigned int uid)
  * 
  * @param data 
  * @param fd 
- * @return v_Users::iterator 
+ * @return d_Users::iterator 
  */
-v_Users::iterator find_client_nick(t_data &data, std::string nick)
+d_Users::iterator find_client_nick(t_data &data, std::string nick)
 {
-	v_Users::iterator it = data.users.begin();
-	v_Users::iterator ite = data.users.end();
+	d_Users::iterator it = data.users.begin();
+	d_Users::iterator ite = data.users.end();
 	for(; it != ite; it++)
 	{
 		if (it->getNick_name().compare(nick) == 0)

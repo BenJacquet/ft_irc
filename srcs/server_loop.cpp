@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_loop.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:34:54 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 15:51:11 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:06:37 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int poll_setup(t_data &data)
 			}
 			else
 			{
-				v_Users::iterator found = find_client_fd(data, it->fd);
+				d_Users::iterator found = find_client_fd(data, it->fd);
 				if (found != data.users.end())
 				{
 					io_loop(data, *found);

@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 11:29:30 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 13:13:35 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:47:13 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@ Chan::Chan() : _users(), _creator(), _mode(), _name(), _blacklist_users()
  * @param usr_operator users create the Chan
  * @param topic_name name of the Chan/topic
  */
-Chan::Chan( Users & usr_operator , std::string name) : _creator(&usr_operator)
+Chan::Chan( Users * usr_operator , std::string name) : _creator(usr_operator)
 {
-	this->addusers(&usr_operator);
+	this->_users.push_back(_creator);
 	this->_name = name;
 	this->_mode = "+l";
 	this->_limit_user = "25";
-
 }
 
 Chan::Chan( const Chan & src ) : _creator(src._creator)
@@ -140,6 +139,8 @@ bool	Chan::is_in_channel(Users *is_here)
 	for (std::vector<Users*>::iterator it = this->_users.begin(), ite = this->_users.end();\
 		it != ite; it++)
 	{
+		CERR(RED, "uid =|" << (*it)->getUid() << "| uid =|" << is_here->getUid() << '|');
+		CERR(RED, "address =|" << &*(*it) << "| address =|" << &(*is_here) << '|');
 		if (*it == is_here)
 			return true;
 	}
