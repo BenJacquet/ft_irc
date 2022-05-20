@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:24 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/02 13:03:40 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:38:29 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	command_pass(t_data &data, Message &cmd)
 	sender->setReg_status(3);
 	if (sender->getPw().empty() == false)
 		send_packets(*sender, create_reply(data, sender, 462, ""));
-	if (args.size() == 1 || args[1].empty() == true)
+	else if (args.size() == 1 || args[1].empty() == true)
 		send_packets(*sender, create_reply(data, sender, 461, args[0]));
 	else
 		sender->setPw(encrypt_data(data.salt, args[1]));
