@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:44 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/04/20 11:13:31 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/21 10:17:14 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int new_connection(t_data &data)
 	int					client_fd = accept(data.sock_fd, reinterpret_cast<struct sockaddr *>(&client_sock), &size);
 	if (client_fd < 1)
 	{
-		//CERR(YELLOW, "accept()");
+		CERR(YELLOW, "accept()");
 		return (-1);
 	}
 	data.users.push_back(Users(client_fd, client_sock, data));

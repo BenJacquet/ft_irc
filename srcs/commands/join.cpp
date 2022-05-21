@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 15:01:20 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 10:16:34 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		join_parsing(t_data &data, Message &cmd)
 	}
 	while ((pos = args[1].find(',')) != std::string::npos)
 	{
-		CERR(RED, "args 1 = " << args[1] << " args 2 = " << args[2]);
+		// CERR(RED, "args 1 = " << args[1] << " args 2 = " << args[2]);
 		chan.assign(args[1], 0, pos);
 		args[1].erase(0, pos + 1);
 		if ((new_chan = is_chan_exist(data, chan)) != NULL)
