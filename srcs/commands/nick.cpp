@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 17:25:53 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 10:15:59 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_nick(t_data &data, Users &user, std::string nick)
 	if (nick.length() > 9 || found != std::string::npos)
 	{
 		send_packets(user, create_reply(data, &user, 432, nick));
-		COUT(RED, "character is not allowed=[" << static_cast<int>(nick[found]) << "]");
+		CERR(RED, "character is not allowed=[" << static_cast<int>(nick[found]) << "]");
 	}
 }
 
@@ -72,7 +72,7 @@ void	command_nick(t_data &data, Message &cmd)
 	if (args.size() == 1 || args[1].empty() == true)
 	{
 		send_packets(*sender, create_reply(data, sender, 431, ""));
-		nick = "";
+		nick.clear();
 	}
 	else
 		nick = args[1];
