@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:49:48 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/12 13:07:06 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:26:55 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,6 @@ void	initialize_command_map(t_data &data)
 	data.commands.insert(p_Command("MODE", &mode_parsing));
 	data.commands.insert(p_Command("AWAY", &away_parsing));
 	data.commands.insert(p_Command("KICK", &kick_parsing));
+	data.commands.insert(p_Command("QUIT", &command_quit));
+	
 }

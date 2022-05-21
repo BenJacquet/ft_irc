@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 17:06:00 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:36:54 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ typedef struct			s_data
 		bool	unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args);
 		void	away_parsing(t_data &data, Message &cmd);
 		void	kick_parsing(t_data &data, Message &cmd);
+		void	command_quit(t_data &data, Message &cmd);
 
 	/* UTILS */
 
