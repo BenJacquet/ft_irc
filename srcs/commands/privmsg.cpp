@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 17:08:04 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:16:45 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	channel_privmsg(Chan &chan, Users &sender, std::string content)
 	v_Users_ptr vect = chan.getUsers();
 	for (v_Users_ptr::iterator it = vect.begin(), ite = vect.end(); it != ite; it++)
 	{
-		if (**it != sender)
+		if (**it != sender && !chan.is_banned((*it)))
 		{
 			send_packets(**it, to_send);
 		}

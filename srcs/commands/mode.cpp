@@ -6,7 +6,7 @@
 /*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 17:08:37 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:07:23 by thoberth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ void	user_mode(t_data &data, Users &client, std::string content)
 		{
 			if (client.getMode().find(content[pos]) == std::string::npos && \
 				content[pos] != 'o' && content[pos] != 'O')
+			{
 				client.setMode(client.getMode() + content[pos]);
-			send_packets(client, RPL_MODE(client.getNick_name(), "+" + content[pos]));
-			user_mode(data, client, content.erase(pos, 1));
+				send_packets(client, RPL_MODE(client.getNick_name(), "+" + content[pos]));
+				user_mode(data, client, content.erase(pos, 1));
+			}
 		}
 		else
 		{
@@ -91,12 +93,8 @@ void	user_mode(t_data &data, Users &client, std::string content)
 				client.setMode(tmp.erase(pos2, 1));
 				user_mode(data, client, content);
 			}
-			else
-				send_packets(client, create_reply(data, &client, 221, ""));
 		}
 	}
-	else
-		send_packets(client, create_reply(data, &client, 221, ""));
 }
 
 /**
@@ -247,7 +245,7 @@ bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 		else
 			target_nick = args[3];
 		target = &(*find_client_nick(data, target_nick));
-		v_Users_ptr vectu = chan.getUsers();
+		v_Users_ptr vectu = chan.getBlacklist();
 		v_Users_ptr::iterator it = vectu.begin();
 		for (v_Users_ptr::iterator ite = vectu.end();
 			 it != ite && *it != target; it++)
