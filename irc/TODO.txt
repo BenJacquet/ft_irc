@@ -1,0 +1,158 @@
+-Gerer des clients multiples et ne jamais attendre/bloquer OK
+
+-Ne pas utiliser le fork OK
+
+-Toutes les operations doivent etre non bloquantes OK
+
+-Seulement 1 poll() ou equivalent toutes les operations I/O OK
+
+-Interdit d'utiliser read/recv sans utiliser poll() OK
+
+-Definir un client de reference pour la correction OK (IRSSI) OK
+
+-Le client doit pouvoir se connecter au serveur sans rencontrer d'erreur OK
+
+-Aucun crash meme si plus de memoire
+
+-Connexions via TCP/IP (v4 ou v6) OK
+
+BEN :
+
+THOMAS :
+
+
+CRASH :
+- NONE
+
+PROBLEMES :
+-
+
+Commandes:
+/nick <nickname>					--	change <nickname>
+/msg <nickname> <message>			--	private <message> without window
+/query <nickname> <message>			--	private <message> with window
+/whois <nickname>					--	show info about <nickname>
+/ignore <nickname>					--	ignore <nickname>
+/away <message>						--	afk <message>
+/away								--	remove afk message
+/join <#channel>					--	joins <#channel>
+/part <#channelname>				--	leave <#channelname>
+/quit <[message]>					--	disconnect from irc
+/invite <friendnickname> <#chan>	--	invite <nickname> to <#chan>
+
+ORDRE :
+- Creation du serveur
+- Accepter et renvoyer les requetes
+- Handshake avec le serveur
+- Stocker les credentials encryptés (SHA 256 ou custom)
+- Creation les objets (channel, users)
+- Ajouter des nouveaux utilisateurs
+- Implementer les commandes (pour les operateurs uniquement les changements de mode, kick, kill etc)
+- Implementer les codes (RFC 2812) (uniquement ceux des commandes implementees)
+- Modifier les droits des utilisateurs
+
+USERS WORKFLOW :
+- Utilisateur qui se connecte mais pas encore authentifié stocké dans data.users (RFC 2812 - 3.1)
+- Attribution d'un UID, initialisation de toutes les variables sauf PASS
+- Enregistrement quand l'user fait /msg nickserver register [password] (RFC 2812 - 3.1.1)
+- Check si le nickname est disponible (RFC 2812 - 3.1.2)
+- User qui fait /msg nickserver [password]
+- copie du sockadrr et du fd dans l'user qui existe si 
+- Quand l'utilisateur est registered -> ajout du flag PASS
+- Comparaison avec le nickname et le password pour l'authentifier
+
+RESSOURCES UTILES :
+ - (RFC 2812) https://datatracker.ietf.org/doc/html/rfc2812
+ - (Server-Client communication) http://chi.cs.uchicago.edu/chirc/irc_examples.html
+ - (C networking introduction) https://www.gta.ufrj.br/ensino/eel878/sockets/index.html
+ - (To know) https://ircgod.com/docs/irc/to_know/
+ - (ircgod) https://ircgod.com/
+ - (channel modes) https://wiki.zandronum.com/IRC:Channel_Modes
+ - (commands) https://www.techbull.com/techbull/guide/internet/irccommande.html
+ - (address reuse) https://hea-www.harvard.edu/~fine/Tech/addrinuse.html
+
+NUMERIC REPLIES A TRIER:
+	PASSWORD:
+		ERR_NEEDMOREPARAMS OK
+		ERR_ALREADYREGISTERED OK
+
+	NICK:
+		ERR_NONICKNAMEGIVEN OK
+		ERR_NICKNAMEINUSE OK
+		ERR_ERRONEUSNICKNAME OK
+
+	USER
+		ERR_NEEDMOREPARAMS OK
+		ERR_ALREADYREGISTERED OK
+
+	OPER
+		ERR_NEEDMOREPARAMS OK
+		RPL_YOUREOPER OK
+		ERR_PASSWDMISMATCH OK
+
+	DIE
+		ERR_NOPRIVILEGES OK
+
+	USER MODE
+		ERR_NEEDMOREPARAMS O
+		ERR_USERSDONTMATCH O
+		ERR_UMODEUNKNOWNFLAG O
+		RPL_UMODEIS O
+
+	CHANNEL MODE
+		ERR_NEEDMOREPARAMS O
+		ERR_KEYSET
+		ERR_NOCHANMODES
+		ERR_CHANOPRIVSNEEDED
+		ERR_USERNOTINCHANNEL
+		ERR_UNKNOWNMODE
+		RPL_CHANNELMODEIS
+		RPL_BANLIST
+		RPL_ENDOFBANLIST
+		RPL_EXCEPTLIST
+		RPL_ENDOFEXCEPTLIST
+		RPL_INVITELIST
+		RPL_ENDOFINVITELIST
+		RPL_UNIQOPIS
+
+	JOIN
+		ERR_NEEDMOREPARAMS O
+		ERR_BANNEDFROMCHAN
+		ERR_INVITEONLYCHAN
+		ERR_BADCHANNELKEY
+		ERR_CHANNELISFULL
+		ERR_BADCHANMASK
+		ERR_NOSUCHCHANNEL
+		ERR_TOOMANYCHANNELS
+		ERR_TOOMANYTARGETS
+		ERR_UNAVAILRESOURCE
+		RPL_TOPIC
+
+	PART
+		ERR_NEEDMOREPARAMS O
+		ERR_NOSUCHCHANNEL
+		ERR_NOTONCHANNEL
+
+	NAMES
+		ERR_TOOMANYMATCHES
+		ERR_NOSUCHSERVER
+		RPL_NAMREPLY
+		RPL_ENDOFNAMES
+
+	KICK
+		ERR_NEEDMOREPARAMS O
+		ERR_NOSUCHCHANNEL
+		ERR_BADCHANMASK
+		ERR_CHANOPRIVSNEEDED
+		ERR_USERNOTINCHANNEL
+		ERR_NOTONCHANNEL
+
+	PRIVMSG
+		ERR_NORECIPIENT
+		ERR_NOTEXTTOSEND
+		ERR_CANNOTSENDTOCHAN
+		ERR_NOTOPLEVEL
+		ERR_WILDTOPLEVEL
+		ERR_TOOMANYTARGETS
+		ERR_NOSUCHNICK
+		RPL_AWAY
