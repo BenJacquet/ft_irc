@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:03:39 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/21 10:15:59 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:07:56 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
  * @param user 
  * @param nick 
  */
-void	check_nick(t_data &data, Users &user, std::string nick)
+void	check_nick(Users &user, std::string nick)
 {
 	size_t found = nick.find_first_not_of(NICK_CHARSET(), 0);
 	if (nick.length() > 9 || found != std::string::npos)
 	{
-		send_packets(user, create_reply(data, &user, 432, nick));
+		send_packets(user, create_reply(&user, 432) + ERR_ERRONEUSNICKNAME(nick));
 		CERR(RED, "character is not allowed=[" << static_cast<int>(nick[found]) << "]");
 	}
 }
@@ -71,12 +71,12 @@ void	command_nick(t_data &data, Message &cmd)
 
 	if (args.size() == 1 || args[1].empty() == true)
 	{
-		send_packets(*sender, create_reply(data, sender, 431, ""));
+		send_packets(*sender, create_reply(sender, 431) + ERR_NONICKNAMEGIVEN());
 		nick.clear();
 	}
 	else
 		nick = args[1];
-	check_nick(data, *sender, nick);
+	check_nick(*sender, nick);
 	try
 	{
 		std::string old_nick(sender->getNick_name());
@@ -88,7 +88,7 @@ void	command_nick(t_data &data, Message &cmd)
 			sender->setFull_id(nick + "!" + sender->getUser_name() + "@" + sender->getHost_name());
 			if (sender->getOnline() == false)
 			{
-				registration(data, sender);
+				registration(sender);
 				replace_user(data, cmd);
 			}
 			send_packets(*sender, UPDATE_NICK(old_nick + "!" + sender->getUser_name() + "@" + sender->getHost_name(), nick));
@@ -96,7 +96,7 @@ void	command_nick(t_data &data, Message &cmd)
 	}
 	catch (const std::exception &e)
 	{
-		send_packets(*sender, create_reply(data, sender, 433, nick));
+		send_packets(*sender, create_reply(sender, 433) + ERR_NICKNAMEINUSE(nick));
 		sender->setIn_use(true);
 	}
 	sender->setReg_status((sender->getNick_name().empty() == true ? 1 : sender->getReg_status()));

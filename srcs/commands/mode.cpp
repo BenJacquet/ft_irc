@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 17:13:09 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/21 11:07:23 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:05:06 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	mode_parsing(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	if (args.size() == 1)
 	{
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 461) + ERR_NEEDMOREPARAMS(args[0]));
 		return ;
 	}
 	std::string content;
@@ -77,11 +77,9 @@ void	user_mode(t_data &data, Users &client, std::string content)
 		{
 			if (client.getMode().find(content[pos]) == std::string::npos && \
 				content[pos] != 'o' && content[pos] != 'O')
-			{
 				client.setMode(client.getMode() + content[pos]);
-				send_packets(client, RPL_MODE(client.getNick_name(), "+" + content[pos]));
-				user_mode(data, client, content.erase(pos, 1));
-			}
+			send_packets(client, RPL_MODE(client.getNick_name(), "+" + content[pos]));
+			user_mode(data, client, content.erase(pos, 1));
 		}
 		else
 		{
@@ -93,8 +91,12 @@ void	user_mode(t_data &data, Users &client, std::string content)
 				client.setMode(tmp.erase(pos2, 1));
 				user_mode(data, client, content);
 			}
+			else
+				send_packets(client, create_reply(&client, 221) + ":");
 		}
 	}
+	else
+		send_packets(client, create_reply(&client, 221) + ":");
 }
 
 /**
@@ -138,16 +140,16 @@ std::string		chan_modeis_arg(Chan &chan)
  * @return true 
  * @return false 
  */
-bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args, int pos)
+bool	lk_parsing(Chan &chan, Users &sender, std::vector<std::string> &args, int pos)
 {
 	if (args.size() <= 3)
 	{
-		send_packets(sender, create_reply(data, &sender, 461, args[0]));
+		send_packets(sender, create_reply(&sender, 461) + ERR_NEEDMOREPARAMS(args[0]));
 		return false;
 	}
 	else if (args[2][pos] == 'k' && chan.getMode().find("k") != std::string::npos)
 	{
-		send_packets(sender, create_reply(data, &sender, 467, chan.getName()));
+		send_packets(sender, create_reply(&sender, 467) + ERR_KEYSET(chan.getName()));
 		return false;
 	}
 	else if (args[2][pos] == 'l' && args[3].find_first_not_of("0123456789") != std::string::npos)
@@ -195,7 +197,7 @@ bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> 
 			;
 		if (it == vectu.end())
 		{
-			send_packets(sender, create_reply(data, &sender, 441, target_nick + " " + chan.getName()));
+			send_packets(sender, create_reply(&sender, 441) + ERR_USERNOTINCHANNEL(target_nick + " " + chan.getName()));
 			return false;
 		}
 		chan.add_toBlacklist(target);
@@ -213,9 +215,9 @@ bool	ban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> 
 								   ite = vect.end();
 				 it != ite; it++)
 				content += " " + (*it)->getNick_name();
-			send_packets(sender, create_reply(data, &sender, 367, content));
+			send_packets(sender, create_reply(&sender, 367) + RPL_BANLIST(content));
 		}
-		send_packets(sender, create_reply(data, &sender, 368, chan.getName()));
+		send_packets(sender, create_reply(&sender, 368) + RPL_ENDOFBANLIST(chan.getName()));
 	}
 	return true;
 }
@@ -245,14 +247,14 @@ bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 		else
 			target_nick = args[3];
 		target = &(*find_client_nick(data, target_nick));
-		v_Users_ptr vectu = chan.getBlacklist();
+		v_Users_ptr vectu = chan.getUsers();
 		v_Users_ptr::iterator it = vectu.begin();
 		for (v_Users_ptr::iterator ite = vectu.end();
 			 it != ite && *it != target; it++)
 			;
 		if (it == vectu.end())
 		{
-			send_packets(sender, create_reply(data, &sender, 441, target_nick + " " + chan.getName()));
+			send_packets(sender, create_reply(&sender, 441) + ERR_USERNOTINCHANNEL(target_nick + " " + chan.getName()));
 			return false;
 		}
 		chan.rm_toBlacklist(target);
@@ -262,7 +264,7 @@ bool unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string
 	}
 	else
 	{
-		send_packets(sender, create_reply(data, &sender, 461, args[0]));
+		send_packets(sender, create_reply(&sender, 461) + ERR_NEEDMOREPARAMS(args[0]));
 		return false;
 	}
 	return true;
@@ -285,12 +287,12 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 	unsigned long	pos;
 	if (args.size() <= 2)
 	{
-		send_packets(sender, create_reply(data, &sender, 324, chan_modeis_arg(chan)));
+		send_packets(sender, create_reply(&sender, 324) + RPL_CHANNELMODEIS(chan_modeis_arg(chan)));
 		return ;
 	}
 	if (sender != chan.getCreator() && sender.getMode().find_first_of("oO") == std::string::npos)
 	{
-		send_packets(sender, create_reply(data, &sender, 482, chan.getName()));
+		send_packets(sender, create_reply(&sender, 482) + ERR_CHANOPRIVSNEEDED(chan.getName()));
 		return ;
 	}
 	if (args[2].find('-') == 0)
@@ -301,7 +303,7 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 		{
 			if (args[2][pos] == 'k' || args[2][pos] == 'l')
 			{
-				if (!(lk_parsing(data, chan, sender, args, pos)))
+				if (!(lk_parsing(chan, sender, args, pos)))
 				{
 					return ;
 				}
@@ -333,6 +335,6 @@ void	chan_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string>
 				chan_mode(data, chan, sender, args);
 			}
 		}
-		send_packets(sender, create_reply(data, &sender, 324, chan_modeis_arg(chan)));
+		send_packets(sender, create_reply(&sender, 324) + RPL_CHANNELMODEIS(chan_modeis_arg(chan)));
 	}
 }

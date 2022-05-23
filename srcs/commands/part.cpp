@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:50:06 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/20 13:43:30 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 10:54:53 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	part_parsing(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	if (args.size() == 1)
 	{
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 461) + ERR_NEEDMOREPARAMS(args[0]));
 		return ;
 	}
 	Chan *chan = is_chan_exist(data, args[1]);
 	if (chan == NULL)
 	{
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 403, args[1]));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 403) + ERR_NOSUCHCHANNEL(args[1]));
 		return ;
 	}
 	v_Users_ptr vect = chan->getUsers();
@@ -32,7 +32,7 @@ void	part_parsing(t_data &data, Message &cmd)
 		;
 	if (it == vect.end())
 	{
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 442, chan->getName()));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 442) + ERR_NOTONCHANNEL(chan->getName()));
 		return ;
 	}
 	std::string to_send = ":" + cmd.getSender()->getFull_id() + " PART " + args[1];

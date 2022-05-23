@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   user_management.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 11:55:09 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 17:05:28 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/23 12:04:51 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/ft_irc.hpp"
 
-void	registration(t_data &data, Users *client)
+void	registration(Users *client)
 {
-	send_packets(*client, create_reply(data, client, 001 , ""));
+	send_packets(*client, create_reply(client, 001) + RPL_WELCOME(client->getFull_id()));
 	send_packets(*client, ASCII_HEADER);
 	client->setOnline(true);
 }
@@ -69,6 +69,14 @@ void	disconnect_user(t_data &data, Users &client)
 	d_Users::iterator end = data.users.end();
 	int	fd = client.getFd();
 
+	for (v_Chan::iterator it = data.chans.begin(), ite = data.chans.end(); it != ite; it++)
+	{
+		if (it->is_in_channel(&client))
+		{
+			it->rmusers(&client);
+			COUT(YELLOW, client.getNick_name() << " removed from " << it->getName());
+		}
+	}
 	client.disconnect();
 	remove_fd(data, fd);
 	if (client.getReg_status() != 3)

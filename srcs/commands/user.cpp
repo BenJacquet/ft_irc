@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:04:13 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/20 18:00:17 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:08:25 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@
  */
 void	command_user(t_data &data, Message &cmd)
 {
+	(void)data;
 	Users	*sender = cmd.getSender();
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 
 	if (args.size() < 5)
-		send_packets(*sender, create_reply(data, sender, 461, args[0]));
+		send_packets(*sender, create_reply(sender, 461) + ERR_NEEDMOREPARAMS(args[0]));
 	else if (sender->getUser_name().empty() == false)
-		send_packets(*sender, create_reply(data, sender, 462, ""));
+		send_packets(*sender, create_reply(sender, 462) + ERR_ALREADYREGISTERED());
 	else
 	{
 		sender->setReg_status((sender->getUser_name().empty() == true ? 2 : sender->getReg_status()));
@@ -36,6 +37,6 @@ void	command_user(t_data &data, Message &cmd)
 		sender->setReal_name((&args[4][1] + (args.size() == 6 ? " " + args[5] : "")));
 		sender->setFull_id(sender->getNick_name() + "!" + args[2] + "@" + args[3]);
 		if (sender->getOnline() == false && sender->getIn_use() == false)
-			registration(data, sender);
+			registration(sender);
 	}
 }

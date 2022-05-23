@@ -6,7 +6,7 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 12:24:58 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/12 16:45:31 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/21 10:58:57 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,85 +22,86 @@
  * @param arg argument sent to client if needed
  * @return std::string 
  */
-std::string create_reply(t_data &data, Users *client, int code, std::string arg)
+std::string create_reply(Users *client, int code)
 {
-	std::string reply;
+	std::string header;
 	std::stringstream code_str;
 	code_str << code;
-	(void)data; // a degager
 
 	if (client->getNick_name().empty() == true)
-		reply = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " * ";
+		header = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " * ";
 	else
-		reply = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " " + client->getNick_name() + " ";
-	switch (code)
-	{
-		case (001):
-			return (reply + RPL_WELCOME(client->getFull_id()));
-		case (221):
-			return (reply + RPL_UMODEIS(client->getMode()));
-		case (301):
-			return (reply + RPL_AWAY(arg));
-		case (305):
-			return (reply + RPL_UNAWAY());
-		case (306):
-			return (reply + RPL_NOAWAY());
-		case (324):
-			return (reply + RPL_CHANNELMODEIS(arg));
-		case (367):
-			return (reply + RPL_BANLIST(arg));
-		case(368):
-			return (reply + RPL_ENDOFBANLIST(arg));
-		case (381):
-			return (reply + RPL_YOUREOPER());
-		case (401):
-			return (reply + ERR_NOSUCHNICK(arg));
-		case (403):
-			return (reply + ERR_NOSUCHCHANNEL(arg));
-		case (404):
-			return (reply + ERR_CANNOTSENDTOCHAN(arg));
-		case (431):
-			return (reply + ERR_NONICKNAMEGIVEM());
-		case (432):
-			return (reply + ERR_ERRONEUSNICKNAME(arg));
-		case (433):
-			return (reply + ERR_NICKNAMEINUSE(arg));
-		case (441):
-			return (reply + ERR_USERNOTINCHANNEL(arg));
-		case (442):
-			return (reply + ERR_NOTONCHANNEL(arg));
-		case (461):
-			return (reply + ERR_NEEDMOREPARAMS(arg));
-		case (462):
-			return (reply + ERR_ALREADYREGISTERED());
-		case (464):
-			return (reply + ERR_PASSWDMISMATCH());
-		case (467):
-			return (reply + ERR_KEYSET(arg));
-		case (471):
-			return (reply + ERR_CHANNELISFULL(arg));
-		case (474):
-			return (reply + ERR_BANNEDFROMCHANNEL(arg));
-		case (475):
-			return (reply + ERR_BADCHANNELKEY(arg));
-		case (481):
-			return (reply + ERR_NOPRIVILEGE());
-		case (482):
-			return (reply + ERR_CHANOPRIVSNEEDED(arg));
-		case (501):
-			return (reply + ERR_UMODEUNKNOWNFLAG());
-		case (502):
-			return (reply + ERR_USERMISMATCH());
-		case (900):
-			return (reply + RPL_MODE(client->getNick_name(), arg));
-		case (901):
-			return (reply + RPL_BAN(client->getNick_name(), arg));
-		case (902):
-			return (reply + RPL_UNBAN(client->getNick_name(), arg));
-		default:
-			break;
-	}
-	return ("");
+		header = ":" + client->getHost_name() + " " + (code == 1 ? "00" : "") + code_str.str() + " " + client->getNick_name() + " ";
+	return (header);
+	// A SUPPRIMER
+	// switch (code)
+	// {
+	// 	case (001):
+	// 		return (reply + RPL_WELCOME(client->getFull_id()));
+	// 	case (221):
+	// 		return (reply + RPL_UMODEIS(client->getMode()));
+	// 	case (301):
+	// 		return (reply + RPL_AWAY(arg));
+	// 	case (305):
+	// 		return (reply + RPL_UNAWAY());
+	// 	case (306):
+	// 		return (reply + RPL_NOAWAY());
+	// 	case (324):
+	// 		return (reply + RPL_CHANNELMODEIS(arg));
+	// 	case (367):
+	// 		return (reply + RPL_BANLIST(arg));
+	// 	case (368):
+	// 		return (reply + RPL_ENDOFBANLIST(arg));
+	// 	case (381):
+	// 		return (reply + RPL_YOUREOPER());
+	// 	case (401):
+	// 		return (reply + ERR_NOSUCHNICK(arg));
+	// 	case (403):
+	// 		return (reply + ERR_NOSUCHCHANNEL(arg));
+	// 	case (404):
+	// 		return (reply + ERR_CANNOTSENDTOCHAN(arg));
+	// 	case (431):
+	// 		return (reply + ERR_NONICKNAMEGIVEN());
+	// 	case (432):
+	// 		return (reply + ERR_ERRONEUSNICKNAME(arg));
+	// 	case (433):
+	// 		return (reply + ERR_NICKNAMEINUSE(arg));
+	// 	case (441):
+	// 		return (reply + ERR_USERNOTINCHANNEL(arg));
+	// 	case (442):
+	// 		return (reply + ERR_NOTONCHANNEL(arg));
+	// 	case (461):
+	// 		return (reply + ERR_NEEDMOREPARAMS(arg));
+	// 	case (462):
+	// 		return (reply + ERR_ALREADYREGISTERED());
+	// 	case (464):
+	// 		return (reply + ERR_PASSWDMISMATCH());
+	// 	case (467):
+	// 		return (reply + ERR_KEYSET(arg));
+	// 	case (471):
+	// 		return (reply + ERR_CHANNELISFULL(arg));
+	// 	case (474):
+	// 		return (reply + ERR_BANNEDFROMCHANNEL(arg));
+	// 	case (475):
+	// 		return (reply + ERR_BADCHANNELKEY(arg));
+	// 	case (481):
+	// 		return (reply + ERR_NOPRIVILEGE());
+	// 	case (482):
+	// 		return (reply + ERR_CHANOPRIVSNEEDED(arg));
+	// 	case (501):
+	// 		return (reply + ERR_UMODEUNKNOWNFLAG());
+	// 	case (502):
+	// 		return (reply + ERR_USERMISMATCH());
+	// 	case (900):
+	// 		return (reply + RPL_MODE(client->getNick_name(), arg));
+	// 	case (901):
+	// 		return (reply + RPL_BAN(client->getNick_name(), arg));
+	// 	case (902):
+	// 		return (reply + RPL_UNBAN(client->getNick_name(), arg));
+	// 	default:
+	// 		break;
+	// }
+	// return ("");
 }
 
 /**

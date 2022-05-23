@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 10:26:47 by jabenjam          #+#    #+#             */
-/*   Updated: 2022/05/21 11:36:54 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/23 12:03:19 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct			s_data
 		void io_loop(t_data &data, Users &client);
 		int receive_packets(t_data &data, Users &client);
 		int send_packets(Users &client, std::string to_send);
-		std::string create_reply(t_data &data, Users *client, int code, std::string arg);
+		std::string create_reply(Users *client, int code);
 		void log_coms(Users &client, std::string &to_log, bool out);
 
 	/* SERVER SETUP */
@@ -122,9 +122,9 @@ typedef struct			s_data
 
 	/* USER MANAGEMENT */
 
-		void	registration(t_data &data, Users *client);
+		void	registration(Users *client);
 		void	disconnect_user(t_data &data, Users &client);
-		void	check_nick(t_data &data, Users &user, std::string nick);
+		void	check_nick(Users &user, std::string nick);
 		bool	authenticate_user(t_data &data, Users *client, std::string nick);
 		void	replace_user(t_data &data, Message &cmd);
 
@@ -150,20 +150,21 @@ typedef struct			s_data
 		void	command_privmsg(t_data &data, Message &cmd);
 		void	channel_privmsg(Chan &chan, Users &user, std::string content);
 		void	command_notice(t_data &data, Message &cmd);
+		void	command_quit(t_data &data, Message &cmd);
 		void	join(t_data &data, Users & creator, std::string name_chan);
 		void	join_parsing(t_data &data, Message &cmd);
 		void	join_msg(t_data &data, Users &to_add, Chan &chan, bool isnewone);
+		int		verif_join(Message &cmd, Chan &new_chan, std::vector<std::string> &args);
 		void	RPL_353_366(t_data &data, Users &usr, Chan &chan);
 		void	part_parsing(t_data &data, Message &cmd);
 		void	mode_parsing(t_data &data, Message &cmd);
 		void	user_mode(t_data &data, Users &client, std::string content);
 		void	chan_mode(t_data &data, Chan &chan,Users &client, std::vector<std::string> &args);
-		bool	lk_parsing(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args, int pos);
+		bool	lk_parsing(Chan &chan, Users &sender, std::vector<std::string> &args, int pos);
 		bool	unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args);
 		bool	unban_mode(t_data &data, Chan &chan, Users &sender, std::vector<std::string> &args);
 		void	away_parsing(t_data &data, Message &cmd);
 		void	kick_parsing(t_data &data, Message &cmd);
-		void	command_quit(t_data &data, Message &cmd);
 
 	/* UTILS */
 
@@ -209,7 +210,7 @@ extern std::ofstream	g_log;
 #define ERR_NOSUCHNICK(NICKNAME) (NICKNAME + " :No such nick/channel") // 401
 #define ERR_NOSUCHCHANNEL(CHANNEL) (CHANNEL + " :No such channel") // 403
 #define ERR_CANNOTSENDTOCHAN(CHANNEL) (CHANNEL + " :Cannot send to channel") // 404
-#define ERR_NONICKNAMEGIVEM() (":No nickname given") // 431
+#define ERR_NONICKNAMEGIVEN() (":No nickname given") // 431
 #define ERR_ERRONEUSNICKNAME(NICK) (NICK + " :Erroneous nickname") // 432
 #define ERR_NICKNAMEINUSE(NICK) (NICK + " :Nickname is already in use") // 433
 #define ERR_USERNOTINCHANNEL(MSG) (MSG + " :They aren't on that channel") // 441

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thoberth <thoberth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:50:41 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/21 11:16:45 by thoberth         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:00:03 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(std::string(cmd.getPayload()));
 	if (args.size() == 1)
 	{
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 461) + ERR_NEEDMOREPARAMS(args[0]));
 		return ;
 	}
 	std::string content;
@@ -32,7 +32,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 		{
 			if (new_chan->is_banned(cmd.getSender()) || !(new_chan->is_in_channel(cmd.getSender())))
 			{
-				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 404, new_chan->getName()));
+				send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 404) + ERR_CANNOTSENDTOCHAN(new_chan->getName()));
 				return ;
 			}
 			channel_privmsg(*new_chan, *cmd.getSender(), content);
@@ -40,8 +40,8 @@ void	command_privmsg(t_data &data, Message &cmd)
 		else
 		{
 			if (new_usr->getMode().find("a") != std::string::npos)
-				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 301, \
-					new_usr->getNick_name() + " :" + new_usr->getAway_mode()));
+				send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 301) +
+				RPL_AWAY(new_usr->getNick_name() + " :" + new_usr->getAway_mode()));
 			else {
 				content = ":" + cmd.getSender()->getFull_id() + " PRIVMSG " +\
 				new_usr->getNick_name() + " " + content;
@@ -50,7 +50,7 @@ void	command_privmsg(t_data &data, Message &cmd)
 		}
 	}
 	else
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 401, args[1]));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 401) + ERR_NOSUCHNICK((args[1])));
 }
 
 void	channel_privmsg(Chan &chan, Users &sender, std::string content)
@@ -59,7 +59,7 @@ void	channel_privmsg(Chan &chan, Users &sender, std::string content)
 	v_Users_ptr vect = chan.getUsers();
 	for (v_Users_ptr::iterator it = vect.begin(), ite = vect.end(); it != ite; it++)
 	{
-		if (**it != sender && !chan.is_banned((*it)))
+		if (**it != sender)
 		{
 			send_packets(**it, to_send);
 		}

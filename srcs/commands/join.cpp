@@ -6,13 +6,13 @@
 /*   By: jabenjam <jabenjam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:14:21 by thoberth          #+#    #+#             */
-/*   Updated: 2022/05/21 10:16:34 by jabenjam         ###   ########.fr       */
+/*   Updated: 2022/05/21 11:01:06 by jabenjam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/ft_irc.hpp"
 
-int	verif_join(t_data &data, Message &cmd, Chan &new_chan, std::vector<std::string> &args)
+int	verif_join(Message &cmd, Chan &new_chan, std::vector<std::string> &args)
 {
 	std::string pw;
 	size_t pos;
@@ -27,14 +27,14 @@ int	verif_join(t_data &data, Message &cmd, Chan &new_chan, std::vector<std::stri
 			pw = args[2];
 		if (args.size() < 3 || pw != new_chan.getPw())
 		{
-			send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 475, new_chan.getName()));
+			send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 475) + ERR_BADCHANNELKEY(new_chan.getName()));
 			return 0;
 		}
 	}
 	if (new_chan.getMode().find("l") != std::string::npos &&
 		std::atoi(new_chan.getLimit_user().c_str()) <= static_cast<int>(new_chan.getUsers().size()))
 	{
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 471, new_chan.getName()));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 471) + ERR_CHANNELISFULL(new_chan.getName()));
 		return 0;
 	}
 	return 1;
@@ -48,7 +48,7 @@ void		join_parsing(t_data &data, Message &cmd)
 	std::vector<std::string> args = parse_line(cmd.getPayload());
 	if (args.size() == 1)
 	{
-		send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 461, args[0]));
+		send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 461) + ERR_NEEDMOREPARAMS(args[0]));
 		return ;
 	}
 	while ((pos = args[1].find(',')) != std::string::npos)
@@ -60,10 +60,10 @@ void		join_parsing(t_data &data, Message &cmd)
 		{
 			if (new_chan->is_banned(cmd.getSender()))
 			{
-				send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 474, new_chan->getName()));
+				send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 474) + ERR_BANNEDFROMCHANNEL(new_chan->getName()));
 				return ;
 			}
-			if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(cmd.getSender()))
+			if (verif_join(cmd, *new_chan, args) && new_chan->addusers(cmd.getSender()))
 			{
 				join_msg(data, *(cmd.getSender()), *new_chan, false);
 				send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
@@ -77,10 +77,10 @@ void		join_parsing(t_data &data, Message &cmd)
 	{
 		if (new_chan->is_banned(cmd.getSender()))
 		{
-			send_packets(*cmd.getSender(), create_reply(data, cmd.getSender(), 474, new_chan->getName()));
+			send_packets(*cmd.getSender(), create_reply(cmd.getSender(), 474) + ERR_BANNEDFROMCHANNEL(new_chan->getName()));
 			return ;
 		}
-		if (verif_join(data, cmd, *new_chan, args) && new_chan->addusers(cmd.getSender()))
+		if (verif_join(cmd, *new_chan, args) && new_chan->addusers(cmd.getSender()))
 		{
 			join_msg(data, *(cmd.getSender()), *new_chan, false);
 			send_packets(*cmd.getSender(), RPL_MODE(cmd.getSender()->getNick_name(), cmd.getSender()->getMode()));
